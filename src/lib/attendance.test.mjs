@@ -67,16 +67,41 @@ test("POST alone delegates exact tokens to atomic attendance and returns only sa
   assert.deepEqual(f.stored, { attended_at: timestamp, writes: 1, sequence: 8 });
 });
 
+test("exact-origin POST accepts same-site metadata and retains the original attendance time", async () => {
+  const f = route();
+  const headers = { origin: "https://attendance.test", "sec-fetch-site": "same-site" };
+  await responseIs(await f.send(token, headers), 200, recorded);
+  await responseIs(await f.send(token, headers), 200, { ...recorded, outcome: "already_recorded" });
+  assert.deepEqual(f.calls, [token, token]);
+  assert.deepEqual(f.stored, { attended_at: timestamp, writes: 1, sequence: 8 });
+});
+
 test("malformed tokens are never normalized or passed to attendance", async () => {
   const f = route();
-  for (const value of [...malformed, null, 42]) await responseIs(await f.send(value), 404, invalid);
+  for (const site of ["same-origin", "same-site"]) {
+    for (const value of [...malformed, null, 42]) {
+      await responseIs(await f.send(value, { origin: "https://attendance.test", "sec-fetch-site": site }), 404, invalid);
+    }
+  }
   assert.deepEqual(f.calls, []);
   assert.deepEqual(f.stored, { attended_at: null, writes: 0, sequence: 8 });
 });
 
 test("POST fails closed on missing, null, foreign or contradictory origin, ignoring spoofed proxy headers", async () => {
   const f = route();
-  for (const headers of [{}, { origin: "null" }, { origin: "https://evil.test" }, { origin: "https://attendance.test.evil.test" }, { origin: "http://attendance.test" }, { origin: "https://attendance.test/" }, { origin: "https://attendance.test", "sec-fetch-site": "same-site" }, { origin: "https://evil.test", host: "attendance.test", "x-forwarded-host": "evil.test" }]) {
+  for (const headers of [
+    {},
+    { origin: "null" },
+    { origin: "https://evil.test" },
+    { origin: "https://attendance.test.evil.test" },
+    { origin: "http://attendance.test" },
+    { origin: "https://attendance.test/" },
+    ...[undefined, "null", "https://evil.test", "https://sub.attendance.test", "http://attendance.test", "https://attendance.test/"].map((origin) => ({
+      ...(origin === undefined ? {} : { origin }), "sec-fetch-site": "same-site",
+    })),
+    ...["cross-site", "none", "", "unexpected"].map((site) => ({ origin: "https://attendance.test", "sec-fetch-site": site })),
+    { origin: "https://evil.test", host: "attendance.test", "x-forwarded-host": "evil.test" },
+  ]) {
     await responseIs(await f.send(token, headers), 403, error);
   }
   assert.deepEqual(f.calls, []);
@@ -112,7 +137,9 @@ test("POST rejects origins contradicting Host even when they match the normalize
     { host: "user@attendance.test", origin: "https://user@attendance.test" },
     { host: "", origin: "https://attendance.test" },
   ]) {
-    await responseIs(await f.send(token, { ...headers, "sec-fetch-site": "same-origin" }), 403, error);
+    for (const site of ["same-origin", "same-site"]) {
+      await responseIs(await f.send(token, { ...headers, "sec-fetch-site": site }), 403, error);
+    }
   }
   assert.deepEqual(f.calls, []);
   assert.deepEqual(f.stored, { attended_at: null, writes: 0, sequence: 8 });

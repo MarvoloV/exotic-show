@@ -25,7 +25,8 @@ export async function POST(request: Request, { params }: { params: Promise<{ tok
     // Missing, opaque and malformed origins fail closed.
   }
   const site = request.headers.get("sec-fetch-site");
-  if (!sameOrigin || (site !== null && site !== "same-origin")) {
+  // Fetch metadata supplements, but never replaces, the exact Origin check.
+  if (!sameOrigin || (site !== null && site !== "same-origin" && site !== "same-site")) {
     return Response.json(error, { status: 403, headers });
   }
   try {
