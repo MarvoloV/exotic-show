@@ -7,6 +7,7 @@ import { Table, TableCell, TableHead } from "@/components/ui/table";
 import { buttonVariants } from "@/components/ui/button";
 import { DeleteParticipantForm, ParticipantForm } from "@/components/admin/participant-form";
 import { ParticipantQr } from "@/components/admin/participant-qr";
+import { ParticipantAttendanceLink } from "@/components/admin/participant-attendance-link";
 
 export function ParticipantList({ rows, total, query }: { rows: ParticipantListRow[]; total: number; query: ParticipantQuery }) {
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
@@ -17,19 +18,20 @@ export function ParticipantList({ rows, total, query }: { rows: ParticipantListR
     {filtered && <Link href="/admin/participants" className={buttonVariants({ variant: "outline" })}>Limpiar filtros</Link>}
   </div>;
   return <div className="space-y-4">
-    <p id="table-hint" className="text-sm text-muted-foreground">Fechas en America/Lima. En pantallas pequeñas, desplaza la tabla horizontalmente.</p>
+    <p id="table-hint" className="text-sm text-muted-foreground">Fechas en America/Lima. En pantallas pequeñas, desplaza la tabla horizontalmente. Copiar el enlace no registra asistencia; abrirlo sí. Es personal y quien lo tenga puede registrar la asistencia: compártelo solo con el participante.</p>
     <div role="region" aria-label="Listado de participantes" aria-describedby="table-hint" tabIndex={0}
       className="overflow-x-auto rounded-xl border border-border bg-card focus-visible:outline-2 focus-visible:outline-ring">
       <Table className="min-w-[700px]">
-        <caption className="sr-only">Participantes: código, nombre, estado, ingreso, monto pagado, QR y acciones de edición o eliminación.</caption>
+        <caption className="sr-only">Participantes: código, nombre, estado, ingreso, enlace QR para copiar, monto pagado, QR y acciones de edición o eliminación.</caption>
         <thead className="bg-muted"><tr>
-          {["Código", "Nombres y apellidos", "Estado", "Fecha de ingreso", "Pagó", "Acciones"].map((heading) => <TableHead key={heading}>{heading}</TableHead>)}
+          {["Código", "Nombres y apellidos", "Estado", "Fecha de ingreso", "Enlace QR", "Pagó", "Acciones"].map((heading) => <TableHead key={heading}>{heading}</TableHead>)}
         </tr></thead>
         <tbody className="divide-y divide-border">{rows.map((row) => <tr key={row.id} className="hover:bg-muted/50">
           <TableCell className="font-medium whitespace-nowrap">{row.code}</TableCell>
           <TableCell className="max-w-xs break-words">{row.full_name}</TableCell>
           <TableCell><span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold whitespace-nowrap ${row.attendance_state === "ASISTIÓ" ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"}`}>{row.attendance_state}</span></TableCell>
           <TableCell className="whitespace-nowrap">{row.attended_at ? <time dateTime={row.attended_at}>{formatAttendance(row.attended_at)}</time> : "—"}</TableCell>
+          <TableCell className="align-top"><ParticipantAttendanceLink participant={{ code: row.code, attendance_url: row.attendance_url }} /></TableCell>
           <TableCell className="text-right tabular-nums">{formatAmount(row.paid_amount.toFixed(2))}</TableCell>
           <TableCell className="min-w-72 align-top">
             <div className="space-y-2">

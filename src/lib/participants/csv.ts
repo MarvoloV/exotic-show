@@ -3,7 +3,9 @@ import { formatAttendance } from "@/lib/dates";
 import { formatAmount } from "@/lib/participants/format";
 import type { ParticipantListRow } from "@/types/database";
 
-export type ParticipantExportRow = Omit<ParticipantListRow, "id">;
+export type ParticipantExportRow = Pick<ParticipantListRow,
+  "code" | "full_name" | "attendance_state" | "attended_at" | "paid_amount"
+>;
 
 export function participantCsv(rows: ParticipantExportRow[]): string {
   const records = [

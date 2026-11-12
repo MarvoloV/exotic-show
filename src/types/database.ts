@@ -17,7 +17,7 @@ export type Participant = {
 export type ParticipantInput = { full_name: string; paid_amount?: number };
 export type ParticipantListRow = Pick<Participant,
   "id" | "code" | "full_name" | "paid_amount" | "attendance_state" | "attended_at"
->;
+> & { attendance_url: string };
 export type DashboardMetrics = {
   registered: string;
   attended: string;

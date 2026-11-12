@@ -18,6 +18,7 @@ function load(path, mocks = {}, env = { NEXT_PUBLIC_SITE_URL: "https://canonical
   const compiled = { exports: {} };
   runInNewContext(outputText, {
     module: compiled, exports: compiled.exports, Request, Response, URL, URLSearchParams, Intl, Date, Buffer, process: { env },
+    navigator: mocks.navigator ?? {}, console: mocks.console ?? console,
     require(name) {
       if (name === "server-only") return {};
       if (name in mocks) return mocks[name];
@@ -219,6 +220,87 @@ test("QR dialog shows safe retryable errors and discards responses arriving afte
   assert.doesNotMatch(html(f.render()), /data:image|asistencia\//);
 });
 
+function copyUi(clipboard) {
+  const React = require("react");
+  const states = [], refs = [], logs = [];
+  let si = 0, ri = 0;
+  const { ParticipantAttendanceLink } = load("../components/admin/participant-attendance-link.tsx", {
+    react: { ...React, useId: () => "link-test", useState: (initial) => { const i = si++; if (!(i in states)) states[i] = initial; return [states[i], (value) => { states[i] = value; }]; }, useRef: (initial) => { const i = ri++; return refs[i] ??= { current: initial }; } },
+    navigator: { clipboard },
+    console: { log: (...args) => logs.push(args), error: (...args) => logs.push(args), warn: (...args) => logs.push(args) },
+  });
+  return {
+    render: () => { si = 0; ri = 0; return ParticipantAttendanceLink({ participant: { code: "EX001", attendance_url: url } }); },
+    logs,
+  };
+}
+
+test("attendance link copies only on explicit request and announces pending and successful completion", async () => {
+  const writes = [];
+  let resolve;
+  const f = copyUi({ writeText: (value) => { writes.push(value); return new Promise((done) => { resolve = done; }); } });
+  let tree = f.render();
+  assert.deepEqual(writes, []);
+  assert.equal(nodes(tree, "a").length, 0);
+  const input = nodes(tree, "input")[0];
+  assert.equal(input.props.value, url);
+  assert.equal(input.props.readOnly, true);
+  assert.equal(nodes(tree, "label")[0].props.htmlFor, input.props.id);
+  assert.match(html(tree), /EX001/);
+  const button = nodes(tree, "button")[0];
+  assert.equal(button.props.type, "button");
+  assert.equal(button.props.disabled, false);
+  assert.match(html(tree), /role="status"/);
+  assert.doesNotMatch(html(tree), /Enlace copiado/);
+  const pending = button.props.onClick();
+  tree = f.render();
+  assert.equal(nodes(tree, "button")[0].props.disabled, true);
+  assert.match(html(tree), /Copiando/);
+  assert.doesNotMatch(html(tree), /Enlace copiado/);
+  assert.deepEqual(writes, [url]);
+  resolve();
+  await pending;
+  tree = f.render();
+  assert.equal(nodes(tree, "button")[0].props.disabled, false);
+  const status = nodes(tree, "p").find((node) => node.props.role === "status");
+  assert.equal(status.props.children, "Enlace copiado.");
+  assert.equal(status.props["aria-live"], "polite");
+  assert.equal(nodes(tree, "button")[0].props["aria-describedby"], status.props.id);
+  assert.deepEqual(f.logs, []);
+});
+
+test("clipboard denial is safe, accessible and retryable without leaking the capability", async () => {
+  let attempts = 0;
+  const f = copyUi({ writeText: async (value) => {
+    assert.equal(value, url);
+    if (++attempts === 1) throw new Error(`private clipboard failure ${url}`);
+  } });
+  await nodes(f.render(), "button")[0].props.onClick();
+  let tree = f.render();
+  const status = nodes(tree, "p").find((node) => node.props.role === "status");
+  assert.equal(status.props.children, "No se pudo copiar el enlace. Selecciónalo y cópialo manualmente.");
+  assert.doesNotMatch(html(status), /private|asistencia|Enlace copiado/);
+  assert.equal(nodes(tree, "button")[0].props.disabled, false);
+  assert.equal(nodes(tree, "input")[0].props.value, url);
+  await nodes(tree, "button")[0].props.onClick();
+  tree = f.render();
+  assert.match(html(tree), /Enlace copiado/);
+  assert.equal(attempts, 2);
+  assert.deepEqual(f.logs, []);
+});
+
+test("unavailable clipboard provides manual-copy guidance instead of false success", async () => {
+  for (const clipboard of [undefined, {}]) {
+    const f = copyUi(clipboard);
+    await nodes(f.render(), "button")[0].props.onClick();
+    const tree = f.render();
+    assert.match(html(tree), /No se pudo copiar el enlace/);
+    assert.doesNotMatch(html(tree), /Enlace copiado/);
+    assert.equal(nodes(tree, "input")[0].props.value, url);
+    assert.deepEqual(f.logs, []);
+  }
+});
+
 test("list retains responsive scrolling, existing actions and pagination while exposing a QR control per row", () => {
   const React = require("react");
   const { ParticipantList } = load("../components/admin/participant-list.tsx", {
@@ -227,7 +309,9 @@ test("list retains responsive scrolling, existing actions and pagination while e
     "@/app/admin/participants/qr-actions": { getParticipantQrAction: async () => { throw new Error("Must not read while listing"); } },
   });
   const query = load("./participants/query.ts").parseParticipantQuery({ q: "Ana", page: "2" });
-  const output = html(React.createElement(ParticipantList, { rows: [{ id, code: "EX001", full_name: "Ana", paid_amount: 0, attendance_state: "PENDIENTE", attended_at: null }], total: 41, query }));
-  for (const text of ["Ver QR", "overflow-x-auto", "Edit form", "Delete form", "q=Ana", "page=3"]) assert.ok(output.includes(text), text);
-  assert.doesNotMatch(output, new RegExp(token));
+  const output = html(React.createElement(ParticipantList, { rows: [{ id, code: "EX001", full_name: "Ana", paid_amount: 0, attendance_state: "PENDIENTE", attended_at: null, attendance_url: url }], total: 41, query }));
+  for (const text of ["Enlace QR", "Copiar enlace", url, "Ver QR", "overflow-x-auto", "Edit form", "Delete form", "q=Ana", "page=3", "registra la asistencia"]) assert.ok(output.includes(text), text);
+  assert.doesNotMatch(output, /href="https:\/\/canonical\.test\/asistencia\//);
+  assert.match(output, /min-w-0/);
+  assert.match(output, /w-64/);
 });

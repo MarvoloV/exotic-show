@@ -6,7 +6,7 @@ import { runInNewContext } from "node:vm";
 import ts from "typescript";
 
 const require = createRequire(import.meta.url);
-function load(path, mocks = {}) {
+function load(path, mocks = {}, env = { NEXT_PUBLIC_SITE_URL: "https://CANONICAL.test:443/" }) {
   const url = new URL(path, import.meta.url);
   const source = readFileSync(url, "utf8");
   const { outputText } = ts.transpileModule(source, {
@@ -14,13 +14,13 @@ function load(path, mocks = {}) {
   });
   const compiled = { exports: {} };
   runInNewContext(outputText, {
-    module: compiled, exports: compiled.exports, URLSearchParams, Intl, Date,
+    module: compiled, exports: compiled.exports, URL, URLSearchParams, Intl, Date, process: { env },
     require(name) {
       if (name === "server-only") return {};
       if (name in mocks) return mocks[name];
       if (name.startsWith("@/")) {
         const base = `../${name.slice(2)}`;
-        return load(existsSync(new URL(`${base}.ts`, import.meta.url)) ? `${base}.ts` : `${base}.tsx`, mocks);
+        return load(existsSync(new URL(`${base}.ts`, import.meta.url)) ? `${base}.ts` : `${base}.tsx`, mocks, env);
       }
       return require(name);
     },
@@ -80,7 +80,7 @@ test("attendance is displayed in America/Lima across UTC midnight and handles pe
   assert.match(rendered, /21:04/);
 });
 
-function fixture({ approved = true, error = null, total = 21, rows = [] } = {}) {
+function fixture({ approved = true, error = null, total = 21, rows = [], env } = {}) {
   const calls = [];
   const builder = {};
   for (const method of ["select", "eq", "or", "order", "range"]) {
@@ -97,7 +97,7 @@ function fixture({ approved = true, error = null, total = 21, rows = [] } = {}) 
       if (!approved) throw new Error("Acceso administrativo no autorizado.");
       return { supabase };
     } },
-  });
+  }, env);
   return { ...dal, calls };
 }
 
@@ -121,20 +121,43 @@ test("dashboard uses global aggregates and retains decimal strings", async () =>
   assert.equal(JSON.stringify(dal.calls), JSON.stringify([["authorize"], ["rpc", "admin_dashboard_metrics"]]));
 });
 
-test("list selects safe fields, applies allowlists and stable tie-breaking, and clamps pages", async () => {
+test("authorized list selects only needed fields, applies allowlists and stable tie-breaking, and clamps pages", async () => {
   const dal = fixture();
   const result = await dal.getParticipants({ q: "Ana,%_", state: "pending", sort: "full_name", direction: "asc", page: "999" });
   assert.equal(result.query.page, 2);
   assert.equal(result.total, 21);
   const selects = dal.calls.filter(([method]) => method === "select");
   assert.equal(selects.length, 2);
-  for (const [, columns] of selects) assert.doesNotMatch(columns, /token|\*/);
+  assert.doesNotMatch(selects[0][1], /token|\*/);
+  assert.equal(selects[1][1], "id,code,full_name,paid_amount,attendance_state,attended_at,token");
   assert.ok(dal.calls.some((call) => JSON.stringify(call) === JSON.stringify(["eq", "attendance_state", "PENDIENTE"])));
   assert.ok(dal.calls.some((call) => JSON.stringify(call) === JSON.stringify(["range", 20, 39])));
   assert.equal(JSON.stringify(dal.calls.filter(([method]) => method === "order")), JSON.stringify([
     ["order", "full_name", { ascending: true, nullsFirst: false }], ["order", "id", { ascending: true }],
   ]));
   assert.equal(dal.calls.filter(([method]) => method === "or")[0][1], query().literalSearch("Ana,%_"));
+});
+
+test("authorized list constructs canonical attendance links from stored tokens without returning raw tokens", async () => {
+  const row = { id: "1", code: "EX001", full_name: "Ana", paid_amount: 10, attendance_state: "PENDIENTE", attended_at: null };
+  const tokens = ["a".repeat(64), "b".repeat(64)];
+  const dal = fixture({ total: 2, rows: tokens.map((token, i) => ({ ...row, id: String(i + 1), token })) });
+  const result = await dal.getParticipants({ origin: "https://evil.test", token: "forged" });
+  assert.deepEqual(JSON.parse(JSON.stringify(result.rows)), tokens.map((token, i) => ({
+    ...row, id: String(i + 1), attendance_url: `https://canonical.test/asistencia/${token}`,
+  })));
+  assert.equal(dal.calls[0][0], "authorize");
+  assert.equal(dal.calls.some(([method]) => ["insert", "update", "delete", "rpc"].includes(method)), false);
+});
+
+test("list fails closed with a generic error for invalid tokens or canonical origins", async () => {
+  const message = "No se pudieron cargar los datos administrativos.";
+  for (const token of [undefined, "", "A".repeat(64), "a".repeat(63), `${"a".repeat(64)}?x=1`]) {
+    await assert.rejects(fixture({ rows: [{ token }] }).getParticipants({}), { message });
+  }
+  for (const origin of [undefined, "https://user:pass@canonical.test", "https://canonical.test/path", "https://canonical.test?x=1", "https://canonical.test#x", "http://remote.test"]) {
+    await assert.rejects(fixture({ rows: [{ token: "a".repeat(64) }], env: { NEXT_PUBLIC_SITE_URL: origin } }).getParticipants({}), { message });
+  }
 });
 
 test("default list behavior remains unfiltered with newest-first ordering and an empty page", async () => {
@@ -156,8 +179,8 @@ test("participant component separates empty, no-match and populated accessible s
   const base = { rows: [], total: 0, query: query().parseParticipantQuery({}) };
   assert.match(render(ParticipantList(base)), /Aún no hay participantes/);
   assert.match(render(ParticipantList({ ...base, query: query().parseParticipantQuery({ q: "nobody" }) })), /No se encontraron coincidencias/);
-  const html = render(ParticipantList({ ...base, total: 1, rows: [{ id: "1", code: "EX001", full_name: "<Ana>", paid_amount: 10.5, attendance_state: "ASISTIÓ", attended_at: "2026-03-14T02:04:00Z" }] }));
-  for (const label of ["Código", "Nombres y apellidos", "Estado", "Fecha de ingreso", "Pagó", "America/Lima", "10.50", "&lt;Ana&gt;"]) assert.ok(html.includes(label), label);
+  const html = render(ParticipantList({ ...base, total: 1, rows: [{ id: "1", code: "EX001", full_name: "<Ana>", paid_amount: 10.5, attendance_state: "ASISTIÓ", attended_at: "2026-03-14T02:04:00Z", attendance_url: `https://canonical.test/asistencia/${"a".repeat(64)}` }] }));
+  for (const label of ["Código", "Nombres y apellidos", "Estado", "Fecha de ingreso", "Enlace QR", "Copiar enlace", "Pagó", "America/Lima", "10.50", "&lt;Ana&gt;"]) assert.ok(html.includes(label), label);
   assert.match(html, /<caption/);
   assert.match(html, /scope="col"/);
   assert.doesNotMatch(html, /TOKEN|S\/|USD/);

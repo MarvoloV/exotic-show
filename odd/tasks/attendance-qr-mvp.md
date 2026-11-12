@@ -23,7 +23,7 @@ Branch: `feat/attendance-qr-mvp`. Delivery strategy: `ask-on-risk`; chain strate
 - T3a | S3,S5,S10 | parent | blocked | Awaiting live aggregate RPC, RLS and PostgREST search proof. | commit: `003bedc`
 - T3b1 | S4,S9-S10,S12 | parent | blocked | Awaiting live persistence, RLS and browser interaction proof. | commit: `003bedc`
 - T3b2 | S5,S9-S10,S12 | parent | blocked | Awaiting live filter, RLS and download proof. | commit: `003bedc`
-- T3b3 | S5-S6,S9-S10,S12 | parent | blocked | Awaiting live QR/browser/physical-scan proof. | commit: `003bedc`
+- T3b3 | S5-S6,S9-S10,S12 | parent | in_progress | Reopen: show each approved-admin attendance link in the table and copy it on request, then retain live-proof blocker. | commit: `003bedc`
 - T4 | S6-S8,S10 | parent | blocked | Awaiting live attendance concurrency, browser and physical-scan proof. | commit: `003bedc`
 - T5 | S1-S12 | parent | blocked | Awaiting live Supabase/browser authentication and final verification. | commit: `003bedc`
 
