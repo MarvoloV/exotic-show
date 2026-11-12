@@ -22,7 +22,7 @@ async function responseIs(response, status, body) {
   assert.deepEqual(await response.json(), body);
 }
 
-test("production accepts the browser-facing 127.0.0.1 origin without allowing foreign origins", { timeout: 30_000 }, async (t) => {
+test("production accepts exact Origin or missing Origin with same-context metadata, never foreign origins", { timeout: 30_000 }, async (t) => {
   const port = await reservePort();
   const origin = `http://127.0.0.1:${port}`;
   const child = spawn(process.execPath, ["node_modules/next/dist/bin/next", "start", "--hostname", "127.0.0.1", "--port", String(port)], {
@@ -54,15 +54,32 @@ test("production accepts the browser-facing 127.0.0.1 origin without allowing fo
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
   }
-  await responseIs(await fetch(endpoint, {
-    method: "POST", headers: { origin, "sec-fetch-site": "same-origin" },
-  }), 404, { outcome: "invalid", full_name: null, attended_at: null });
+  const page = await fetch(`${origin}/asistencia/not-a-valid-token`);
+  assert.equal(page.status, 200);
+  assert.equal(page.headers.get("referrer-policy"), "strict-origin");
+  assert.equal(page.headers.get("x-content-type-options"), "nosniff");
+  assert.equal(page.headers.get("x-frame-options"), "DENY");
+  assert.match(await page.text(), /<meta name="referrer" content="strict-origin"\s*\/?\s*>/);
+
+  for (const headers of [
+    { origin },
+    ...["same-origin", "same-site"].flatMap((site) => [
+      { origin, "sec-fetch-site": site },
+      { "sec-fetch-site": site },
+    ]),
+  ]) {
+    await responseIs(await fetch(endpoint, { method: "POST", headers }), 404, { outcome: "invalid", full_name: null, attended_at: null });
+  }
   for (const headers of [
     {},
     { origin: "null" },
-    { origin: "http://foreign.test", "sec-fetch-site": "same-origin" },
-    { origin: `http://localhost:${port}`, "sec-fetch-site": "same-origin" },
-    { origin, "sec-fetch-site": "cross-site" },
+    ...["same-origin", "same-site"].flatMap((site) => ["", "null", "not-an-origin", "http://foreign.test", `http://localhost:${port}`, `https://127.0.0.1:${port}`, `${origin}/`].map((value) => ({
+      origin: value, "sec-fetch-site": site,
+    }))),
+    ...[undefined, origin].flatMap((value) => ["cross-site", "none", "", "unexpected"].map((site) => ({
+      ...(value === undefined ? {} : { origin: value }), "sec-fetch-site": site,
+    }))),
+    { "x-forwarded-host": "127.0.0.1", "x-forwarded-proto": "http" },
     { origin: "http://foreign.test", "x-forwarded-host": "foreign.test", "sec-fetch-site": "same-origin" },
   ]) {
     await responseIs(await fetch(endpoint, { method: "POST", headers }), 403, { outcome: "error" });

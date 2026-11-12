@@ -76,18 +76,31 @@ test("exact-origin POST accepts same-site metadata and retains the original atte
   assert.deepEqual(f.stored, { attended_at: timestamp, writes: 1, sequence: 8 });
 });
 
+test("missing-Origin POST accepts only same-context metadata and retains the original attendance time", async () => {
+  for (const site of ["same-origin", "same-site"]) {
+    const f = route();
+    const headers = { "sec-fetch-site": site };
+    await responseIs(await f.send(token, headers), 200, recorded);
+    await responseIs(await f.send(token, headers), 200, { ...recorded, outcome: "already_recorded" });
+    assert.deepEqual(f.calls, [token, token]);
+    assert.deepEqual(f.stored, { attended_at: timestamp, writes: 1, sequence: 8 });
+  }
+});
+
 test("malformed tokens are never normalized or passed to attendance", async () => {
   const f = route();
   for (const site of ["same-origin", "same-site"]) {
-    for (const value of [...malformed, null, 42]) {
-      await responseIs(await f.send(value, { origin: "https://attendance.test", "sec-fetch-site": site }), 404, invalid);
+    for (const origin of [undefined, "https://attendance.test"]) {
+      for (const value of [...malformed, null, 42]) {
+        await responseIs(await f.send(value, { ...(origin === undefined ? {} : { origin }), "sec-fetch-site": site }), 404, invalid);
+      }
     }
   }
   assert.deepEqual(f.calls, []);
   assert.deepEqual(f.stored, { attended_at: null, writes: 0, sequence: 8 });
 });
 
-test("POST fails closed on missing, null, foreign or contradictory origin, ignoring spoofed proxy headers", async () => {
+test("POST fails closed on untrusted missing, opaque, foreign or contradictory origin, ignoring spoofed proxy headers", async () => {
   const f = route();
   for (const headers of [
     {},
@@ -96,10 +109,13 @@ test("POST fails closed on missing, null, foreign or contradictory origin, ignor
     { origin: "https://attendance.test.evil.test" },
     { origin: "http://attendance.test" },
     { origin: "https://attendance.test/" },
-    ...[undefined, "null", "https://evil.test", "https://sub.attendance.test", "http://attendance.test", "https://attendance.test/"].map((origin) => ({
-      ...(origin === undefined ? {} : { origin }), "sec-fetch-site": "same-site",
-    })),
-    ...["cross-site", "none", "", "unexpected"].map((site) => ({ origin: "https://attendance.test", "sec-fetch-site": site })),
+    ...["same-origin", "same-site"].flatMap((site) => ["", "null", "not-an-origin", "https://evil.test", "https://sub.attendance.test", "http://attendance.test", "https://attendance.test/"].map((origin) => ({
+      origin, "sec-fetch-site": site,
+    }))),
+    ...[undefined, "https://attendance.test"].flatMap((origin) => ["cross-site", "none", "", "unexpected"].map((site) => ({
+      ...(origin === undefined ? {} : { origin }), "sec-fetch-site": site,
+    }))),
+    { "x-forwarded-host": "attendance.test", "x-forwarded-proto": "https" },
     { origin: "https://evil.test", host: "attendance.test", "x-forwarded-host": "evil.test" },
   ]) {
     await responseIs(await f.send(token, headers), 403, error);
@@ -146,22 +162,31 @@ test("POST rejects origins contradicting Host even when they match the normalize
 });
 
 test("invalid and provider/malformed-result errors are private and never disclose identity or provider details", async () => {
-  await responseIs(await route({ ...invalid, full_name: "Private name", token }).send(), 404, invalid);
-  for (const value of [new Error(`private ${token}`), {}, { ...recorded, attended_at: "bad" }, { ...recorded, full_name: "" }]) {
-    await responseIs(await route(value).send(), 503, error);
+  for (const headers of [
+    { origin: "https://attendance.test", "sec-fetch-site": "same-origin" },
+    { "sec-fetch-site": "same-origin" },
+    { "sec-fetch-site": "same-site" },
+  ]) {
+    await responseIs(await route({ ...invalid, full_name: "Private name", token }).send(token, headers), 404, invalid);
+    for (const value of [new Error(`private ${token}`), {}, { ...recorded, attended_at: "bad" }, { ...recorded, full_name: "" }]) {
+      await responseIs(await route(value).send(token, headers), 503, error);
+    }
   }
 });
 
 test("unsupported methods including GET, HEAD and preflight never register and remain private without CORS", async () => {
   const f = route();
   for (const method of ["GET", "HEAD", "OPTIONS", "PUT", "PATCH", "DELETE"]) {
-    const response = await f[method](new Request(`https://attendance.test/asistencia/${token}/registro`, { method }));
-    assert.equal(response.status, 405);
-    assert.equal(response.headers.get("allow"), "POST");
-    assert.equal(response.headers.get("cache-control"), "private, no-store");
-    assert.equal(response.headers.get("referrer-policy"), "no-referrer");
-    assert.equal(response.headers.get("access-control-allow-origin"), null);
-    assert.equal(await response.text(), "");
+    for (const headers of [{}, { "sec-fetch-site": "same-origin" }, { "sec-fetch-site": "same-site" }]) {
+      const response = await f[method](new Request(`https://attendance.test/asistencia/${token}/registro`, { method, headers }));
+      assert.equal(response.status, 405);
+      assert.equal(response.headers.get("allow"), "POST");
+      assert.equal(response.headers.get("cache-control"), "private, no-store");
+      assert.equal(response.headers.get("referrer-policy"), "no-referrer");
+      assert.equal(response.headers.get("x-content-type-options"), "nosniff");
+      assert.equal(response.headers.get("access-control-allow-origin"), null);
+      assert.equal(await response.text(), "");
+    }
   }
   assert.deepEqual(f.calls, []);
   assert.deepEqual(f.stored, { attended_at: null, writes: 0, sequence: 8 });
@@ -189,7 +214,24 @@ function client(fetcher, value = token) {
 }
 const settle = () => new Promise((resolve) => setImmediate(resolve));
 
-test("GET/render stays neutral and dynamic with no-referrer, no RPC, and a visible automatic/shared-link warning", async () => {
+test("ordered headers keep pages strict-origin and override registration endpoints to no-referrer", async () => {
+  const config = load("../../next.config.ts").default;
+  assert.equal(config.poweredByHeader, false);
+  assert.deepEqual(json(config.allowedDevOrigins), ["192.168.3.158"]);
+  assert.deepEqual(json(await config.headers()), [{
+    source: "/:path*",
+    headers: [
+      { key: "Referrer-Policy", value: "strict-origin" },
+      { key: "X-Content-Type-Options", value: "nosniff" },
+      { key: "X-Frame-Options", value: "DENY" },
+    ],
+  }, {
+    source: "/asistencia/:token/registro",
+    headers: [{ key: "Referrer-Policy", value: "no-referrer" }],
+  }]);
+});
+
+test("GET/render stays neutral and dynamic with strict-origin, no RPC, and a visible automatic/shared-link warning", async () => {
   let calls = 0;
   const React = require("react");
   const page = load("../app/asistencia/[token]/page.tsx", {
@@ -197,7 +239,7 @@ test("GET/render stays neutral and dynamic with no-referrer, no RPC, and a visib
     "@/lib/dal/attendance": { recordAttendance: () => { calls++; } },
   });
   assert.equal(page.dynamic, "force-dynamic");
-  assert.equal(page.metadata.referrer, "no-referrer");
+  assert.equal(page.metadata.referrer, "strict-origin");
   assert.equal(page.metadata.robots.index, false);
   const output = html(await page.default({ params: Promise.resolve({ token }) }));
   assert.match(output, /Abrir este enlace registra tu asistencia/);
@@ -209,7 +251,7 @@ test("GET/render stays neutral and dynamic with no-referrer, no RPC, and a visib
   assert.equal(calls, 0);
 });
 
-test("hydration automatically POSTs same-origin without referrer/body, deduplicates effect replay, and shows recorded name/Lima time", async () => {
+test("hydration automatically POSTs same-origin with strict-origin and no body, deduplicates effect replay, and shows recorded name/Lima time", async () => {
   const calls = [];
   const f = client(async (...args) => { calls.push(args); return Response.json(recorded); });
   f.render();
@@ -219,7 +261,7 @@ test("hydration automatically POSTs same-origin without referrer/body, deduplica
   await settle();
   assert.equal(calls.length, 1);
   assert.equal(calls[0][0], `/asistencia/${token}/registro`);
-  assert.deepEqual(json(calls[0][1]), { method: "POST", mode: "same-origin", credentials: "same-origin", cache: "no-store", referrerPolicy: "no-referrer", redirect: "error" });
+  assert.deepEqual(json(calls[0][1]), { method: "POST", mode: "same-origin", credentials: "same-origin", cache: "no-store", referrerPolicy: "strict-origin", redirect: "error" });
   const output = html(f.render());
   assert.match(output, /Asistencia registrada/);
   assert.match(output, /Ana Pérez/);

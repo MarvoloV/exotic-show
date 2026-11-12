@@ -24,7 +24,7 @@ export async function submitAttendance(token: string): Promise<AttendanceState> 
   try {
     const response = await fetch(`/asistencia/${token}/registro`, {
       method: "POST", mode: "same-origin", credentials: "same-origin", cache: "no-store",
-      referrerPolicy: "no-referrer", redirect: "error",
+      referrerPolicy: "strict-origin", redirect: "error",
     });
     if (response.status !== 200 && response.status !== 404) return { outcome: "error" };
     const result = safeAttendanceResult(await response.json());

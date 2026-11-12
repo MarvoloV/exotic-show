@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Registro de asistencia",
-  referrer: "no-referrer",
+  referrer: "strict-origin",
   robots: { index: false, follow: false },
 };
 

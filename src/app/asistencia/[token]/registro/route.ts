@@ -22,11 +22,14 @@ export async function POST(request: Request, { params }: { params: Promise<{ tok
     const parsed = new URL(origin ?? "");
     sameOrigin = origin === parsed.origin && parsed.protocol === url.protocol && parsed.host === host;
   } catch {
-    // Missing, opaque and malformed origins fail closed.
+    // Opaque and malformed origins never qualify as same-origin.
   }
   const site = request.headers.get("sec-fetch-site");
-  // Fetch metadata supplements, but never replaces, the exact Origin check.
-  if (!sameOrigin || (site !== null && site !== "same-origin" && site !== "same-site")) {
+  const sameContext = site === "same-origin" || site === "same-site";
+  // Some mobile browsers omit Origin. Only its absence permits a metadata
+  // fallback; a present Origin must still match exactly, without contradiction.
+  const trustedOrigin = origin === null ? sameContext : sameOrigin;
+  if (!trustedOrigin || (site !== null && !sameContext)) {
     return Response.json(error, { status: 403, headers });
   }
   try {
