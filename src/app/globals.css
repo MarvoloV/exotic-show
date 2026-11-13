@@ -143,3 +143,58 @@ a:focus-visible {
   }
 }
 
+/* The login owns its shell without changing other routes. */
+body:has(.login-screen) > header, body:has(.login-screen) > footer { display: none; }
+body:has(.login-screen) > main#contenido { max-width: none; padding: 0; }
+.login-screen { min-height: 100dvh; display: flex; flex-direction: column; color: #dde5dd; background: radial-gradient(ellipse at 50% 25%, #14251c, #0e1511 65%, #09100c); }
+.login-header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.5rem 1rem; }
+.login-brand { font: bold 1rem Georgia, serif; letter-spacing: .12em; text-transform: uppercase; }
+.login-brand::before { content: ""; display: inline-block; width: .55rem; height: .55rem; margin-right: .65rem; border-radius: 50%; background: #45efb4; box-shadow: 0 0 12px #03d29a; }
+.login-protocol { color: #ffcc91; font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; text-align: right; }
+.login-center { flex: 1; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+.login-panel { width: 100%; max-width: 36rem; }
+.login-welcome { padding: 2rem 1rem 1rem; }
+.login-welcome span { color: #ffcc91; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .2em; }
+.login-welcome h1 { font: 600 1.625rem/1.25 Georgia, serif; margin: .5rem 0 0; }
+.login-screen .login-card { display: flex; gap: 1.25rem; padding: 1.25rem; border: 0; border-radius: 1rem; color: #dde5dd; background: #1a211d; box-shadow: 0 20px 60px #0006; overflow: visible; }
+.login-body { display: flex; flex-direction: column; gap: 1.25rem; }
+.login-card-label { display: none; color: #45efb4; font-size: .625rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.login-description, .login-help { color: #bacac0; line-height: 1.5; }
+.login-form, .login-field { display: flex; flex-direction: column; gap: 1rem; }
+.login-field { gap: .4rem; }
+.login-field label { display: flex; justify-content: space-between; gap: 1rem; font-weight: 600; }
+.login-field label span { color: #bacac0; font-size: .625rem; text-transform: uppercase; letter-spacing: .08em; }
+.login-input-wrap { position: relative; }
+.login-input-icon { position: absolute; left: .9rem; top: 50%; transform: translateY(-50%); color: #bacac0; font-size: 1.25rem; pointer-events: none; }
+.login-screen .login-input-wrap input { height: 3rem; width: 100%; padding: 0 3rem 0 2.75rem; border: 1px solid transparent; border-radius: .6rem; background: #09100c; color: #dde5dd; box-shadow: none; }
+.login-screen .login-input-wrap input::placeholder { color: #85948b; }
+.login-screen .login-input-wrap input:focus-visible, .login-visibility:focus-visible, .login-screen .login-submit:focus-visible, .login-link:focus-visible { outline: 2px solid #45efb4; outline-offset: 2px; }
+.login-visibility { position: absolute; right: .2rem; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 2.75rem; height: 2.75rem; color: #bacac0; cursor: pointer; }
+.login-visibility:disabled { opacity: .5; cursor: not-allowed; }
+.login-help { font-size: .75rem; }
+.login-screen .login-submit { width: 100%; min-height: 3rem; color: #003827; background: linear-gradient(90deg, #45efb4, #03d29a); font-weight: 700; }
+.login-screen .login-submit:hover { filter: brightness(1.08); }
+.login-feedback { color: #45efb4; font-size: .875rem; }
+.login-feedback:empty { display: none; }
+.login-error { color: #ffb4ab; font-size: .875rem; line-height: 1.5; }
+.login-link { color: #45efb4; text-decoration: underline; }
+.login-notice { display: flex; gap: .75rem; padding: 1rem; border-radius: .75rem; background: #161d19; color: #bacac0; font-size: .75rem; line-height: 1.5; }
+.login-notice > span { color: #ffcc91; font-size: 1.25rem; }
+.login-footer { padding: 1.5rem; text-align: center; color: #85948b; font-size: .75rem; }
+@media (max-width: 639px) {
+  .login-center { align-items: flex-start; }
+  .login-panel { display: flex; flex-direction: column; gap: 1rem; }
+  .login-screen .login-card { display: contents; }
+  .login-welcome { padding-bottom: 0; }
+  .login-body { padding: 1.25rem; border-radius: 1rem; background: #1a211d; box-shadow: 0 20px 60px #0006; }
+}
+@media (min-width: 640px) {
+  .login-header { padding: 2rem; }
+  .login-welcome { padding: 0; }
+  .login-welcome h1 { font-size: 2rem; }
+  .login-screen .login-card { padding: 2.5rem; gap: 1.5rem; box-shadow: 0 0 70px #03d29a18, 0 20px 60px #0006; }
+  .login-card-label { display: block; }
+  .login-notice { background: #09100c; }
+  .login-footer { text-align: left; padding: 2rem; }
+}
+

@@ -34,10 +34,11 @@ function load(path, mocks = {}) {
 }
 const json = (value) => JSON.parse(JSON.stringify(value));
 const malformed = ["", "a".repeat(63), "a".repeat(65), "A".repeat(64), ` ${token}`, `${token} `, `${token}\n`, `${token}?x=1`, "../admin", "á".repeat(64)];
-function route(result) {
+function route(result, authorized = true) {
   const calls = [];
   const stored = { attended_at: null, writes: 0, sequence: 8 };
   const entry = load("../app/asistencia/[token]/registro/route.ts", {
+    "@/lib/dal/admin": { requireAdmin: async () => { if (!authorized) throw new Error("unauthorized"); } },
     "@/lib/dal/attendance": { recordAttendance: async (value) => {
       calls.push(value);
       if (result instanceof Error) throw result;
@@ -58,6 +59,13 @@ async function responseIs(response, status, body) {
   assert.equal(response.headers.get("access-control-allow-origin"), null);
   assert.deepEqual(await response.json(), body);
 }
+
+test("POST denies an unapproved session without registering attendance", async () => {
+  const f = route(undefined, false);
+  await responseIs(await f.send(), 403, error);
+  assert.deepEqual(f.calls, []);
+  assert.deepEqual(f.stored, { attended_at: null, writes: 0, sequence: 8 });
+});
 
 test("POST alone delegates exact tokens to atomic attendance and returns only safe fields, retaining original time", async () => {
   const f = route();
@@ -232,19 +240,28 @@ test("ordered headers keep pages strict-origin and override registration endpoin
   }]);
 });
 
-test("GET/render stays neutral and dynamic with strict-origin, no RPC, and a visible automatic/shared-link warning", async () => {
+test("attendance page sends an unauthorized user to login with only a valid token", async () => {
+  const page = load("../app/asistencia/[token]/page.tsx", {
+    "@/lib/dal/admin": { requireAdmin: async () => { throw new Error("denied"); } },
+    "next/navigation": { redirect: (url) => { throw new Error(`redirect:${url}`); } },
+  });
+  await assert.rejects(page.default({ params: Promise.resolve({ token }) }), { message: `redirect:/login?attendance_token=${token}` });
+  await assert.rejects(page.default({ params: Promise.resolve({ token: "//evil.test" }) }), { message: "redirect:/login" });
+});
+
+test("authorized GET/render stays neutral and dynamic with strict-origin and no RPC", async () => {
   let calls = 0;
   const React = require("react");
   const page = load("../app/asistencia/[token]/page.tsx", {
     "@/components/attendance/attendance-registration": { AttendanceRegistration: () => React.createElement("p", null, "Registrando asistencia…") },
     "@/lib/dal/attendance": { recordAttendance: () => { calls++; } },
+    "@/lib/dal/admin": { requireAdmin: async () => ({}) },
   });
   assert.equal(page.dynamic, "force-dynamic");
   assert.equal(page.metadata.referrer, "strict-origin");
   assert.equal(page.metadata.robots.index, false);
   const output = html(await page.default({ params: Promise.resolve({ token }) }));
-  assert.match(output, /Abrir este enlace registra tu asistencia/);
-  assert.match(output, /compartes.*otra persona.*registrar/s);
+  assert.match(output, /administrador autorizado registra la asistencia/);
   assert.doesNotMatch(output, new RegExp(`${token}|Ana Pérez`));
   assert.equal(calls, 0);
   const f = client(() => { calls++; });

@@ -1,8 +1,8 @@
 # Asistencia QR
 
-MVP en español con Next.js App Router, React, TypeScript, Tailwind CSS, componentes locales con convenciones shadcn/ui y Supabase (Auth + PostgreSQL). Implementa panel administrativo, participantes, exportación CSV, QR individuales y registro público de asistencia. **La implementación local no equivale a una validación en producción:** faltan las pruebas reales de Supabase, navegador y escaneo indicadas al final.
+MVP en español con Next.js App Router, React, TypeScript, Tailwind CSS, componentes locales con convenciones shadcn/ui y Supabase (Auth + PostgreSQL). Implementa panel administrativo, participantes, exportación CSV, QR individuales y registro de asistencia por administradores aprobados. **La implementación local no equivale a una validación en producción:** faltan las pruebas reales de Supabase, navegador y escaneo indicadas al final.
 
-> **Abrir un enlace QR registra la asistencia automáticamente al cargar JavaScript.** No verifica presencia física ni identidad: otra persona puede usar un enlace compartido. Trata enlaces, tokens e imágenes QR como credenciales privadas; no abras enlaces reales para probarlos.
+> **Abrir un enlace QR con una sesión de administrador aprobado registra la asistencia automáticamente al cargar JavaScript.** Sin sesión aprobada se solicita acceso. El QR no prueba presencia física ni identidad: protege enlaces, tokens e imágenes QR.
 
 ## Inicio local
 
@@ -19,7 +19,7 @@ Requiere Node.js 22 o superior (recomendado: 24 LTS) y npm.
 | `NEXT_PUBLIC_SUPABASE_URL` | Origen HTTPS del proyecto, por ejemplo `https://PROJECT.supabase.co` |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Clave pública **publishable**, con prefijo `sb_publishable_`; no se admiten claves JWT heredadas en esta variable |
 | `NEXT_PUBLIC_SITE_URL` | Origen canónico: `http://localhost:3000` en local; origen HTTPS real en producción. Determina las URL de los QR |
-| `SUPABASE_SECRET_KEY` | Clave secreta moderna del proyecto, con prefijo `sb_secret_`, **solo en servidor**; el DAL público la usa para ejecutar `record_attendance`, nunca para administrar participantes |
+| `SUPABASE_SECRET_KEY` | Clave secreta moderna del proyecto, con prefijo `sb_secret_`, **solo en servidor**; el DAL de asistencia la usa para ejecutar `record_attendance`, nunca para administrar participantes |
 
 La validación de las variables públicas rechaza valores ausentes, marcadores de ejemplo y orígenes con credenciales, rutas, consultas o fragmentos. HTTP solo se permite para localhost/loopback. Usa el mismo origen al navegar y configurar el sitio (no alternes `localhost` y `127.0.0.1`). Cambiar variables `NEXT_PUBLIC_*` requiere reiniciar el servidor local o redesplegar.
 
@@ -74,14 +74,14 @@ Proxy renueva cookies y protege `/admin/:path*`; layout, acciones (incluido cerr
 | Ruta | Funcionalidad |
 | --- | --- |
 | `/admin` | Totales globales de registrados, asistentes, pendientes, pagos y porcentaje de asistencia |
-| `/admin/participants` | Alta, edición de nombre/monto, eliminación confirmada, búsqueda, filtros, orden y páginas de 20 filas |
+| `/admin/participants` | Alta en diálogo, edición de nombre/monto, eliminación confirmada, búsqueda por nombre/código, pestañas por estado y páginas de 20 filas; sin selectores de orden |
 | `/admin/participants/export` | CSV de todas las coincidencias, no solo la página; excluye tokens, enlaces y QR |
 | `/admin/participants/[id]/qr` | Descarga PNG privada; **Ver QR** muestra imagen y enlace personal previa autorización |
-| `/asistencia/[token]` | Página pública que envía un POST automático tras hidratar: confirma ingreso, muestra ingreso previo o error |
+| `/asistencia/[token]` | Página para administradores aprobados que envía un POST automático tras hidratar: confirma ingreso, muestra ingreso previo o error |
 
 Código y token se asignan en la base de datos al crear al participante; el PNG se genera localmente bajo demanda, no se almacena ni usa un proveedor externo. Editar conserva código, token y asistencia. Eliminar invalida el QR. Las mutaciones actualizan listado/resumen sin recarga manual; **Actualizar datos** permite consultar cambios externos, sin suscripción en tiempo real. Los montos no tienen moneda asignada; el total de pagos es la suma de montos, no un historial de transacciones.
 
-La tabla general omite deliberadamente token y enlace: se accede al enlace mediante **Ver QR**. La exportación es CSV, no XLSX. Detalles: [administración](src/app/admin/README.md) y [asistencia pública](src/app/asistencia/README.md).
+La tabla general omite deliberadamente token y enlace: se accede al enlace mediante **Ver QR**. La exportación es CSV, no XLSX. Detalles: [administración](src/app/admin/README.md) y [asistencia](src/app/asistencia/README.md).
 
 ## Desplegar en Vercel
 
@@ -116,7 +116,7 @@ Estos son bloqueos de prueba pendiente, no afirmaciones de defectos reproducidos
 
 - **Supabase/PostgreSQL aislado:** falta un destino configurado para aplicar ambas migraciones dos veces y verificar restricciones, RLS y grants como anónimo, usuario no aprobado, administrador aprobado y `service_role`; demostrar llamadas concurrentes a `record_attendance` con una sola hora original.
 - **Datos reales:** comprobar RPC de métricas, búsqueda literal en PostgREST, persistencia CRUD, filtros/orden/paginación, exportación completa y acceso autorizado a QR.
-- **Auth y navegador:** probar una cuenta provisionada con contraseña correcta, incorrecta y correo no confirmado; ausencia de registro/recuperación públicos, rechazo de enlaces antiguos, cookies/renovación y denegación sin aprobación; cierre de sesión desde Resumen y Participantes, eliminación de cookies, regreso fijo a `/login` y rechazo al volver a abrir una ruta administrativa sin iniciar sesión; formularios, confirmación de eliminación, descarga CSV/PNG, teclado y diseño móvil/tablet/escritorio. Comprobar que GET/prefetch/vista previa/descarga no registran asistencia y que abrir la página con JavaScript sí lo hace.
+- **Auth y navegador:** probar una cuenta provisionada con contraseña correcta, incorrecta y correo no confirmado; ausencia de registro/recuperación públicos, rechazo de enlaces antiguos, cookies/renovación y denegación sin aprobación; cierre de sesión desde Resumen y Participantes, eliminación de cookies, regreso fijo a `/login` y rechazo al volver a abrir una ruta administrativa sin iniciar sesión; formularios, confirmación de eliminación, descarga CSV/PNG, teclado y diseño móvil/tablet/escritorio. Comprobar que GET/prefetch/vista previa/descarga no registran asistencia y que solo un administrador aprobado puede registrar asistencia al abrir la página con JavaScript.
 - **Escaneo físico:** leer un PNG desde un móvil en el dominio HTTPS desplegado; comprobar registro nuevo, repetido con hora original, enlace inválido, error/reintento y presentación en Lima. No se ha realizado esta prueba.
 - **Configuración y cierre:** falta versionar una plantilla `.env.example` segura, porque el guard de este entorno impide inspeccionar ese path; la bitácora registra siete vulnerabilidades moderadas de dependencias pendientes de evaluación (no se ejecutó una auditoría nueva). La integración local de producción para el arreglo de origen `127.0.0.1` ya pasó; esto no sustituye la verificación desplegada.
 

@@ -1,4 +1,5 @@
 import { recordAttendance } from "@/lib/dal/attendance";
+import { requireAdmin } from "@/lib/dal/admin";
 import { isAttendanceToken, safeAttendanceResult } from "@/lib/attendance/result";
 
 export const dynamic = "force-dynamic";
@@ -35,6 +36,11 @@ export async function POST(request: Request, { params }: { params: Promise<{ tok
   try {
     const { token } = await params;
     if (!isAttendanceToken(token)) return Response.json(invalid, { status: 404, headers });
+    try {
+      await requireAdmin();
+    } catch {
+      return Response.json(error, { status: 403, headers });
+    }
     const result = safeAttendanceResult(await recordAttendance(token));
     if (result) return Response.json(result, { status: result.outcome === "invalid" ? 404 : 200, headers });
   } catch {

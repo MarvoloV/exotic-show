@@ -357,6 +357,15 @@ test("password login trims only email, preserves password bytes and SSR cookies,
   assert.deepEqual(f.logs, []);
 });
 
+test("login returns only to an exact attendance token and rejects redirect injection", async () => {
+  for (const value of ["a".repeat(64), "//evil.test", "A".repeat(64), "a".repeat(64) + "?x=1"]) {
+    const form = credentials();
+    form.set("attendance_token", value);
+    const target = value === "a".repeat(64) ? `/asistencia/${value}` : "/admin";
+    await assert.rejects(loginFixture().signIn(previousLoginState, form), { message: `redirect:${target}` });
+  }
+});
+
 function authViewMocks() {
   const jsx = (type, props) => ({ type, props });
   return {
@@ -365,19 +374,74 @@ function authViewMocks() {
     "@/components/ui/button": { Button: "button" },
     "@/components/ui/input": { Input: "input" },
     "next/link": { default: "link" },
+    "next/navigation": { redirect: (url) => { throw new Error(`redirect:${url}`); } },
     "@/components/auth/login-form": { LoginForm: "login-form" },
   };
 }
+
+function viewNodes(node) {
+  if (!node || typeof node !== "object") return [];
+  if (Array.isArray(node)) return node.flatMap(viewNodes);
+  return [node, ...viewNodes(node.props?.children)];
+}
+
+test("login form visibility toggle retains token and respects unavailable and pending states", () => {
+  for (const pending of [false, true]) for (const disabled of [false, true]) {
+    let visible = false;
+    const { LoginForm } = load("../components/auth/login-form.tsx", {
+      ...authViewMocks(), "@/app/login/actions": { signIn() {} },
+      react: { useActionState: () => [loginFailure, "action", pending], useState: () => [visible, (update) => { visible = update(visible); }] },
+    });
+    const render = () => viewNodes(LoginForm({ disabled, attendanceToken: token }));
+    let nodes = render();
+    assert.equal(nodes.find((n) => n.props?.name === "attendance_token").props.value, token);
+    let toggle = nodes.find((n) => n.props?.["aria-pressed"] !== undefined);
+    assert.equal(toggle.props.type, "button");
+    assert.equal(toggle.props.disabled, pending || disabled);
+    assert.equal(toggle.props["aria-pressed"], false);
+    assert.ok(toggle.props["aria-label"]);
+    if (!pending && !disabled) {
+      toggle.props.onClick();
+      nodes = render();
+      toggle = nodes.find((n) => n.props?.["aria-pressed"] !== undefined);
+      assert.equal(toggle.props["aria-pressed"], true);
+      assert.equal(nodes.find((n) => n.props?.name === "password").props.type, "text");
+      toggle.props.onClick();
+      assert.equal(render().find((n) => n.props?.name === "password").props.type, "password");
+    }
+  }
+});
+
+test("login shell has isolated responsive layout", async () => {
+  const css = readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
+  assert.match(css, /body:has\(\.login-screen\)\s*>\s*header/);
+  assert.match(css, /body:has\(\.login-screen\)\s*>\s*main#contenido/);
+  assert.match(css, /@media\s*\(min-width:\s*640px\)/);
+  assert.match(css, /\.login-notice/);
+  assert.doesNotMatch(css, /\.login-(?:welcome|notice)\s*\{[^}]*position:\s*absolute/);
+  assert.doesNotMatch(css, /\.login-(?:card|card-label)\s*\{[^}]*margin-bottom:\s*(?:6\.5|8)rem/);
+  assert.match(css, /\.login-screen\s+\.login-card\s*\{[^}]*display:\s*contents/);
+  const { client } = adminClient({ user: null });
+  const { default: LoginPage } = load("../app/login/page.tsx", {
+    ...authViewMocks(), "@/lib/supabase/server": { createClient: async () => client },
+  });
+  const nodes = viewNodes(await LoginPage({ searchParams: Promise.resolve({}) }));
+  const card = nodes.find((n) => n.type === "card");
+  const children = Array.from(card.props.children).filter(Boolean);
+  assert.deepEqual(children.map((n) => n.props.className), ["login-card-label", "login-welcome", "login-body", "login-notice"]);
+  assert.equal(viewNodes(children[1]).filter((n) => n.type === "h1").length, 1);
+  assert.equal(viewNodes(children[2]).filter((n) => n.type === "login-form").length, 1);
+});
 
 test("login form offers email/password only, disables both while pending, and shows safe action feedback", () => {
   for (const pending of [false, true]) {
     const { LoginForm } = load("../components/auth/login-form.tsx", {
       ...authViewMocks(),
       "@/app/login/actions": { signIn() {} },
-      react: { useActionState: () => [loginFailure, "action", pending] },
+      react: { useActionState: () => [loginFailure, "action", pending], useState: (initial) => [initial, () => {}] },
     });
     const view = LoginForm({});
-    const nodes = Array.from(view.props.children).flatMap((node) => node?.props?.children ?? node).filter(Boolean);
+    const nodes = viewNodes(view);
     const inputs = nodes.filter((node) => node.type === "input");
     assert.equal(inputs.length, 2);
     assert.deepEqual(inputs.map(({ props }) => [props.name, props.type, props.autoComplete, props.required, props.disabled]), [
@@ -407,6 +471,19 @@ for (const approved of [false, true]) {
     assert.doesNotMatch(output, /todavía está en desarrollo|Solicita uno nuevo|Recibe un enlace/);
   });
 }
+
+test("login returns approved sessions to the QR and keeps unapproved sessions on the form", async () => {
+  const token = "a".repeat(64);
+  for (const approved of [false, true]) {
+    const { client } = adminClient({ member: approved });
+    const { default: LoginPage } = load("../app/login/page.tsx", {
+      ...authViewMocks(), "@/lib/supabase/server": { createClient: async () => client },
+    });
+    const result = LoginPage({ searchParams: Promise.resolve({ attendance_token: token }) });
+    if (approved) await assert.rejects(result, { message: `redirect:/asistencia/${token}` });
+    else assert.match(JSON.stringify(await result), new RegExp(token));
+  }
+});
 
 function confirmationFixture({ error = null, throws = false, factoryThrows = false } = {}) {
   const calls = [];

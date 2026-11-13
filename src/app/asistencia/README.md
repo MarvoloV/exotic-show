@@ -1,12 +1,12 @@
-# Registro público por QR
+# Registro por QR para administradores
 
-En este MVP, **abrir el enlace QR registra la asistencia automáticamente al cargar JavaScript**. No hay botón de confirmación ni inicio de sesión para el participante. Compartir el enlace o su imagen QR permite que otra persona registre el ingreso en su nombre: es un enlace portador (bearer), no prueba de identidad ni de presencia física. Trátalo como una credencial privada y no lo abras para probar un participante real.
+**Solo un administrador aprobado puede registrar asistencia**. Al abrir el QR con sesión aprobada, se registra automáticamente al cargar JavaScript; sin sesión aprobada se solicita iniciar sesión y luego se vuelve al QR. El enlace no prueba identidad ni presencia física. Mantén el QR privado y no abras enlaces reales para probarlos.
 
 ## Qué ocurre al abrirlo
 
-1. `GET /asistencia/[token]`, HEAD y prefetch renderizan una página neutra: no consultan ni modifican participantes.
+1. `GET /asistencia/[token]` comprueba la sesión administrativa: sin aprobación redirige a `/login`; con aprobación muestra la página. GET, HEAD y prefetch no modifican participantes.
 2. Tras la hidratación, el cliente envía automáticamente `POST /asistencia/[token]/registro` al mismo origen. Sin JavaScript no se registra ingreso; la pantalla pide activarlo o solicitar ayuda al organizador.
-3. El servidor valida el token y llama a `recordAttendance`, que ejecuta el RPC `record_attendance`. La función SQL bloquea la fila: si está pendiente, asigna la hora del servidor y estado `ASISTIÓ`; si ya asistió, conserva la hora original.
+3. El servidor valida el token, comprueba de nuevo la aprobación administrativa y llama a `recordAttendance`, que ejecuta el RPC `record_attendance`. La función SQL bloquea la fila: si está pendiente, asigna la hora del servidor y estado `ASISTIÓ`; si ya asistió, conserva la hora original.
 
 Ver el QR en el panel o descargar su PNG no abre la URL de asistencia ni activa el registro. Eliminar al participante invalida su enlace; editar nombre o monto conserva token, código y asistencia.
 
@@ -25,10 +25,10 @@ Un fallo de respuesta no garantiza que la escritura haya fallado. Reintentar con
 ## Límite del endpoint y privacidad
 
 - Si el POST incluye `Origin`, exige un origen válido idéntico al visible para el navegador: compara esquema de la URL y autoridad de `Host` (incluido puerto), con la URL como respaldo si falta Host. No confía en `X-Forwarded-Host`; esto evita el falso rechazo por normalización interna de Next a `localhost` al navegar por `127.0.0.1`. Un `Origin: null`, malformado o ajeno siempre se rechaza.
-- Solo si falta `Origin` se permite el respaldo de `Sec-Fetch-Site: same-origin` o `same-site`. Si llega `Sec-Fetch-Site`, debe tener uno de esos valores incluso con un origen válido. No se habilita CORS; este control no convierte el enlace portador en prueba de identidad.
+- Solo si falta `Origin` se permite el respaldo de `Sec-Fetch-Site: same-origin` o `same-site`. Si llega `Sec-Fetch-Site`, debe tener uno de esos valores incluso con un origen válido. No se habilita CORS; la autorización administrativa se verifica independientemente.
 - El token debe tener exactamente 64 caracteres hexadecimales minúsculos, sin recortes ni normalización. Un resultado válido devuelve solo resultado, nombre y fecha UTC; nunca monto, ID, código ni token en el cuerpo.
-- El endpoint responde `200` para registro nuevo/repetido, `404` para token inválido/inexistente, `403` para origen rechazado y `503` para fallo del servicio. GET, HEAD, OPTIONS, PUT, PATCH y DELETE al endpoint devuelven `405` sin mutar, con `Allow: POST`.
-- Las respuestas del endpoint conservan `private, no-store`, `no-referrer` y `nosniff`. La cabecera global, los metadatos de la página dinámica no indexable y el fetch de registro usan `strict-origin`: permiten revelar solo el origen (esquema, host y puerto), nunca la ruta ni el token; en una bajada de HTTPS a HTTP no envían referrer. Este cambio busca evitar el `Origin: null` del POST en Safari/iPhone sin relajar el control del servidor; aún falta comprobarlo en un iPhone real. El código de esta funcionalidad no registra URLs ni errores del proveedor. El operador también debe evitar almacenar rutas con tokens en los logs del alojamiento o herramientas de analítica.
+- El endpoint responde `200` para registro nuevo/repetido, `404` para token inválido/inexistente, `403` para origen rechazado o sesión sin aprobación y `503` para fallo del servicio. GET, HEAD, OPTIONS, PUT, PATCH y DELETE al endpoint devuelven `405` sin mutar, con `Allow: POST`.
+- Las respuestas del endpoint conservan `private, no-store`, `no-referrer` y `nosniff`. La cabecera global, los metadatos de la página dinámica no indexable y el fetch de registro usan `strict-origin`: permiten revelar solo el origen (esquema, host y puerto), nunca la ruta ni el token; en una bajada de HTTPS a HTTP no envían referrer. Este cambio busca evitar el `Origin: null` del POST en Safari/iPhone sin relajar el control del servidor; aún falta comprobarlo en un iPhone real. El token se incluye temporalmente en la URL de inicio de sesión para volver al QR; puede quedar en el historial y en logs del alojamiento. El código de esta funcionalidad no registra URLs ni errores del proveedor. El operador también debe evitar almacenar rutas con tokens en los logs del alojamiento o herramientas de analítica.
 
 ## Configuración y verificación pendiente
 

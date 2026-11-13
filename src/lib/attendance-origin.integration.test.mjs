@@ -54,12 +54,12 @@ test("production accepts exact Origin or missing Origin with same-context metada
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
   }
-  const page = await fetch(`${origin}/asistencia/not-a-valid-token`);
-  assert.equal(page.status, 200);
-  assert.equal(page.headers.get("referrer-policy"), "strict-origin");
+  const page = await fetch(`${origin}/asistencia/not-a-valid-token`, { redirect: "manual" });
+  assert.ok(page.status === 200 || page.status === 307);
+  if (page.status === 307) assert.equal(page.headers.get("location"), "/login");
+  else assert.match(await page.text(), /NEXT_REDIRECT.*\/login|url=\/login/i);
   assert.equal(page.headers.get("x-content-type-options"), "nosniff");
   assert.equal(page.headers.get("x-frame-options"), "DENY");
-  assert.match(await page.text(), /<meta name="referrer" content="strict-origin"\s*\/?\s*>/);
 
   for (const headers of [
     { origin },

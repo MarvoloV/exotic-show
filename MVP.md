@@ -2,7 +2,7 @@
 
 Este MVP permite administrar participantes y registrar su asistencia al abrir un enlace QR único.
 
-> Abrir el enlace QR registra la asistencia automáticamente. El enlace es una credencial: si se comparte, otra persona puede usarlo.
+> Abrir el enlace QR con una sesión de administrador aprobado registra la asistencia automáticamente. Sin esa aprobación no se registra.
 
 ## Qué hace
 
@@ -30,7 +30,7 @@ La base de datos genera automáticamente:
 ### Participante
 
 1. Escanea el QR con un celular.
-2. Se abre la página pública de asistencia.
+2. Se solicita iniciar sesión si no hay una sesión de administrador aprobado; luego se vuelve al QR.
 3. La página envía un POST automático al servidor.
 4. El servidor registra la hora en UTC de forma atómica.
 5. La pantalla muestra uno de estos resultados:
@@ -46,7 +46,7 @@ Las fechas se presentan en la zona horaria `America/Lima`.
 - Las rutas administrativas requieren una sesión Supabase y pertenecer a `approved_administrators`.
 - No existe registro público ni recuperación de contraseña. Las cuentas y los problemas de acceso los gestiona el organizador manualmente en Supabase Dashboard.
 - Los tokens QR se consultan solo en el servidor para acciones autorizadas.
-- La ruta pública de asistencia no expone la base de datos ni las claves privadas.
+- El registro de asistencia requiere un administrador aprobado y no expone la base de datos ni las claves privadas.
 - Las asistencias usan una función SQL con bloqueo de fila para evitar duplicados simultáneos.
 - CSV y QR se entregan como respuestas privadas, sin caché pública.
 

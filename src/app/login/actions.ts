@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { isAttendanceToken } from "@/lib/attendance/result";
 
 export type LoginState = { status: "idle" | "error"; message: string };
 
@@ -30,5 +31,6 @@ export async function signIn(_previous: LoginState, formData: FormData): Promise
 
   // Keep Next's redirect outside the catch. The admin boundaries independently
   // verify identity and approval; a successful login alone grants no permissions.
-  redirect("/admin");
+  const token = formData.get("attendance_token");
+  redirect(isAttendanceToken(token) ? `/asistencia/${token}` : "/admin");
 }
