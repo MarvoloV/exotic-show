@@ -1,0 +1,9 @@
+# Participant batch (operator only)
+
+This file is prepared, not executed or validated against a live PostgreSQL database. Have the database owner review the payload and SQL before using the SQL editor as the owner; the application role cannot insert explicit codes. Do not change grants, policies, or defaults.
+
+1. Pause **all** participant creation and code allocations, including direct sequence and `next_participant_code` RPC consumers. Ensure no concurrent database maintenance or sequence configuration changes, and keep the pause until the transaction finishes. Cached allocations from earlier sessions must not remain outstanding; this procedure only supports the default increment 1, cache 1, non-cycling sequence configuration.
+2. Run the entire `participants-batch.sql` file together, not selected statements. If it errors or times out, ensure the transaction is rolled back, resolve the cause, and rerun the entire file. Any existing batch code is a collision and aborts everything; do not delete or overwrite existing participants. A successful run is therefore not repeatable without a collision.
+3. Confirm COMMIT succeeded before treating the result as valid. Results contain confidential bearer attendance paths: protect SQL editor history, exports and access. The database generates tokens using the existing default. Full links and QR images are available in the admin interface; the application constructs the absolute link using the validated `NEXT_PUBLIC_SITE_URL`. Do not open attendance links to test them: an approved session records attendance.
+
+The transaction locks participant writes, verifies collisions and supported sequence settings, and advances the sequence only if necessary, never deliberately rewinding it. The maintenance pause is essential because the table lock alone cannot stop direct sequence users or previously allocated values. Static tests do not prove PostgreSQL behavior.
