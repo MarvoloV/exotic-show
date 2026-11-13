@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
+import { Pencil } from "lucide-react";
 import { ParticipantForm } from "@/components/admin/participant-form";
 import { Button } from "@/components/ui/button";
 import type { ParticipantListRow } from "@/types/database";
@@ -17,10 +18,10 @@ export function ParticipantEditDialog({ participant }: { participant: Participan
   }, [session]);
 
   return <>
-    <Button ref={trigger} type="button" variant="outline" aria-haspopup="dialog" onClick={() => {
+    <Button ref={trigger} type="button" variant="outline" className="min-h-11 min-w-11 p-0" title={`Editar ${participant.code}: ${participant.full_name}`} aria-haspopup="dialog" onClick={() => {
       setSession(++generation.current);
       dialog.current?.showModal();
-    }}>Editar<span className="sr-only"> {participant.code}: {participant.full_name}</span></Button>
+    }}><Pencil aria-hidden="true" /><span className="sr-only">Editar {participant.code}: {participant.full_name}</span></Button>
     <dialog ref={dialog} className="participants-registration-dialog" aria-labelledby={`${prefix}-title`} onClose={() => {
       generation.current++;
       setSession(0);

@@ -334,6 +334,23 @@ test("safe error offers accessible retry, keeps loading distinct, and ignores re
   assert.doesNotMatch(html(f.render()), /Ana Pérez/);
 });
 
+test("attendance shell and outcome visuals keep loading, error and success distinct", async () => {
+  const React = require("react");
+  const page = load("../app/asistencia/[token]/page.tsx", {
+    "@/components/attendance/attendance-registration": { AttendanceRegistration: () => React.createElement("p", null, "Registrando asistencia…") },
+    "@/lib/dal/admin": { requireAdmin: async () => ({}) },
+  });
+  const shell = html(await page.default({ params: Promise.resolve({ token }) }));
+  for (const expected of [/attendance-screen/, /THE EXOTIC SHOW/, /attendance-protocol/, /href="\/admin"/, /Volver al panel/, /<noscript>/]) assert.match(shell, expected);
+  const { AttendanceStatus } = load("../components/attendance/attendance-status.tsx", { "@/components/ui/button": { Button: "button" } });
+  for (const [result, title, role] of [[{ outcome: "loading" }, /Registrando asistencia/, /role="status"/], [error, /No pudimos confirmar/, /role="alert"/], [recorded, /Asistencia registrada/, /role="status"/]]) {
+    const output = html(React.createElement(AttendanceStatus, { result, onRetry() {} }));
+    for (const expected of [/attendance-outcome-icon/, title, role]) assert.match(output, expected);
+    assert.equal(output.includes("attendance-identity"), result.outcome === "recorded");
+    assert.equal(output.includes("Reintentar registro"), result.outcome === "error");
+  }
+});
+
 test("result view wraps long names, escapes markup and keeps an accessible narrow-screen layout", () => {
   const { AttendanceStatus } = load("../components/attendance/attendance-status.tsx");
   const output = html(require("react").createElement(AttendanceStatus, { result: { ...recorded, full_name: `<script>${"Nombre".repeat(50)}</script>` }, onRetry() {} }));

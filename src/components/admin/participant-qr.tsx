@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useRef, useState } from "react";
+import { QrCode } from "lucide-react";
 import { getParticipantQrAction } from "@/app/admin/participants/qr-actions";
 import { QR_ERROR, type ParticipantQrPreview } from "@/lib/participants/qr";
 import type { ParticipantListRow } from "@/types/database";
@@ -34,8 +35,8 @@ export function ParticipantQr({ participant }: { participant: Pick<ParticipantLi
   }
 
   return <>
-    <button type="button" className={buttonVariants({ variant: "outline" })} onClick={open} aria-haspopup="dialog">
-      Ver QR<span className="sr-only"> de {participant.code}: {participant.full_name}</span>
+    <button type="button" className={buttonVariants({ variant: "outline", className: "min-h-11 min-w-11 p-0" })} title={`Ver QR de ${participant.code}: ${participant.full_name}`} onClick={open} aria-haspopup="dialog">
+      <QrCode aria-hidden="true" /><span className="sr-only">Ver QR de {participant.code}: {participant.full_name}</span>
     </button>
     <dialog ref={dialog} aria-labelledby={`${prefix}-title`} aria-describedby={`${prefix}-warning`} onClose={clear}
       className="fixed inset-0 m-auto max-h-[90dvh] w-[calc(100%-2rem)] max-w-lg overflow-y-auto rounded-2xl border border-border bg-card p-5 text-foreground shadow-xl backdrop:bg-black/50">

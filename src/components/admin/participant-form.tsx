@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useId, useRef, useState } from "react";
+import { Trash2 } from "lucide-react";
 import { createParticipantAction, deleteParticipantAction, updateParticipantAction } from "@/app/admin/participants/actions";
 import { validateParticipant, type ParticipantActionState, type ParticipantFieldErrors } from "@/lib/participants/validation";
 import type { ParticipantListRow } from "@/types/database";
@@ -56,21 +57,24 @@ export function ParticipantForm({ participant, onSuccess }: { participant?: Part
 
 export function DeleteParticipantForm({ participant }: { participant: Pick<ParticipantListRow, "id" | "code" | "full_name"> }) {
   const prefix = useId();
-  const details = useRef<HTMLDetailsElement>(null);
+  const dialog = useRef<HTMLDialogElement>(null);
+  const trigger = useRef<HTMLButtonElement>(null);
   const [state, action, pending] = useActionState(deleteParticipantAction, initial);
-  return <details ref={details} className="rounded-lg border border-border">
-    <summary className="cursor-pointer rounded-lg p-3 text-sm font-semibold text-destructive focus-visible:outline-2 focus-visible:outline-ring">Eliminar<span className="sr-only"> {participant.code}: {participant.full_name}</span></summary>
+  return <>
+    <Button ref={trigger} type="button" variant="outline" className="min-h-11 min-w-11 p-0 text-destructive" title={`Eliminar ${participant.code}: ${participant.full_name}`} aria-haspopup="dialog" onClick={() => dialog.current?.showModal()}>
+      <Trash2 aria-hidden="true" /><span className="sr-only">Eliminar {participant.code}: {participant.full_name}</span>
+    </Button>
+    <dialog ref={dialog} className="participants-registration-dialog" aria-labelledby={`${prefix}-title`} aria-describedby={`${prefix}-warning`} onCancel={(event) => { if (pending) event.preventDefault(); }} onClose={() => trigger.current?.focus()}>
     <form action={action} aria-busy={pending} className="space-y-4 p-4" role="group" aria-labelledby={`${prefix}-title`} aria-describedby={`${prefix}-warning`}>
       <input type="hidden" name="id" value={participant.id} />
       <h3 id={`${prefix}-title`} className="font-semibold">¿Eliminar a {participant.full_name} ({participant.code})?</h3>
       <p id={`${prefix}-warning`} className="text-sm">Esta acción eliminará el participante e invalidará su QR. No se puede deshacer.</p>
       <div className="flex flex-wrap gap-3">
         <Button type="submit" disabled={pending} className="bg-destructive text-white hover:bg-destructive/90">{pending ? "Eliminando…" : "Confirmar eliminación"}</Button>
-        <Button type="button" variant="outline" disabled={pending} onClick={() => {
-          if (details.current) { details.current.open = false; details.current.querySelector("summary")?.focus(); }
-        }}>Cancelar</Button>
+        <Button type="button" variant="outline" disabled={pending} autoFocus onClick={() => dialog.current?.close()}>Cancelar</Button>
       </div>
       <ActionMessage state={state} id={`${prefix}-status`} />
     </form>
-  </details>;
+    </dialog>
+  </>;
 }

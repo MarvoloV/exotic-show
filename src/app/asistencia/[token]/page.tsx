@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { AttendanceRegistration } from "@/components/attendance/attendance-registration";
-import { Card } from "@/components/ui/card";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/dal/admin";
 import { isAttendanceToken } from "@/lib/attendance/result";
@@ -24,15 +24,21 @@ export default async function AttendancePage({ params }: { params: Promise<{ tok
   if (!authorized) redirect(isAttendanceToken(token) ? `/login?attendance_token=${token}` : "/login");
   // GET/HEAD, server rendering and prefetch must never look up or record a participant.
   return (
-    <section className="mx-auto w-full min-w-0 max-w-lg space-y-6" aria-labelledby="attendance-title">
-      <h1 id="attendance-title" className="text-3xl font-semibold tracking-tight">Registro de asistencia</h1>
-      <p className="text-sm leading-relaxed text-muted-foreground">
-        Un administrador autorizado registra la asistencia automáticamente al abrir este enlace.
-      </p>
-      <Card className="min-w-0 p-5 sm:p-8">
-        <AttendanceRegistration key={token} token={token} />
-        <noscript><p className="mt-4">Activa JavaScript para registrar tu asistencia automáticamente o pide ayuda al organizador. Sin JavaScript no se registra el ingreso.</p></noscript>
-      </Card>
+    <section className="attendance-screen" aria-labelledby="attendance-title">
+      <header className="attendance-header">THE EXOTIC SHOW <span>Control de asistencia</span></header>
+      <div className="attendance-content">
+        <div className="attendance-heading">
+          <p className="attendance-eyebrow">Control en puerta · Validación de acceso</p>
+          <h1 id="attendance-title">Registro de asistencia</h1>
+          <p>Un administrador autorizado registra la asistencia automáticamente al abrir este enlace.</p>
+        </div>
+        <div className="attendance-card">
+          <div className="attendance-protocol"><span aria-hidden="true">◇</span> Protocolo de asistencia · Nocturne</div>
+          <AttendanceRegistration key={token} token={token} />
+          <noscript><p className="attendance-noscript">Activa JavaScript para registrar tu asistencia automáticamente o pide ayuda al organizador. Sin JavaScript no se registra el ingreso.</p></noscript>
+          <div className="attendance-actions"><Link href="/admin">Volver al panel <span aria-hidden="true">→</span></Link></div>
+        </div>
+      </div>
     </section>
   );
 }

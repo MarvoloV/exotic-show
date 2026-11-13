@@ -32,11 +32,11 @@ export function ParticipantList({ rows, total, query }: { rows: ParticipantListR
           <TableCell className="participant-link"><ParticipantAttendanceLink compact participant={{ code: row.code, attendance_url: row.attendance_url }} /></TableCell>
           <TableCell className="participant-amount"><span className="participant-mobile-label">Pagó: </span>{formatAmount(row.paid_amount.toFixed(2))}</TableCell>
           <TableCell className="participant-actions">
-            <ParticipantQr participant={{ id: row.id, code: row.code, full_name: row.full_name }} />
-            <details className="participant-actions-details"><summary>Acciones<span className="sr-only"> {row.code}: {row.full_name}</span></summary>
+            <div className="participant-actions-group">
+              <ParticipantQr participant={{ id: row.id, code: row.code, full_name: row.full_name }} />
               <ParticipantEditDialog participant={row} />
               <DeleteParticipantForm participant={row} />
-            </details>
+            </div>
           </TableCell>
         </tr>)}</tbody>
       </Table>

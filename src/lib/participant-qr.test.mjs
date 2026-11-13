@@ -310,7 +310,10 @@ test("list retains responsive scrolling, existing actions and pagination while e
   });
   const query = load("./participants/query.ts").parseParticipantQuery({ q: "Ana", page: "2" });
   const output = html(React.createElement(ParticipantList, { rows: [{ id, code: "EX001", full_name: "Ana", paid_amount: 0, attendance_state: "PENDIENTE", attended_at: null, attendance_url: url }], total: 41, query }));
-  for (const text of ["Enlace QR", "Copiar enlace", url, "Ver QR", "overflow-x-auto", "Edit form", "Delete form", "q=Ana", "page=3", "registra la asistencia"]) assert.ok(output.includes(text), text);
+  for (const text of ["Enlace QR", "Copiar enlace", url, "Ver QR", "overflow-x-auto", "Editar EX001: Ana", "Editar participante", "Delete form", "q=Ana", "page=3", "registra la asistencia"]) assert.ok(output.includes(text), text);
+  assert.match(output, /<button[^>]*aria-haspopup="dialog"[^>]*>[\s\S]*?Editar EX001: Ana/);
+  assert.match(output, /<dialog[^>]*aria-labelledby=/);
+  assert.doesNotMatch(output, /Edit form/);
   assert.doesNotMatch(output, /href="https:\/\/canonical\.test\/asistencia\//);
   assert.match(output, /min-w-0/);
   assert.match(output, /w-64/);

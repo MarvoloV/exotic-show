@@ -29,7 +29,8 @@ const mocks = {
   "@/components/ui/table": { Table: element("table"), TableHead: element("th"), TableCell: element("td") },
   "@/components/ui/button": { Button: element("button"), buttonVariants: () => "button" },
   "@/components/ui/input": { Input: element("input") },
-  "@/components/admin/participant-form": { ParticipantForm: marker("edit"), DeleteParticipantForm: marker("delete") },
+  "@/components/admin/participant-form": { ParticipantForm: marker("edit-form"), DeleteParticipantForm: marker("delete") },
+  "@/components/admin/participant-edit-dialog": { ParticipantEditDialog: ({ participant }) => React.createElement(React.Fragment, null, React.createElement("button", { "data-action": "edit", "aria-haspopup": "dialog" }, `Editar ${participant.code}`), React.createElement("dialog", { "aria-label": "Editar participante" })) },
   "@/components/admin/participant-registration-dialog": { ParticipantRegistrationDialog: () => React.createElement("button", null, "+ Registrar participante") },
   "@/components/admin/participant-qr": { ParticipantQr: marker("qr") },
   "@/components/admin/participant-attendance-link": { ParticipantAttendanceLink: marker("copy") },
@@ -69,7 +70,10 @@ test("one responsive semantic row retains real values, actions and pagination", 
   assert.equal((html.match(/scope="col"/g) || []).length, 7);
   for (const name of ["qr", "copy", "edit", "delete"]) assert.equal((html.match(new RegExp(`data-action="${name}"`, "g")) || []).length, 1);
   for (const page of [1, 3]) assert.ok(html.includes(queryModule.participantHref(q, page).replaceAll("&", "&amp;")));
-  assert.match(html, /<details/); assert.match(html, /Acciones/);
+  assert.doesNotMatch(html, /<details/); assert.match(html, /Acciones/);
+  assert.match(html, /data-action="edit" aria-haspopup="dialog"/);
+  assert.match(html, /<dialog aria-label="Editar participante"/);
+  assert.match(html, /class="participant-actions-group"/);
   assert.doesNotMatch(html, /S\//);
   const empty = renderToStaticMarkup(React.createElement(ParticipantList, { rows: [], total: 41, query: q }));
   assert.match(empty, /El listado cambió durante la consulta/);
@@ -102,5 +106,6 @@ test("route styles isolate shell and reflow table into mobile cards", () => {
   assert.match(css, /@media\s*\(max-width:\s*\d+px\)[\s\S]*\.participants-screen[^}]*table/);
   assert.match(css, /\.participants-screen[^}]*overflow-wrap:\s*anywhere/);
   assert.match(css, /\.participant-link[^}]*grid-column:\s*1/);
-  assert.match(css, /\.participant-actions[^}]*grid-column:\s*2/);
+  assert.match(css, /\.participant-actions[^}]*grid-column:\s*1\s*\/\s*-1/);
+  assert.match(css, /\.participant-actions-group\s*\{[^}]*display:\s*flex/);
 });

@@ -1,37 +1,58 @@
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+
+const steps = [
+  ["01", "Organiza", "Registro y consulta de participantes."],
+  ["02", "Comparte", "Un enlace y un código QR por participante."],
+  ["03", "Recibe", "Confirmación clara del ingreso desde el celular."],
+];
 
 export default function HomePage() {
   return (
-    <div className="grid items-center gap-12 lg:grid-cols-[1.2fr_1fr]">
-      <section>
-        <p className="mb-5 text-sm font-semibold uppercase tracking-widest text-primary">Un ingreso más simple</p>
-        <h1 className="max-w-2xl text-4xl font-bold leading-tight tracking-tight sm:text-6xl">Menos filas.<br />Más encuentros.</h1>
-        <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-          Una base para organizar participantes y controlar su asistencia mediante QR, desde cualquier dispositivo.
-        </p>
-        <Link href="/login" className={buttonVariants({ className: "mt-8" })}>Acceder con mi correo <span aria-hidden="true" className="ml-3">→</span></Link>
-        <p className="mt-4 text-sm text-muted-foreground">Solo para administradores habilitados. Sin contraseñas.</p>
-      </section>
-      <Card className="space-y-6">
-        <h2 className="text-xl font-semibold">Una experiencia, de principio a fin</h2>
-        <ol className="space-y-6">
-          {[
-            ["01", "Organiza", "Registro y consulta de participantes."],
-            ["02", "Comparte", "Un enlace y un código QR por participante."],
-            ["03", "Recibe", "Confirmación clara del ingreso desde el celular."],
-          ].map(([step, title, description]) => (
-            <li key={step} className="flex gap-4">
-              <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-xl bg-muted text-sm font-semibold text-primary">{step}</span>
-              <div><h3 className="font-semibold">{title}</h3><p className="mt-1 text-sm leading-relaxed text-muted-foreground">{description}</p></div>
-            </li>
-          ))}
-        </ol>
-        <p className="border-t border-border pt-5 text-sm leading-relaxed text-muted-foreground">
-          En desarrollo: el panel, los participantes y el registro de asistencia aún no están disponibles.
-        </p>
-      </Card>
+    <div className="landing-screen" id="inicio">
+      <header className="landing-header">
+        <a className="landing-brand" href="#inicio" aria-label="The Exotic Show, inicio">
+          <span className="landing-monogram" aria-hidden="true">QR</span>
+          <span><strong>The Exotic Show</strong><small>Cabaret &amp; Pole Art · Pucará Rooftop</small></span>
+        </a>
+        <Link className="landing-admin" href="/login">Acceso <span>administrativo</span><span aria-hidden="true"> →</span></Link>
+      </header>
+
+      <div className="landing-content">
+        <section className="landing-hero" aria-labelledby="landing-title">
+          <p className="landing-eyebrow"><span aria-hidden="true">●</span> Un ingreso más simple · The Exotic Show</p>
+          <h1 id="landing-title">Menos filas.<br /><span>Más espectáculo.</span></h1>
+          <p className="landing-intro">Una base para organizar participantes y controlar su asistencia mediante código QR, desde cualquier dispositivo.</p>
+          <Link href="/login" className="landing-cta">Acceder con mi correo <span aria-hidden="true">→</span></Link>
+          <p className="landing-note">◇ &nbsp;Solo para administradores habilitados.</p>
+          <div className="landing-credits">
+            <div><p>Presentación especial</p><strong>Vía Botello</strong></div>
+            <div><p>Producción escénica</p><strong>Pole Studio</strong></div>
+          </div>
+        </section>
+
+        <section className="landing-experience" id="experiencia" aria-labelledby="experience-title">
+          <p className="landing-eyebrow">El recorrido · The Exotic Show</p>
+          <h2 id="experience-title">Una experiencia, <em>de principio a fin</em></h2>
+          <ol className="landing-steps">
+            {steps.map(([number, title, description]) => (
+              <li key={number}>
+                <span className="landing-step-number" aria-hidden="true">{number}</span>
+                <div><h3>{title}</h3><p>{description}</p></div>
+              </li>
+            ))}
+          </ol>
+          <div className="landing-poster" id="cartelera">
+            <div className="landing-poster-image" role="img" aria-label="Imagen escénica de The Exotic Show" />
+            <div className="landing-poster-copy">
+              <p>Cartelera oficial</p>
+              <h3>The Exotic Show</h3>
+              <span>Presentación: Vía Botello</span>
+              <span>Pole Studio · Pucará Rooftop</span>
+            </div>
+          </div>
+        </section>
+      </div>
+      <footer className="landing-footer"><strong>The Exotic Show</strong><span>Pole Studio · Pucará Rooftop</span><span>Asistencia QR</span></footer>
     </div>
   );
 }

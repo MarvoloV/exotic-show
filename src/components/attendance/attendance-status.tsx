@@ -14,28 +14,25 @@ export function AttendanceStatus({ result, onRetry }: { result: AttendanceState;
   }[result.outcome];
 
   return (
-    <div className="min-w-0 break-words" role={failed ? "alert" : "status"} aria-live={failed ? "assertive" : "polite"} aria-atomic="true" aria-busy={result.outcome === "loading"}>
-      <p className={`mb-3 text-sm font-semibold ${failed ? "text-destructive" : "text-primary"}`}>
-        {success ? "ASISTIÓ" : result.outcome === "loading" ? "Validando enlace" : "Revisa tu enlace"}
-      </p>
-      <h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
+    <div className={`attendance-result min-w-0 break-words ${failed ? "attendance-failed" : ""}`} role={failed ? "alert" : "status"} aria-live={failed ? "assertive" : "polite"} aria-atomic="true" aria-busy={result.outcome === "loading"}>
+      <div className="attendance-outcome">
+        <span className="attendance-outcome-icon" aria-hidden="true">{success ? "✓" : failed ? "!" : "…"}</span>
+        <p className="attendance-badge">{success ? "ASISTIÓ" : result.outcome === "loading" ? "Validando enlace" : "Revisa tu enlace"}</p>
+        <h2>{title}</h2>
+        {result.outcome === "loading" && <p className="attendance-message">Espera un momento mientras confirmamos tu ingreso.</p>}
+        {result.outcome === "invalid" && <p className="attendance-message">Este enlace no corresponde a un participante. Solicita al organizador tu QR correcto.</p>}
+        {result.outcome === "error" && <p className="attendance-message">El registro pudo haberse completado. Reintenta para comprobarlo: no se duplicará tu asistencia ni cambiará la hora original.</p>}
+      </div>
       {success && (result.outcome === "recorded" || result.outcome === "already_recorded") && (
-        <>
-          <p className="mt-4 text-xl font-semibold">{result.full_name}</p>
-          <p className="mt-2 text-sm text-muted-foreground">
+        <div className="attendance-identity">
+          <div><span>Nombre del participante</span><p>{result.full_name}</p></div>
+          <div><span>Registro temporal</span><p>
             {result.outcome === "already_recorded" ? "Fecha y hora original: " : "Fecha y hora de ingreso: "}
             <time dateTime={result.attended_at}>{formatAttendance(result.attended_at)}</time> (Lima)
-          </p>
-        </>
+          </p></div>
+        </div>
       )}
-      {result.outcome === "loading" && <p className="mt-4 text-muted-foreground">Espera un momento mientras confirmamos tu ingreso.</p>}
-      {result.outcome === "invalid" && <p className="mt-4 text-muted-foreground">Este enlace no corresponde a un participante. Solicita al organizador tu QR correcto.</p>}
-      {result.outcome === "error" && (
-        <>
-          <p className="mt-4 text-muted-foreground">El registro pudo haberse completado. Reintenta para comprobarlo: no se duplicará tu asistencia ni cambiará la hora original.</p>
-          <Button type="button" className="mt-5 w-full whitespace-normal" onClick={onRetry}>Reintentar registro</Button>
-        </>
-      )}
+      {result.outcome === "error" && <Button type="button" className="attendance-retry" onClick={onRetry}>Reintentar registro</Button>}
     </div>
   );
 }

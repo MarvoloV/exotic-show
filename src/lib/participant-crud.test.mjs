@@ -183,6 +183,61 @@ test("delete targets exactly one UUID and successful deletion invalidates its st
 });
 
 const render = (element) => require("react-dom/server").renderToStaticMarkup(element);
+test("row actions are peer labelled icon buttons without accordions", () => {
+  const list = readFileSync(new URL("../components/admin/participant-list.tsx", import.meta.url), "utf8");
+  assert.match(list, /className="participant-actions-group"/);
+  assert.doesNotMatch(list, /<details className="participant-actions-details"/);
+  for (const [file, icon] of [["participant-qr.tsx", "QrCode"], ["participant-edit-dialog.tsx", "Pencil"], ["participant-form.tsx", "Trash2"]]) {
+    const source = readFileSync(new URL(`../components/admin/${file}`, import.meta.url), "utf8");
+    assert.match(source, new RegExp(`<${icon}[^>]*aria-hidden="true"`));
+    assert.match(source, /className="sr-only"/);
+    assert.match(source, /title=\{/);
+    assert.match(source, /min-h-11 min-w-11/);
+  }
+});
+
+test("delete opens a native confirmation dialog instead of a disclosure", () => {
+  const source = readFileSync(new URL("../components/admin/participant-form.tsx", import.meta.url), "utf8").split("export function DeleteParticipantForm")[1];
+  assert.doesNotMatch(source, /<details|<summary/);
+  assert.match(source, /<dialog/);
+  assert.match(source, /showModal\(\)/);
+  assert.match(source, /onCancel=/);
+  assert.match(source, /trigger\.current\?\.focus\(\)/);
+  for (const text of ["Confirmar eliminación", "Cancelar", "invalidará su QR", "No se puede deshacer"]) assert.ok(source.includes(text));
+});
+test("delete dialog blocks Escape while pending and restores focus after cancellation", () => {
+  const React = require("react");
+  const events = [];
+  let pending = false;
+  const refs = [{ current: { showModal: () => events.push("open"), close: () => events.push("close") } }, { current: { focus: () => events.push("focus") } }];
+  let index = 0;
+  const Button = () => null;
+  const { DeleteParticipantForm } = load("../components/admin/participant-form.tsx", {
+    react: { ...React, useId: () => "delete", useRef: () => refs[index++], useActionState: () => [{ status: "error", message: "No se pudo eliminar." }, () => {}, pending] },
+    "@/components/ui/button": { Button },
+    "@/app/admin/participants/actions": Object.fromEntries(mutations.map(([, name]) => [name, async () => initial])),
+  });
+  const draw = () => { index = 0; return React.Children.toArray(DeleteParticipantForm({ participant: { id, code: "EX001", full_name: "Ana" } }).props.children); };
+  let [trigger, dialog] = draw();
+  trigger.props.onClick();
+  let prevented = false;
+  dialog.props.onCancel({ preventDefault: () => { prevented = true; } });
+  assert.equal(prevented, false);
+  dialog.props.onClose();
+  assert.deepEqual(events, ["open", "focus"]);
+  pending = true;
+  [trigger, dialog] = draw();
+  dialog.props.onCancel({ preventDefault: () => { prevented = true; } });
+  assert.equal(prevented, true);
+  const form = dialog.props.children;
+  const controls = React.Children.toArray(form.props.children).find((child) => child.type === "div");
+  const [confirm, cancel] = React.Children.toArray(controls.props.children);
+  assert.equal(confirm.props.disabled, true);
+  assert.equal(cancel.props.disabled, true);
+  assert.match(render(dialog), /No se pudo eliminar\./);
+  assert.deepEqual(events, ["open", "focus"]);
+});
+
 test("forms expose labels, shared client validation, pending/errors and QR deletion confirmation", () => {
   const handlers = [];
   const messages = [initial, { status: "error", message: "Revisa los campos indicados.", errors: { full_name: "Nombre inválido." } }];
