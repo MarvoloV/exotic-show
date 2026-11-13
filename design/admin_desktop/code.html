@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "on-secondary-fixed-variant": "#16503b",
+        "surface-variant": "#2f3732",
+        "on-tertiary-fixed": "#2b1700",
+        "on-surface": "#dde5dd",
+        "tertiary-fixed-dim": "#ffb961",
+        "on-primary-fixed-variant": "#005139",
+        "on-tertiary": "#472a00",
+        "on-background": "#dde5dd",
+        "secondary-container": "#19523d",
+        "primary-container": "#03d29a",
+        "on-tertiary-container": "#694000",
+        "on-tertiary-fixed-variant": "#653e00",
+        "surface-container-highest": "#2f3732",
+        "surface-container-low": "#161d19",
+        "inverse-on-surface": "#2b322d",
+        "on-secondary": "#003827",
+        "secondary-fixed": "#b5efd2",
+        "on-primary": "#003827",
+        "background": "#0e1511",
+        "inverse-surface": "#dde5dd",
+        "on-secondary-container": "#8bc4a9",
+        "tertiary-fixed": "#ffddb8",
+        "surface": "#0e1511",
+        "primary-fixed-dim": "#2de0a7",
+        "outline": "#85948b",
+        "surface-container-lowest": "#09100c",
+        "primary-fixed": "#58fdc2",
+        "on-error": "#690005",
+        "on-secondary-fixed": "#002115",
+        "tertiary-container": "#f2ab4f",
+        "on-surface-variant": "#bacac0",
+        "on-primary-fixed": "#002115",
+        "inverse-primary": "#006c4d",
+        "secondary-fixed-dim": "#99d3b7",
+        "tertiary": "#ffcc91",
+        "secondary": "#99d3b7",
+        "surface-tint": "#2de0a7",
+        "on-primary-container": "#00543c",
+        "surface-bright": "#333b36",
+        "surface-container": "#1a211d",
+        "surface-dim": "#0e1511",
+        "error-container": "#93000a",
+        "outline-variant": "#3b4a42",
+        "on-error-container": "#ffdad6",
+        "primary": "#45efb4",
+        "surface-container-high": "#242c27",
+        "error": "#ffb4ab"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.25rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "full": "9999px"
+      },
+      "spacing": {
+        "space-lg": "1.5rem",
+        "gutter": "1rem",
+        "margin-lg": "3.5rem",
+        "gutter-md": "1.5rem",
+        "space-xs": "0.25rem",
+        "margin": "1rem",
+        "space-xl": "2.5rem",
+        "space-md": "1rem",
+        "space-sm": "0.5rem",
+        "gutter-lg": "2rem",
+        "margin-md": "2rem"
+      },
+      "fontFamily": {
+        "headline-lg-mobile": [
+          "Playfair Display"
+        ],
+        "headline-xl": [
+          "Playfair Display"
+        ],
+        "title-md": [
+          "Plus Jakarta Sans"
+        ],
+        "body-sm": [
+          "Plus Jakarta Sans"
+        ],
+        "title-sm": [
+          "Plus Jakarta Sans"
+        ],
+        "headline-md": [
+          "Playfair Display"
+        ],
+        "label-lg": [
+          "Plus Jakarta Sans"
+        ],
+        "headline-sm": [
+          "Playfair Display"
+        ],
+        "headline-xl-mobile": [
+          "Playfair Display"
+        ],
+        "headline-lg": [
+          "Playfair Display"
+        ],
+        "body-lg": [
+          "Plus Jakarta Sans"
+        ],
+        "label-md": [
+          "Plus Jakarta Sans"
+        ],
+        "label-sm": [
+          "Plus Jakarta Sans"
+        ],
+        "body-md": [
+          "Plus Jakarta Sans"
+        ]
+      },
+      "fontSize": {
+        "headline-lg-mobile": [
+          "26px",
+          {
+            "lineHeight": "32px",
+            "fontWeight": "600"
+          }
+        ],
+        "headline-xl": [
+          "48px",
+          {
+            "lineHeight": "56px",
+            "letterSpacing": "-0.02em",
+            "fontWeight": "700"
+          }
+        ],
+        "title-md": [
+          "18px",
+          {
+            "lineHeight": "24px",
+            "letterSpacing": "0.01em",
+            "fontWeight": "600"
+          }
+        ],
+        "body-sm": [
+          "12px",
+          {
+            "lineHeight": "16px",
+            "fontWeight": "400"
+          }
+        ],
+        "title-sm": [
+          "16px",
+          {
+            "lineHeight": "22px",
+            "fontWeight": "600"
+          }
+        ],
+        "headline-md": [
+          "24px",
+          {
+            "lineHeight": "30px",
+            "fontWeight": "600"
+          }
+        ],
+        "label-lg": [
+          "14px",
+          {
+            "lineHeight": "18px",
+            "letterSpacing": "0.04em",
+            "fontWeight": "600"
+          }
+        ],
+        "headline-sm": [
+          "20px",
+          {
+            "lineHeight": "26px",
+            "fontWeight": "500"
+          }
+        ],
+        "headline-xl-mobile": [
+          "34px",
+          {
+            "lineHeight": "40px",
+            "letterSpacing": "-0.01em",
+            "fontWeight": "700"
+          }
+        ],
+        "headline-lg": [
+          "32px",
+          {
+            "lineHeight": "40px",
+            "fontWeight": "600"
+          }
+        ],
+        "body-lg": [
+          "16px",
+          {
+            "lineHeight": "24px",
+            "fontWeight": "400"
+          }
+        ],
+        "label-md": [
+          "12px",
+          {
+            "lineHeight": "16px",
+            "letterSpacing": "0.06em",
+            "fontWeight": "600"
+          }
+        ],
+        "label-sm": [
+          "10px",
+          {
+            "lineHeight": "14px",
+            "letterSpacing": "0.08em",
+            "fontWeight": "700"
+          }
+        ],
+        "body-md": [
+          "14px",
+          {
+            "lineHeight": "20px",
+            "fontWeight": "400"
+          }
+        ]
+      }
+    }
+  }
+}</script></head><body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.4)]"><div class="h-16 w-full px-gutter-lg flex items-center justify-between"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><span class="font-headline-sm text-headline-sm tracking-wide text-on-surface uppercase">The Exotic Show</span><span class="px-space-xs py-0.5 rounded-full bg-surface-container-high font-label-sm text-label-sm uppercase tracking-widest text-primary">Access Ops</span></div><div class="h-4 w-px bg-outline-variant/30 hidden sm:block"></div><div class="hidden sm:flex items-center gap-space-xs font-label-sm text-label-sm text-on-surface-variant"><span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span><span>Operaciones en vivo • Pucará</span></div></div><div class="flex items-center gap-space-lg"><nav class="flex items-center gap-space-md" data-active-classes="text-primary border-b-2 border-primary"><a aria-current="page" class="font-label-lg py-5 px-space-xs transition-colors text-primary border-b-2 border-primary" data-path="resumen" href="#">Resumen</a><a class="font-label-lg text-label-lg py-5 px-space-xs text-on-surface-variant hover:text-on-surface transition-colors" data-path="participantes" href="#">Participantes</a><a class="font-label-lg text-label-lg py-5 px-space-xs text-on-surface-variant hover:text-on-surface transition-colors" data-path="scanner-control" href="#">Escaner QR</a><a class="font-label-lg text-label-lg py-5 px-space-xs text-on-surface-variant hover:text-on-surface transition-colors" data-path="mesas-vip" href="#">Mesas VIP</a></nav><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><a class="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-surface-container-high transition-colors text-on-surface-variant hover:text-error" data-path="login" href="#" title="Cerrar sesión"><span class="material-symbols-outlined text-[20px]">logout</span></a></div></div></div></header><main class="w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Atmospheric Glow Overlays -->
+<div class="relative w-full overflow-hidden px-margin-lg py-gutter-lg flex flex-col gap-space-xl">
+<div class="pointer-events-none absolute -top-40 left-1/4 w-[600px] h-[400px] bg-primary/10 rounded-full blur-[140px]"></div>
+<div class="pointer-events-none absolute top-1/2 -right-40 w-[500px] h-[500px] bg-tertiary-container/5 rounded-full blur-[160px]"></div>
+<!-- Top Action Bar & Live Operational Context -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md relative z-10">
+<div>
+<div class="flex items-center gap-space-xs text-primary font-label-sm uppercase tracking-[0.2em]">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+<span>Sincronización en Directo • Pucará Night Club</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mt-1 tracking-tight">
+          Gestión Operativa &amp; Taquilla
+        </h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-xl">
+          Monitoreo nocturno en tiempo real, confirmación de accesos con acreditación QR y balance de recaudación cerrada.
+        </p>
+</div>
+<!-- Action Cluster -->
+<div class="flex items-center gap-space-sm flex-wrap">
+<button class="flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface transition-all duration-300 font-label-md text-label-md group" id="btn-refresh">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant group-hover:rotate-180 transition-transform duration-500">sync</span>
+<span>Actualizar datos</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface transition-all duration-300 font-label-md text-label-md" onclick="exportCSVData()">
+<span class="material-symbols-outlined text-[18px] text-tertiary">download</span>
+<span>Exportar CSV</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-lg py-space-sm rounded-lg bg-gradient-to-r from-primary-container to-inverse-primary hover:from-primary hover:to-primary-container text-on-primary-container font-label-lg text-label-lg shadow-[0_4px_20px_rgba(3,210,154,0.3)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]" id="btn-open-register">
+<span class="material-symbols-outlined text-[20px] font-bold">add</span>
+<span>+ Registrar participante</span>
+</button>
+</div>
+</div>
+<!-- 1. Hero Métrico Asimétrico -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-stretch relative z-10">
+<!-- Bloque Protagonista Izquierdo: Radial Gauge Asistencia (5 cols) -->
+<div class="lg:col-span-5 bg-surface-container-low/90 backdrop-blur-md rounded-xl p-space-lg shadow-xl relative overflow-hidden flex flex-col justify-between group">
+<div class="absolute -right-12 -bottom-12 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none group-hover:bg-primary/20 transition-all duration-700"></div>
+<div class="flex items-center justify-between pb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Tasa de Acreditación</span>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-primary/10 text-primary">Aforo Completo</span>
+</div>
+<div class="flex items-center gap-space-lg py-space-md my-auto">
+<!-- Circular Gauge SVG -->
+<div class="relative w-36 h-36 flex-shrink-0 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90 transform" viewbox="0 0 120 120">
+<circle class="stroke-surface-container-highest" cx="60" cy="60" fill="transparent" r="50" stroke-width="6"></circle>
+<circle class="stroke-primary transition-all duration-1000 ease-out" cx="60" cy="60" fill="transparent" r="50" stroke-dasharray="314.159" stroke-dashoffset="0" stroke-linecap="round" stroke-width="7" style="filter: drop-shadow(0 0 8px rgba(69,239,180,0.6));"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-primary text-[28px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant -mt-1">100.0%</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">Asistencia Total</span>
+<div class="font-headline-xl text-headline-xl text-on-surface tracking-tight leading-none my-1 font-bold">
+              100%
+            </div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+<strong class="text-on-surface font-semibold">8 de 8</strong> asistentes validados en puerta sin incidencias.
+            </p>
+</div>
+</div>
+<div class="pt-space-sm flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<span>Último escaneo registrado:</span>
+<span class="font-mono text-primary text-label-md">15:14:55 hrs</span>
+</div>
+</div>
+<!-- Bloque Central de Impacto: Monto Pagado Total (4 cols) -->
+<div class="lg:col-span-4 bg-surface-container-low/90 backdrop-blur-md rounded-xl p-space-lg shadow-xl relative overflow-hidden flex flex-col justify-between">
+<div class="flex items-center justify-between pb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Liquidación de Boletería</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-tertiary font-label-sm text-label-sm">Caja Cerrada</span>
+</div>
+<div class="my-auto py-space-sm">
+<div class="font-body-sm text-body-sm text-on-surface-variant uppercase tracking-wider">Monto recaudado total</div>
+<div class="font-headline-xl text-headline-xl text-on-surface tracking-tight my-1 text-primary font-bold">
+            S/ 772.00
+          </div>
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant mt-1">
+<span class="text-primary font-medium flex items-center">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> 100% cobrado
+            </span>
+<span>• Sin saldo deudor en lista</span>
+</div>
+</div>
+<!-- Micro Sparkline / Breakdown bar -->
+<div class="pt-space-sm flex flex-col gap-1.5">
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden flex">
+<div class="bg-primary h-full" style="width: 65%" title="Tickets VIP / Especiales (S/ 500)"></div>
+<div class="bg-tertiary-container h-full" style="width: 32%" title="General Anticipada (S/ 250)"></div>
+<div class="bg-secondary-fixed h-full" style="width: 3%" title="Cortesías"></div>
+</div>
+<div class="flex justify-between items-center font-label-sm text-label-sm text-on-surface-variant">
+<span>Ticket prom.: <strong class="text-on-surface">S/ 96.50</strong></span>
+<span>8 transacciones auditadas</span>
+</div>
+</div>
+</div>
+<!-- Bloque Derecho Dividido Verticalmente: Pastillas Escultóricas (3 cols) -->
+<div class="lg:col-span-3 flex flex-col gap-space-sm">
+<!-- Registrados -->
+<div class="flex-1 bg-surface-container-low/90 backdrop-blur-md rounded-xl p-space-md shadow-md flex items-center justify-between hover:bg-surface-container/80 transition-colors">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">Registrados</span>
+<span class="font-headline-md text-headline-md text-on-surface font-bold">8</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Capacidad lista</span>
+</div>
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[24px]">group</span>
+</div>
+</div>
+<!-- Asistieron vs Pendientes Split -->
+<div class="flex-1 bg-surface-container-low/90 backdrop-blur-md rounded-xl p-space-md shadow-md flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_8px_rgba(69,239,180,0.8)]"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface">Asistieron</span>
+</div>
+<span class="font-title-md text-title-md font-bold text-primary px-2.5 py-0.5 rounded-full bg-primary/10">8</span>
+</div>
+<div class="h-px bg-surface-container-highest my-space-xs"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-error"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Pendientes</span>
+</div>
+<span class="font-title-sm text-title-sm font-semibold text-error px-2 py-0.5 rounded-full bg-error-container/30">0</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 2. Sección de Participantes -->
+<div class="bg-surface-container-low rounded-xl shadow-2xl relative z-10 overflow-hidden flex flex-col">
+<!-- Cabecera de la Sección con Serif y Contador Dinámico -->
+<div class="p-space-lg flex flex-col md:flex-row md:items-center justify-between gap-space-md bg-surface-container-low/70">
+<div>
+<div class="flex items-baseline gap-space-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">
+              Control de Participantes
+            </h2>
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-highest text-primary font-label-sm text-label-sm font-semibold" id="counter-badge">
+              8 personas registradas
+            </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+            Registro oficial de credenciales VIP, liquidaciones en efectivo/transferencia y validación de boletería.
+          </p>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="text-on-surface-variant font-label-sm text-label-sm uppercase">Filtro rápido:</span>
+<div class="inline-flex p-1 bg-surface-container-lowest rounded-lg">
+<button class="px-space-md py-1 rounded-md text-label-md font-label-md text-on-primary bg-primary shadow-sm transition-all" id="filter-all" onclick="filterTable('ALL')">
+              Todos (8)
+            </button>
+<button class="px-space-md py-1 rounded-md text-label-md font-label-md text-on-surface-variant hover:text-on-surface transition-all" id="filter-asistio" onclick="filterTable('ASISTIO')">
+              Asistió (8)
+            </button>
+<button class="px-space-md py-1 rounded-md text-label-md font-label-md text-on-surface-variant hover:text-on-surface transition-all" id="filter-pendiente" onclick="filterTable('PENDIENTE')">
+              Pendiente (0)
+            </button>
+</div>
+</div>
+</div>
+<!-- Barra de Herramientas & Búsqueda Táctil -->
+<div class="px-space-lg py-space-sm bg-surface-container flex flex-col sm:flex-row items-center justify-between gap-space-md">
+<div class="relative w-full sm:w-96">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-on-surface-variant pl-10 pr-4 py-2.5 rounded-lg text-body-md font-body-md focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" id="search-input" onkeyup="searchTable()" placeholder="Buscar por nombre o código EX..." type="text"/>
+</div>
+<div class="flex items-center gap-space-xs w-full sm:w-auto justify-end text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px] text-primary">verified_user</span>
+<span>Bases sincronizadas con servidor central</span>
+</div>
+</div>
+<!-- Tabla de Datos Premium -->
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left border-collapse" id="participants-table">
+<thead>
+<tr class="bg-surface-container-highest/60 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-space-lg font-semibold">Código</th>
+<th class="py-3 px-space-md font-semibold">Nombres y Apellidos</th>
+<th class="py-3 px-space-md font-semibold">Estado</th>
+<th class="py-3 px-space-md font-semibold">Fecha de Ingreso</th>
+<th class="py-3 px-space-md font-semibold">Enlace QR</th>
+<th class="py-3 px-space-md font-semibold text-right">Pagó</th>
+<th class="py-3 px-space-lg font-semibold text-center w-16">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high/30 font-body-md text-body-md" id="table-body">
+<!-- Row EX008 -->
+<tr class="hover:bg-primary/5 transition-colors duration-150 group">
+<td class="py-3.5 px-space-lg font-mono text-primary font-medium tracking-wider">EX008</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-full bg-surface-container-highest text-on-surface font-label-sm flex items-center justify-center font-bold">R</div>
+<span class="text-on-surface font-semibold">Ramirez</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/15 text-primary text-label-sm font-label-sm font-semibold tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> ASISTIÓ
+                </span>
+</td>
+<td class="py-3.5 px-space-md text-on-surface-variant font-mono text-body-sm">
+                12/11/2026, 15:14:55
+              </td>
+<td class="py-3.5 px-space-md">
+<button class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface text-label-sm font-label-sm transition-all group-hover:bg-surface-bright" onclick="copyQRLink('https://exoticshow.vip/t/EX008', this)">
+<span class="material-symbols-outlined text-[15px] text-tertiary">content_copy</span>
+<span>Copiar enlace</span>
+</button>
+</td>
+<td class="py-3.5 px-space-md text-right font-mono font-semibold text-on-surface">
+                S/ 0.00
+              </td>
+<td class="py-3.5 px-space-lg text-center relative">
+<button class="p-1 rounded hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface" onclick="toggleActionMenu('menu-EX008', event)">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+<div class="hidden absolute right-6 top-8 w-44 bg-surface-container-highest/95 backdrop-blur-md rounded-lg shadow-2xl z-30 py-1 text-left" id="menu-EX008">
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="openModalQR('EX008', 'Ramirez', 'S/ 0.00')">
+<span class="material-symbols-outlined text-[16px] text-primary">qr_code_2</span> Ver QR
+                  </button>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="copyQRLink('https://exoticshow.vip/t/EX008')">
+<span class="material-symbols-outlined text-[16px] text-tertiary">link</span> Copiar enlace
+                  </button>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="openEditModal('EX008', 'Ramirez', '0.00')">
+<span class="material-symbols-outlined text-[16px] text-secondary">edit</span> Editar
+                  </button>
+<div class="h-px bg-surface-container my-1"></div>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-error-container text-error flex items-center gap-2" onclick="deleteParticipant('EX008')">
+<span class="material-symbols-outlined text-[16px]">delete</span> Eliminar
+                  </button>
+</div>
+</td>
+</tr>
+<!-- Row EX007 -->
+<tr class="hover:bg-primary/5 transition-colors duration-150 group">
+<td class="py-3.5 px-space-lg font-mono text-primary font-medium tracking-wider">EX007</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-full bg-surface-container-highest text-on-surface font-label-sm flex items-center justify-center font-bold">J</div>
+<span class="text-on-surface font-semibold">Jajaja</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/15 text-primary text-label-sm font-label-sm font-semibold tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> ASISTIÓ
+                </span>
+</td>
+<td class="py-3.5 px-space-md text-on-surface-variant font-mono text-body-sm">
+                12/11/2026, 15:10:02
+              </td>
+<td class="py-3.5 px-space-md">
+<button class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface text-label-sm font-label-sm transition-all group-hover:bg-surface-bright" onclick="copyQRLink('https://exoticshow.vip/t/EX007', this)">
+<span class="material-symbols-outlined text-[15px] text-tertiary">content_copy</span>
+<span>Copiar enlace</span>
+</button>
+</td>
+<td class="py-3.5 px-space-md text-right font-mono font-semibold text-on-surface">
+                S/ 0.00
+              </td>
+<td class="py-3.5 px-space-lg text-center relative">
+<button class="p-1 rounded hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface" onclick="toggleActionMenu('menu-EX007', event)">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+<div class="hidden absolute right-6 top-8 w-44 bg-surface-container-highest/95 backdrop-blur-md rounded-lg shadow-2xl z-30 py-1 text-left" id="menu-EX007">
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="openModalQR('EX007', 'Jajaja', 'S/ 0.00')">
+<span class="material-symbols-outlined text-[16px] text-primary">qr_code_2</span> Ver QR
+                  </button>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="copyQRLink('https://exoticshow.vip/t/EX007')">
+<span class="material-symbols-outlined text-[16px] text-tertiary">link</span> Copiar enlace
+                  </button>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="openEditModal('EX007', 'Jajaja', '0.00')">
+<span class="material-symbols-outlined text-[16px] text-secondary">edit</span> Editar
+                  </button>
+<div class="h-px bg-surface-container my-1"></div>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-error-container text-error flex items-center gap-2" onclick="deleteParticipant('EX007')">
+<span class="material-symbols-outlined text-[16px]">delete</span> Eliminar
+                  </button>
+</div>
+</td>
+</tr>
+<!-- Row EX006 -->
+<tr class="hover:bg-primary/5 transition-colors duration-150 group">
+<td class="py-3.5 px-space-lg font-mono text-primary font-medium tracking-wider">EX006</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-full bg-surface-container-highest text-on-surface font-label-sm flex items-center justify-center font-bold">Y</div>
+<span class="text-on-surface font-semibold">Yvyc</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/15 text-primary text-label-sm font-label-sm font-semibold tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> ASISTIÓ
+                </span>
+</td>
+<td class="py-3.5 px-space-md text-on-surface-variant font-mono text-body-sm">
+                12/11/2026, 14:58:30
+              </td>
+<td class="py-3.5 px-space-md">
+<button class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface text-label-sm font-label-sm transition-all group-hover:bg-surface-bright" onclick="copyQRLink('https://exoticshow.vip/t/EX006', this)">
+<span class="material-symbols-outlined text-[15px] text-tertiary">content_copy</span>
+<span>Copiar enlace</span>
+</button>
+</td>
+<td class="py-3.5 px-space-md text-right font-mono font-semibold text-on-surface">
+                S/ 0.00
+              </td>
+<td class="py-3.5 px-space-lg text-center relative">
+<button class="p-1 rounded hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface" onclick="toggleActionMenu('menu-EX006', event)">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+<div class="hidden absolute right-6 top-8 w-44 bg-surface-container-highest/95 backdrop-blur-md rounded-lg shadow-2xl z-30 py-1 text-left" id="menu-EX006">
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="openModalQR('EX006', 'Yvyc', 'S/ 0.00')">
+<span class="material-symbols-outlined text-[16px] text-primary">qr_code_2</span> Ver QR
+                  </button>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="copyQRLink('https://exoticshow.vip/t/EX006')">
+<span class="material-symbols-outlined text-[16px] text-tertiary">link</span> Copiar enlace
+                  </button>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="openEditModal('EX006', 'Yvyc', '0.00')">
+<span class="material-symbols-outlined text-[16px] text-secondary">edit</span> Editar
+                  </button>
+<div class="h-px bg-surface-container my-1"></div>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-error-container text-error flex items-center gap-2" onclick="deleteParticipant('EX006')">
+<span class="material-symbols-outlined text-[16px]">delete</span> Eliminar
+                  </button>
+</div>
+</td>
+</tr>
+<!-- Row EX005 -->
+<tr class="hover:bg-primary/5 transition-colors duration-150 group">
+<td class="py-3.5 px-space-lg font-mono text-primary font-medium tracking-wider">EX005</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-full bg-surface-container-highest text-on-surface font-label-sm flex items-center justify-center font-bold">C</div>
+<span class="text-on-surface font-semibold">Camila Mendoza</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/15 text-primary text-label-sm font-label-sm font-semibold tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> ASISTIÓ
+                </span>
+</td>
+<td class="py-3.5 px-space-md text-on-surface-variant font-mono text-body-sm">
+                12/11/2026, 14:35:12
+              </td>
+<td class="py-3.5 px-space-md">
+<button class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface text-label-sm font-label-sm transition-all group-hover:bg-surface-bright" onclick="copyQRLink('https://exoticshow.vip/t/EX005', this)">
+<span class="material-symbols-outlined text-[15px] text-tertiary">content_copy</span>
+<span>Copiar enlace</span>
+</button>
+</td>
+<td class="py-3.5 px-space-md text-right font-mono font-semibold text-primary">
+                S/ 500.00
+              </td>
+<td class="py-3.5 px-space-lg text-center relative">
+<button class="p-1 rounded hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface" onclick="toggleActionMenu('menu-EX005', event)">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+<div class="hidden absolute right-6 top-8 w-44 bg-surface-container-highest/95 backdrop-blur-md rounded-lg shadow-2xl z-30 py-1 text-left" id="menu-EX005">
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="openModalQR('EX005', 'Camila Mendoza', 'S/ 500.00')">
+<span class="material-symbols-outlined text-[16px] text-primary">qr_code_2</span> Ver QR
+                  </button>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="copyQRLink('https://exoticshow.vip/t/EX005')">
+<span class="material-symbols-outlined text-[16px] text-tertiary">link</span> Copiar enlace
+                  </button>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="openEditModal('EX005', 'Camila Mendoza', '500.00')">
+<span class="material-symbols-outlined text-[16px] text-secondary">edit</span> Editar
+                  </button>
+<div class="h-px bg-surface-container my-1"></div>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-error-container text-error flex items-center gap-2" onclick="deleteParticipant('EX005')">
+<span class="material-symbols-outlined text-[16px]">delete</span> Eliminar
+                  </button>
+</div>
+</td>
+</tr>
+<!-- Row EX004 -->
+<tr class="hover:bg-primary/5 transition-colors duration-150 group">
+<td class="py-3.5 px-space-lg font-mono text-primary font-medium tracking-wider">EX004</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-full bg-surface-container-highest text-on-surface font-label-sm flex items-center justify-center font-bold">D</div>
+<span class="text-on-surface font-semibold">Diego Navarro</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/15 text-primary text-label-sm font-label-sm font-semibold tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> ASISTIÓ
+                </span>
+</td>
+<td class="py-3.5 px-space-md text-on-surface-variant font-mono text-body-sm">
+                12/11/2026, 14:12:40
+              </td>
+<td class="py-3.5 px-space-md">
+<button class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface text-label-sm font-label-sm transition-all group-hover:bg-surface-bright" onclick="copyQRLink('https://exoticshow.vip/t/EX004', this)">
+<span class="material-symbols-outlined text-[15px] text-tertiary">content_copy</span>
+<span>Copiar enlace</span>
+</button>
+</td>
+<td class="py-3.5 px-space-md text-right font-mono font-semibold text-primary">
+                S/ 250.00
+              </td>
+<td class="py-3.5 px-space-lg text-center relative">
+<button class="p-1 rounded hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface" onclick="toggleActionMenu('menu-EX004', event)">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+<div class="hidden absolute right-6 top-8 w-44 bg-surface-container-highest/95 backdrop-blur-md rounded-lg shadow-2xl z-30 py-1 text-left" id="menu-EX004">
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="openModalQR('EX004', 'Diego Navarro', 'S/ 250.00')">
+<span class="material-symbols-outlined text-[16px] text-primary">qr_code_2</span> Ver QR
+                  </button>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="copyQRLink('https://exoticshow.vip/t/EX004')">
+<span class="material-symbols-outlined text-[16px] text-tertiary">link</span> Copiar enlace
+                  </button>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="openEditModal('EX004', 'Diego Navarro', '250.00')">
+<span class="material-symbols-outlined text-[16px] text-secondary">edit</span> Editar
+                  </button>
+<div class="h-px bg-surface-container my-1"></div>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-error-container text-error flex items-center gap-2" onclick="deleteParticipant('EX004')">
+<span class="material-symbols-outlined text-[16px]">delete</span> Eliminar
+                  </button>
+</div>
+</td>
+</tr>
+<!-- Row EX003 -->
+<tr class="hover:bg-primary/5 transition-colors duration-150 group">
+<td class="py-3.5 px-space-lg font-mono text-primary font-medium tracking-wider">EX003</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-full bg-surface-container-highest text-on-surface font-label-sm flex items-center justify-center font-bold">V</div>
+<span class="text-on-surface font-semibold">Valeria Ríos</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/15 text-primary text-label-sm font-label-sm font-semibold tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> ASISTIÓ
+                </span>
+</td>
+<td class="py-3.5 px-space-md text-on-surface-variant font-mono text-body-sm">
+                12/11/2026, 13:50:18
+              </td>
+<td class="py-3.5 px-space-md">
+<button class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface text-label-sm font-label-sm transition-all group-hover:bg-surface-bright" onclick="copyQRLink('https://exoticshow.vip/t/EX003', this)">
+<span class="material-symbols-outlined text-[15px] text-tertiary">content_copy</span>
+<span>Copiar enlace</span>
+</button>
+</td>
+<td class="py-3.5 px-space-md text-right font-mono font-semibold text-on-surface">
+                S/ 0.00
+              </td>
+<td class="py-3.5 px-space-lg text-center relative">
+<button class="p-1 rounded hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface" onclick="toggleActionMenu('menu-EX003', event)">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+<div class="hidden absolute right-6 top-8 w-44 bg-surface-container-highest/95 backdrop-blur-md rounded-lg shadow-2xl z-30 py-1 text-left" id="menu-EX003">
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="openModalQR('EX003', 'Valeria Ríos', 'S/ 0.00')">
+<span class="material-symbols-outlined text-[16px] text-primary">qr_code_2</span> Ver QR
+                  </button>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="copyQRLink('https://exoticshow.vip/t/EX003')">
+<span class="material-symbols-outlined text-[16px] text-tertiary">link</span> Copiar enlace
+                  </button>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="openEditModal('EX003', 'Valeria Ríos', '0.00')">
+<span class="material-symbols-outlined text-[16px] text-secondary">edit</span> Editar
+                  </button>
+<div class="h-px bg-surface-container my-1"></div>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-error-container text-error flex items-center gap-2" onclick="deleteParticipant('EX003')">
+<span class="material-symbols-outlined text-[16px]">delete</span> Eliminar
+                  </button>
+</div>
+</td>
+</tr>
+<!-- Row EX002 -->
+<tr class="hover:bg-primary/5 transition-colors duration-150 group">
+<td class="py-3.5 px-space-lg font-mono text-primary font-medium tracking-wider">EX002</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-full bg-surface-container-highest text-on-surface font-label-sm flex items-center justify-center font-bold">A</div>
+<span class="text-on-surface font-semibold">Alejandro Cruz</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/15 text-primary text-label-sm font-label-sm font-semibold tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> ASISTIÓ
+                </span>
+</td>
+<td class="py-3.5 px-space-md text-on-surface-variant font-mono text-body-sm">
+                12/11/2026, 13:20:05
+              </td>
+<td class="py-3.5 px-space-md">
+<button class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface text-label-sm font-label-sm transition-all group-hover:bg-surface-bright" onclick="copyQRLink('https://exoticshow.vip/t/EX002', this)">
+<span class="material-symbols-outlined text-[15px] text-tertiary">content_copy</span>
+<span>Copiar enlace</span>
+</button>
+</td>
+<td class="py-3.5 px-space-md text-right font-mono font-semibold text-on-surface">
+                S/ 0.00
+              </td>
+<td class="py-3.5 px-space-lg text-center relative">
+<button class="p-1 rounded hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface" onclick="toggleActionMenu('menu-EX002', event)">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+<div class="hidden absolute right-6 top-8 w-44 bg-surface-container-highest/95 backdrop-blur-md rounded-lg shadow-2xl z-30 py-1 text-left" id="menu-EX002">
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="openModalQR('EX002', 'Alejandro Cruz', 'S/ 0.00')">
+<span class="material-symbols-outlined text-[16px] text-primary">qr_code_2</span> Ver QR
+                  </button>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="copyQRLink('https://exoticshow.vip/t/EX002')">
+<span class="material-symbols-outlined text-[16px] text-tertiary">link</span> Copiar enlace
+                  </button>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="openEditModal('EX002', 'Alejandro Cruz', '0.00')">
+<span class="material-symbols-outlined text-[16px] text-secondary">edit</span> Editar
+                  </button>
+<div class="h-px bg-surface-container my-1"></div>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-error-container text-error flex items-center gap-2" onclick="deleteParticipant('EX002')">
+<span class="material-symbols-outlined text-[16px]">delete</span> Eliminar
+                  </button>
+</div>
+</td>
+</tr>
+<!-- Row EX001 (Mostrando balance adicional y ejemplo de diseño de estado) -->
+<tr class="hover:bg-primary/5 transition-colors duration-150 group">
+<td class="py-3.5 px-space-lg font-mono text-primary font-medium tracking-wider">EX001</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-full bg-surface-container-highest text-on-surface font-label-sm flex items-center justify-center font-bold">M</div>
+<span class="text-on-surface font-semibold">Mariana Rojas</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/15 text-primary text-label-sm font-label-sm font-semibold tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> ASISTIÓ
+                </span>
+</td>
+<td class="py-3.5 px-space-md text-on-surface-variant font-mono text-body-sm">
+                12/11/2026, 12:45:10
+              </td>
+<td class="py-3.5 px-space-md">
+<button class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface text-label-sm font-label-sm transition-all group-hover:bg-surface-bright" onclick="copyQRLink('https://exoticshow.vip/t/EX001', this)">
+<span class="material-symbols-outlined text-[15px] text-tertiary">content_copy</span>
+<span>Copiar enlace</span>
+</button>
+</td>
+<td class="py-3.5 px-space-md text-right font-mono font-semibold text-on-surface">
+                S/ 22.00
+              </td>
+<td class="py-3.5 px-space-lg text-center relative">
+<button class="p-1 rounded hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface" onclick="toggleActionMenu('menu-EX001', event)">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+<div class="hidden absolute right-6 top-8 w-44 bg-surface-container-highest/95 backdrop-blur-md rounded-lg shadow-2xl z-30 py-1 text-left" id="menu-EX001">
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="openModalQR('EX001', 'Mariana Rojas', 'S/ 22.00')">
+<span class="material-symbols-outlined text-[16px] text-primary">qr_code_2</span> Ver QR
+                  </button>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="copyQRLink('https://exoticshow.vip/t/EX001')">
+<span class="material-symbols-outlined text-[16px] text-tertiary">link</span> Copiar enlace
+                  </button>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-surface-variant flex items-center gap-2 text-on-surface" onclick="openEditModal('EX001', 'Mariana Rojas', '22.00')">
+<span class="material-symbols-outlined text-[16px] text-secondary">edit</span> Editar
+                  </button>
+<div class="h-px bg-surface-container my-1"></div>
+<button class="w-full px-3 py-1.5 text-body-sm hover:bg-error-container text-error flex items-center gap-2" onclick="deleteParticipant('EX001')">
+<span class="material-symbols-outlined text-[16px]">delete</span> Eliminar
+                  </button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Footer de tabla con paginación limpia & suma total -->
+<div class="px-space-lg py-space-sm bg-surface-container-lowest flex items-center justify-between text-on-surface-variant font-label-md text-label-md">
+<div class="flex items-center gap-space-sm">
+<span>Mostrando 8 de 8 registros verificados</span>
+<span class="text-outline-variant">|</span>
+<span class="text-primary font-medium">Auditoría cerrada</span>
+</div>
+<div class="flex items-center gap-space-lg">
+<div class="font-mono text-body-sm">
+            Total en Taquilla: <strong class="text-on-surface font-headline-sm text-[17px]">S/ 772.00</strong>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-7 h-7 rounded bg-surface-container flex items-center justify-center text-on-surface-variant opacity-40 cursor-not-allowed">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+</button>
+<span class="w-7 h-7 rounded bg-primary text-on-primary flex items-center justify-center font-bold text-label-sm">1</span>
+<button class="w-7 h-7 rounded bg-surface-container flex items-center justify-center text-on-surface-variant opacity-40 cursor-not-allowed">
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Visual Showcase: Theatrical Noir Banner / Resumen Operativo -->
+<div class="relative rounded-xl overflow-hidden bg-surface-container-low p-space-lg flex flex-col md:flex-row items-center justify-between gap-space-lg shadow-xl">
+<div class="flex items-center gap-space-lg">
+<div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-primary flex-shrink-0 shadow-[0_0_20px_rgba(69,239,180,0.2)]">
+<span class="material-symbols-outlined text-[32px]">theater_comedy</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Dirección Artística • Nocturne Glamour</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5 max-w-xl">
+            Puerta 1 y Taquilla VIP sincronizadas sin retrasos. El código de vestimenta y la validación de acreditaciones se mantienen al 100% de cumplimiento.
+          </p>
+</div>
+</div>
+<div class="flex items-center gap-space-md flex-shrink-0">
+<div class="text-right">
+<div class="font-label-sm text-label-sm uppercase tracking-widest text-primary">Estado de Sala</div>
+<div class="font-title-sm text-title-sm text-on-surface font-semibold">Listo para inicio de Show</div>
+</div>
+<div class="w-3 h-3 rounded-full bg-primary animate-pulse"></div>
+</div>
+</div>
+</div>
+<!-- 3. DIALOG / MODAL: Registrar / Editar Participante -->
+<div class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-gutter transition-all duration-300" id="modal-register">
+<div class="bg-surface-container-low rounded-2xl w-full max-w-lg shadow-[0_20px_60px_rgba(0,0,0,0.9)] overflow-hidden relative transform transition-all duration-300 scale-95 opacity-0" id="modal-register-card">
+<!-- Modal Header -->
+<div class="px-space-lg pt-space-lg pb-space-sm flex items-start justify-between bg-surface-container">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary">Acreditación Rápida</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-0.5" id="modal-title">
+            Registrar Participante
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Generación instantánea de credencial cifrada con código EX.</p>
+</div>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface flex items-center justify-center transition-colors" onclick="closeModalRegister()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Modal Body -->
+<form class="p-space-lg flex flex-col gap-space-md" id="form-participant" onsubmit="handleFormSubmit(event)">
+<div>
+<label class="block font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mb-1">
+            Código de Acceso
+          </label>
+<input class="w-full bg-surface-container-lowest text-primary font-mono font-bold px-4 py-2.5 rounded-lg text-body-md cursor-not-allowed opacity-80" id="input-code" readonly="" type="text" value="EX009"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mb-1">
+            Nombres y Apellidos *
+          </label>
+<input class="w-full bg-surface-container text-on-surface placeholder:text-on-surface-variant/60 px-4 py-2.5 rounded-lg text-body-md focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" id="input-name" placeholder="Ej. Sofía De la Torre" required="" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-space-md">
+<div>
+<label class="block font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mb-1">
+              Monto Pagado (S/)
+            </label>
+<input class="w-full bg-surface-container text-on-surface px-4 py-2.5 rounded-lg font-mono text-body-md focus:outline-none focus:ring-1 focus:ring-primary" id="input-amount" placeholder="0.00" step="0.01" type="number" value="0.00"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mb-1">
+              Estado de Acceso
+            </label>
+<select class="w-full bg-surface-container text-on-surface px-4 py-2.5 rounded-lg text-body-md focus:outline-none focus:ring-1 focus:ring-primary" id="input-status">
+<option value="ASISTIÓ">ASISTIÓ (Check-in)</option>
+<option value="PENDIENTE">PENDIENTE</option>
+</select>
+</div>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-high/60 flex items-center gap-space-sm text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">key</span>
+<span>Se asignará token SHA-256 para validación instantánea en puerta.</span>
+</div>
+<!-- Modal Footer Actions -->
+<div class="pt-space-sm flex items-center justify-end gap-space-sm">
+<button class="px-space-md py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" onclick="closeModalRegister()" type="button">
+            Cancelar
+          </button>
+<button class="px-space-lg py-2.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-semibold hover:bg-primary-fixed shadow-[0_4px_16px_rgba(69,239,180,0.3)] transition-all" type="submit">
+            Confirmar y Generar QR
+          </button>
+</div>
+</form>
+</div>
+</div>
+<!-- 4. DIALOG / MODAL: Tarjeta QR Digital -->
+<div class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-gutter transition-all duration-300" id="modal-qr">
+<div class="bg-surface-container-low rounded-2xl w-full max-w-sm shadow-[0_25px_60px_rgba(0,0,0,0.9)] overflow-hidden relative p-space-lg flex flex-col items-center text-center transform transition-all duration-300 scale-95 opacity-0" id="modal-qr-card">
+<button class="absolute top-4 right-4 w-8 h-8 rounded-lg hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface flex items-center justify-center transition-colors" onclick="closeModalQR()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<span class="px-3 py-0.5 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm uppercase tracking-widest mb-2 font-semibold">Pase de Acceso Nocturne</span>
+<h3 class="font-headline-md text-headline-md text-on-surface tracking-tight" id="qr-modal-name">Ramirez</h3>
+<div class="font-mono text-primary font-bold text-title-sm mt-0.5" id="qr-modal-code">EX008</div>
+<!-- QR Visual Simulator (SVG Matrix) -->
+<div class="my-space-md p-space-md bg-white rounded-xl shadow-2xl relative group">
+<svg class="w-48 h-48" fill="#0e1511" viewbox="0 0 100 100">
+<!-- Corner Position Anchors -->
+<rect fill="#0e1511" height="24" rx="2" width="24" x="5" y="5"></rect>
+<rect fill="#ffffff" height="18" rx="1" width="18" x="8" y="8"></rect>
+<rect fill="#03d29a" height="12" rx="1" width="12" x="11" y="11"></rect>
+<rect fill="#0e1511" height="24" rx="2" width="24" x="71" y="5"></rect>
+<rect fill="#ffffff" height="18" rx="1" width="18" x="74" y="8"></rect>
+<rect fill="#03d29a" height="12" rx="1" width="12" x="77" y="11"></rect>
+<rect fill="#0e1511" height="24" rx="2" width="24" x="5" y="71"></rect>
+<rect fill="#ffffff" height="18" rx="1" width="18" x="8" y="74"></rect>
+<rect fill="#03d29a" height="12" rx="1" width="12" x="11" y="77"></rect>
+<!-- High-Tech Matrix Bits -->
+<rect height="5" width="5" x="34" y="8"></rect>
+<rect height="5" width="5" x="42" y="8"></rect>
+<rect height="5" width="5" x="52" y="8"></rect>
+<rect height="5" width="5" x="60" y="8"></rect>
+<rect height="5" width="5" x="34" y="16"></rect>
+<rect height="5" width="5" x="48" y="16"></rect>
+<rect height="5" width="5" x="58" y="16"></rect>
+<rect height="5" width="5" x="34" y="24"></rect>
+<rect height="5" width="5" x="42" y="24"></rect>
+<rect height="5" width="5" x="50" y="24"></rect>
+<!-- Center Matrix Area -->
+<rect height="5" width="5" x="8" y="36"></rect>
+<rect height="5" width="5" x="18" y="36"></rect>
+<rect height="5" width="5" x="28" y="36"></rect>
+<rect height="5" width="5" x="38" y="36"></rect>
+<rect height="5" width="5" x="48" y="36"></rect>
+<rect height="5" width="5" x="58" y="36"></rect>
+<rect height="5" width="5" x="68" y="36"></rect>
+<rect height="5" width="5" x="78" y="36"></rect>
+<rect height="5" width="5" x="88" y="36"></rect>
+<rect height="5" width="5" x="8" y="44"></rect>
+<rect height="5" width="5" x="22" y="44"></rect>
+<rect fill="#005139" height="12" rx="2" width="12" x="44" y="44"></rect>
+<rect height="5" width="5" x="64" y="44"></rect>
+<rect height="5" width="5" x="84" y="44"></rect>
+<rect height="5" width="5" x="14" y="52"></rect>
+<rect height="5" width="5" x="28" y="52"></rect>
+<rect height="5" width="5" x="68" y="52"></rect>
+<rect height="5" width="5" x="80" y="52"></rect>
+<rect height="5" width="5" x="8" y="60"></rect>
+<rect height="5" width="5" x="24" y="60"></rect>
+<rect height="5" width="5" x="36" y="60"></rect>
+<rect height="5" width="5" x="52" y="60"></rect>
+<rect height="5" width="5" x="66" y="60"></rect>
+<rect height="5" width="5" x="86" y="60"></rect>
+<!-- Bottom Matrix Bits -->
+<rect height="5" width="5" x="36" y="74"></rect>
+<rect height="5" width="5" x="46" y="74"></rect>
+<rect height="5" width="5" x="56" y="74"></rect>
+<rect height="5" width="5" x="72" y="74"></rect>
+<rect height="5" width="5" x="82" y="74"></rect>
+<rect height="5" width="5" x="36" y="84"></rect>
+<rect height="5" width="5" x="50" y="84"></rect>
+<rect height="5" width="5" x="62" y="84"></rect>
+<rect height="5" width="5" x="76" y="84"></rect>
+<rect height="5" width="5" x="86" y="84"></rect>
+</svg>
+</div>
+<div class="flex items-center justify-between w-full text-body-sm font-body-sm text-on-surface-variant px-space-sm mb-space-md">
+<span>Liquidación:</span>
+<strong class="text-on-surface font-mono" id="qr-modal-paid">S/ 0.00</strong>
+</div>
+<div class="flex items-center gap-space-sm w-full">
+<button class="flex-1 py-2 rounded-lg bg-surface-container font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" onclick="closeModalQR()">
+          Cerrar
+        </button>
+<button class="flex-1 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-semibold hover:bg-primary-fixed transition-all flex items-center justify-center gap-1" onclick="printCredential()">
+<span class="material-symbols-outlined text-[16px]">print</span>
+<span>Imprimir</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Toast Notification Feedback Container -->
+<div class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-space-sm px-space-md py- space-sm rounded-lg bg-surface-container-highest text-on-surface shadow-2xl border-l-4 border-primary" id="toast-notification">
+<span class="material-symbols-outlined text-primary text-[20px]" id="toast-icon">check_circle</span>
+<span class="font-body-md text-body-md" id="toast-message">Operación realizada con éxito</span>
+</div>
+<script>
+    // Copy Link Microinteraction with visual feedback
+    function copyQRLink(url, btnElement) {
+      navigator.clipboard.writeText(url).then(() => {
+        showToast('Enlace de credencial copiado al portapapeles');
+        if (btnElement) {
+          const originalText = btnElement.innerHTML;
+          btnElement.innerHTML = `<span class="material-symbols-outlined text-[15px] text-primary">done</span><span class="text-primary font-semibold">¡Copiado!</span>`;
+          setTimeout(() => {
+            btnElement.innerHTML = originalText;
+          }, 2000);
+        }
+      }).catch(() => {
+        showToast('Enlace listo: ' + url);
+      });
+    }
+
+    // Toast notification logic
+    function showToast(msg) {
+      const toast = document.getElementById('toast-notification');
+      const toastMsg = document.getElementById('toast-message');
+      toastMsg.innerText = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3000);
+    }
+
+    // Toggle Action Floating Menus
+    function toggleActionMenu(menuId, event) {
+      event.stopPropagation();
+      const allMenus = document.querySelectorAll('[id^="menu-EX"]');
+      allMenus.forEach(m => {
+        if (m.id !== menuId) m.classList.add('hidden');
+      });
+      const target = document.getElementById(menuId);
+      if (target) {
+        target.classList.toggle('hidden');
+      }
+    }
+
+    // Close menus on outside click
+    document.addEventListener('click', () => {
+      document.querySelectorAll('[id^="menu-EX"]').forEach(m => m.classList.add('hidden'));
+    });
+
+    // Modal QR Controls
+    function openModalQR(code, name, amount) {
+      document.getElementById('qr-modal-code').innerText = code;
+      document.getElementById('qr-modal-name').innerText = name;
+      document.getElementById('qr-modal-paid').innerText = amount;
+      const modal = document.getElementById('modal-qr');
+      const card = document.getElementById('modal-qr-card');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      setTimeout(() => {
+        card.classList.remove('scale-95', 'opacity-0');
+        card.classList.add('scale-100', 'opacity-100');
+      }, 10);
+    }
+
+    function closeModalQR() {
+      const modal = document.getElementById('modal-qr');
+      const card = document.getElementById('modal-qr-card');
+      card.classList.remove('scale-100', 'opacity-100');
+      card.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }, 200);
+    }
+
+    // Modal Register Controls
+    const btnRegister = document.getElementById('btn-open-register');
+    if (btnRegister) {
+      btnRegister.addEventListener('click', () => {
+        document.getElementById('modal-title').innerText = 'Registrar Participante';
+        document.getElementById('input-name').value = '';
+        document.getElementById('input-amount').value = '0.00';
+        document.getElementById('input-code').value = 'EX009';
+        openModalRegister();
+      });
+    }
+
+    function openEditModal(code, name, amount) {
+      document.getElementById('modal-title').innerText = 'Editar Participante ' + code;
+      document.getElementById('input-code').value = code;
+      document.getElementById('input-name').value = name;
+      document.getElementById('input-amount').value = amount;
+      openModalRegister();
+    }
+
+    function openModalRegister() {
+      const modal = document.getElementById('modal-register');
+      const card = document.getElementById('modal-register-card');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      setTimeout(() => {
+        card.classList.remove('scale-95', 'opacity-0');
+        card.classList.add('scale-100', 'opacity-100');
+      }, 10);
+    }
+
+    function closeModalRegister() {
+      const modal = document.getElementById('modal-register');
+      const card = document.getElementById('modal-register-card');
+      card.classList.remove('scale-100', 'opacity-100');
+      card.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }, 200);
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('input-name').value;
+      const code = document.getElementById('input-code').value;
+      closeModalRegister();
+      showToast(`Participante ${name} (${code}) guardado correctamente`);
+    }
+
+    function deleteParticipant(code) {
+      if (confirm(`¿Confirma eliminar la credencial ${code} del sistema de taquilla?`)) {
+        showToast(`Participante ${code} retirado del control`);
+      }
+    }
+
+    function printCredential() {
+      window.print();
+    }
+
+    // Table Search Filter
+    function searchTable() {
+      const input = document.getElementById('search-input');
+      const filter = input.value.toUpperCase();
+      const table = document.getElementById('participants-table');
+      const tr = table.getElementsByTagName('tr');
+
+      for (let i = 1; i < tr.length; i++) {
+        const tdCode = tr[i].getElementsByTagName('td')[0];
+        const tdName = tr[i].getElementsByTagName('td')[1];
+        if (tdCode || tdName) {
+          const txtValueCode = tdCode.textContent || tdCode.innerText;
+          const txtValueName = tdName.textContent || tdName.innerText;
+          if (txtValueCode.toUpperCase().indexOf(filter) > -1 || txtValueName.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+
+    // Filter Buttons Interaction
+    function filterTable(status) {
+      const btnAll = document.getElementById('filter-all');
+      const btnAsistio = document.getElementById('filter-asistio');
+      const btnPendiente = document.getElementById('filter-pendiente');
+
+      [btnAll, btnAsistio, btnPendiente].forEach(b => {
+        b.className = "px-space-md py-1 rounded-md text-label-md font-label-md text-on-surface-variant hover:text-on-surface transition-all";
+      });
+
+      const table = document.getElementById('participants-table');
+      const tr = table.getElementsByTagName('tr');
+
+      if (status === 'ALL') {
+        btnAll.className = "px-space-md py-1 rounded-md text-label-md font-label-md text-on-primary bg-primary shadow-sm transition-all";
+        for (let i = 1; i < tr.length; i++) tr[i].style.display = "";
+      } else if (status === 'ASISTIÓ' || status === 'ASISTIO') {
+        btnAsistio.className = "px-space-md py-1 rounded-md text-label-md font-label-md text-on-primary bg-primary shadow-sm transition-all";
+        for (let i = 1; i < tr.length; i++) tr[i].style.display = ""; // All 8 are assisted
+      } else if (status === 'PENDIENTE') {
+        btnPendiente.className = "px-space-md py-1 rounded-md text-label-md font-label-md text-on-error bg-error-container shadow-sm transition-all";
+        for (let i = 1; i < tr.length; i++) tr[i].style.display = "none"; // 0 are pending
+      }
+    }
+
+    // Export to CSV Function
+    function exportCSVData() {
+      const csvContent = "data:text/csv;charset=utf-8," 
+        + "CODIGO,NOMBRES_APELLIDOS,ESTADO,FECHA_INGRESO,PAGO\n"
+        + "EX008,Ramirez,ASISTIÓ,12/11/2026 15:14:55,S/ 0.00\n"
+        + "EX007,Jajaja,ASISTIÓ,12/11/2026 15:10:02,S/ 0.00\n"
+        + "EX006,Yvyc,ASISTIÓ,12/11/2026 14:58:30,S/ 0.00\n"
+        + "EX005,Camila Mendoza,ASISTIÓ,12/11/2026 14:35:12,S/ 500.00\n"
+        + "EX004,Diego Navarro,ASISTIÓ,12/11/2026 14:12:40,S/ 250.00\n"
+        + "EX003,Valeria Ríos,ASISTIÓ,12/11/2026 13:50:18,S/ 0.00\n"
+        + "EX002,Alejandro Cruz,ASISTIÓ,12/11/2026 13:20:05,S/ 0.00\n"
+        + "EX001,Mariana Rojas,ASISTIÓ,12/11/2026 12:45:10,S/ 22.00\n";
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "the_exotic_show_participantes.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast('Archivo CSV generado y descargado con éxito');
+    }
+
+    // Refresh simulation
+    document.getElementById('btn-refresh').addEventListener('click', () => {
+      showToast('Verificando base de datos con boletería central...');
+      setTimeout(() => {
+        showToast('Datos actualizados: 8/8 asistentes validados');
+      }, 800);
+    });
+  </script>
+</div></main></body></html>
