@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#0e1511;}body{overscroll-behavior:none;-webkit-tap-highlight-color:transparent;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "on-secondary-fixed-variant": "#16503b", "surface-variant": "#2f3732", "on-tertiary-fixed": "#2b1700", "on-surface": "#dde5dd", "tertiary-fixed-dim": "#ffb961", "on-primary-fixed-variant": "#005139", "on-tertiary": "#472a00", "on-background": "#dde5dd", "secondary-container": "#19523d", "primary-container": "#03d29a", "on-tertiary-container": "#694000", "on-tertiary-fixed-variant": "#653e00", "surface-container-highest": "#2f3732", "surface-container-low": "#161d19", "inverse-on-surface": "#2b322d", "on-secondary": "#003827", "secondary-fixed": "#b5efd2", "on-primary": "#003827", "background": "#0e1511", "inverse-surface": "#dde5dd", "on-secondary-container": "#8bc4a9", "tertiary-fixed": "#ffddb8", "surface": "#0e1511", "primary-fixed-dim": "#2de0a7", "outline": "#85948b", "surface-container-lowest": "#09100c", "primary-fixed": "#58fdc2", "on-error": "#690005", "on-secondary-fixed": "#002115", "tertiary-container": "#f2ab4f", "on-surface-variant": "#bacac0", "on-primary-fixed": "#002115", "inverse-primary": "#006c4d", "secondary-fixed-dim": "#99d3b7", "tertiary": "#ffcc91", "secondary": "#99d3b7", "surface-tint": "#2de0a7", "on-primary-container": "#00543c", "surface-bright": "#333b36", "surface-container": "#1a211d", "surface-dim": "#0e1511", "error-container": "#93000a", "outline-variant": "#3b4a42", "on-error-container": "#ffdad6", "primary": "#45efb4", "surface-container-high": "#242c27", "error": "#ffb4ab" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-lg": "1.5rem", "gutter": "1rem", "margin-lg": "3.5rem", "gutter-md": "1.5rem", "space-xs": "0.25rem", "margin": "1rem", "space-xl": "2.5rem", "space-md": "1rem", "space-sm": "0.5rem", "gutter-lg": "2rem", "margin-md": "2rem" }, fontFamily: { "headline-lg-mobile": ["Playfair Display"], "headline-xl": ["Playfair Display"], "title-md": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "title-sm": ["Plus Jakarta Sans"], "headline-md": ["Playfair Display"], "label-lg": ["Plus Jakarta Sans"], "headline-sm": ["Playfair Display"], "headline-xl-mobile": ["Playfair Display"], "headline-lg": ["Playfair Display"], "body-lg": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"] }, fontSize: { "headline-lg-mobile": ["26px", { lineHeight: "32px", fontWeight: "600" }], "headline-xl": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }], "title-md": ["18px", { lineHeight: "24px", letterSpacing: "0.01em", fontWeight: "600" }], "body-sm": ["12px", { lineHeight: "16px", fontWeight: "400" }], "title-sm": ["16px", { lineHeight: "22px", fontWeight: "600" }], "headline-md": ["24px", { lineHeight: "30px", fontWeight: "600" }], "label-lg": ["14px", { lineHeight: "18px", letterSpacing: "0.04em", fontWeight: "600" }], "headline-sm": ["20px", { lineHeight: "26px", fontWeight: "500" }], "headline-xl-mobile": ["34px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "700" }], "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "600" }], "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }], "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.06em", fontWeight: "600" }], "label-sm": ["10px", { lineHeight: "14px", letterSpacing: "0.08em", fontWeight: "700" }], "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }] } } } };</script></head><body class="bg-surface text-on-surface font-body-md text-body-md antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.35)]"><div class="h-16 px-gutter flex items-center justify-between"><div class="flex flex-col justify-center"><div class="flex items-center gap-space-xs"><span class="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_#45efb4]"></span><span class="font-label-sm text-label-sm uppercase tracking-widest text-primary">EN VIVO • SALA PRINCIPAL</span></div><h1 class="font-headline-sm text-headline-sm text-on-surface tracking-wide uppercase leading-tight">THE EXOTIC SHOW</h1></div><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-24 bg-surface"><div class="flex flex-col w-full text-on-surface">
+<!-- Sub-Header Operativo Nocturne Glamour -->
+<section class="px-gutter pt-space-sm pb-space-sm flex items-center justify-between">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary">En vivo • Rooftop</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface tracking-wide mt-0.5">Control de Puerta</h2>
+</div>
+<!-- Quick Host Badge / Live Clock -->
+<div class="flex items-center gap-space-xs px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant text-label-sm font-label-sm shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-tertiary">local_bar</span>
+<span>Aforo Lleno</span>
+</div>
+</section>
+<!-- Métrica Protagonista Asimétrica: Hero Nocturna -->
+<section class="px-gutter my-space-xs">
+<div class="relative overflow-hidden rounded-xl bg-surface-container p-4 shadow-xl">
+<!-- Ambient Glow Decorator -->
+<div class="absolute -right-10 -top-10 w-36 h-36 rounded-full bg-primary/10 blur-2xl pointer-events-none"></div>
+<div class="absolute -left-10 -bottom-10 w-32 h-32 rounded-full bg-tertiary-container/10 blur-2xl pointer-events-none"></div>
+<div class="relative z-10 flex items-center gap-4">
+<!-- SVG Progress Ring Gauge -->
+<div class="relative flex-shrink-0 w-24 h-24 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<!-- Track -->
+<circle class="text-surface-variant opacity-60" cx="50" cy="50" fill="transparent" r="40" stroke="currentColor" stroke-width="7"></circle>
+<!-- Fill Indicator -->
+<circle class="text-primary" cx="50" cy="50" fill="transparent" r="40" stroke="currentColor" stroke-dasharray="251.2" stroke-dashoffset="0" stroke-linecap="round" stroke-width="7.5"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface leading-none">100<span class="text-primary text-title-sm font-title-sm">%</span></span>
+<span class="font-label-sm text-[9px] uppercase tracking-widest text-on-surface-variant mt-0.5">Aforo</span>
+</div>
+</div>
+<!-- Matriz 2x2 Compacta & Sin Bordes Pesados -->
+<div class="flex-1 grid grid-cols-2 gap-2">
+<!-- Item: Registrados -->
+<div class="p-2 rounded-lg bg-surface-container-low flex flex-col justify-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Registrados</span>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="font-title-md text-title-md text-on-surface">8</span>
+<span class="font-label-sm text-[10px] text-outline">invitados</span>
+</div>
+</div>
+<!-- Item: Asistieron -->
+<div class="p-2 rounded-lg bg-secondary-container/40 flex flex-col justify-center">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider font-semibold">Asistieron</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+</div>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="font-title-md text-title-md text-primary font-bold">8</span>
+<span class="font-label-sm text-[10px] text-on-secondary-container">100% check</span>
+</div>
+</div>
+<!-- Item: Pendientes -->
+<div class="p-2 rounded-lg bg-surface-container-low flex flex-col justify-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Pendientes</span>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="font-title-md text-title-md text-on-surface">0</span>
+<span class="font-label-sm text-[10px] text-outline">en cola</span>
+</div>
+</div>
+<!-- Item: Recaudado -->
+<div class="p-2 rounded-lg bg-surface-container-low flex flex-col justify-center">
+<span class="font-label-sm text-label-sm text-tertiary-fixed-dim uppercase tracking-wider">Recaudado</span>
+<div class="flex items-baseline mt-0.5 truncate">
+<span class="font-title-sm text-title-sm text-tertiary truncate">S/ 772.00</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Acciones Rápidas Prioritarias -->
+<section class="px-gutter pt-space-xs pb-space-sm flex flex-col gap-2">
+<!-- CTA Principal Ancho -->
+<button class="w-full h-12 px-space-md rounded-xl bg-gradient-to-r from-primary-container to-primary text-on-primary font-title-sm text-title-sm flex items-center justify-center gap-space-sm shadow-[0_4px_18px_rgba(3,210,154,0.3)] active:scale-[0.98] transition-transform" onclick="openRegisterDrawer()" type="button">
+<span class="material-symbols-outlined text-[20px] font-bold">person_add</span>
+<span>+ Registrar participante</span>
+</button>
+<!-- Botones Táctiles Secundarios -->
+<div class="grid grid-cols-2 gap-2">
+<button class="h-11 px-3 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center justify-center gap-2 active:bg-surface-variant transition-colors" onclick="triggerToast('Datos sincronizados con éxito')" type="button">
+<span class="material-symbols-outlined text-primary text-[18px]">sync</span>
+<span>Actualizar datos</span>
+</button>
+<button class="h-11 px-3 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center justify-center gap-2 active:bg-surface-variant transition-colors" onclick="triggerToast('Generando reporte CSV...')" type="button">
+<span class="material-symbols-outlined text-tertiary text-[18px]">ios_share</span>
+<span>Exportar CSV</span>
+</button>
+</div>
+</section>
+<!-- Muestra de Invitado Destacado (Atmospheric Visual Hook) -->
+<section class="px-gutter my-space-xs">
+<div class="relative h-28 rounded-xl overflow-hidden shadow-lg flex items-end p-3">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Dark glamour burlesque performers silhouetted against ambient emerald and warm golden stage spotlights in an ultra luxury cabaret club lounge with champagne glasses and velvet VIP booth seating" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCnBwDMf9ZJbrfwYtx8tYpZy89G62Phm01WeIfQPPLPER7LUfa-vQ7Jl-uj4lAXqmNr0Zxs6KS0Ca7X1Mp9QBArAN_s9II5AucclbSL46q2Y8st4IX1kOSnH49B0PtOHhG9aLiaHcK5V-KX3krtJ7veem6fZjVmsO7K0GtIUmwwrZVgn-Rncxm4BELjV-QJVlnvIcUxmIEKIkPCLmQTG7O5qBymNbpRfKGar-CTrp6L')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/60 to-transparent"></div>
+<div class="relative z-10 w-full flex items-center justify-between">
+<div>
+<span class="font-label-sm text-[10px] tracking-widest uppercase text-tertiary-fixed font-bold">Mesa de Honor Reservada</span>
+<p class="font-title-sm text-title-sm text-on-surface">Mesa 04 • 8 Pax Confirmados</p>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-primary/20 text-primary font-label-sm text-label-sm">VIP Gold</span>
+</div>
+</div>
+</section>
+<!-- Sección Participantes -->
+<section class="px-gutter mt-space-sm flex flex-col gap-3">
+<!-- Encabezado de Lista y Buscador -->
+<div class="flex items-center justify-between">
+<h3 class="font-title-md text-title-md text-on-surface">Participantes</h3>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-widest font-semibold">Puerta 1 Activa</span>
+</div>
+<!-- Buscador de Acceso Rápido -->
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+<input class="w-full h-11 pl-11 pr-10 rounded-xl bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container focus:text-primary transition-all" id="guestSearch" oninput="filterList(this.value)" placeholder="Buscar por DNI, nombre o código..." type="text"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline-variant hover:text-on-surface w-6 h-6 flex items-center justify-center" onclick="document.getElementById('guestSearch').value=''; filterList('')" type="button">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+</button>
+</div>
+<!-- Filtros Horizontales Deslizables -->
+<div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+<button class="flex-shrink-0 px-3.5 py-1.5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm font-semibold shadow-sm" type="button">
+        Todos (8)
+      </button>
+<button class="flex-shrink-0 px-3.5 py-1.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm flex items-center gap-1.5 active:bg-surface-variant" type="button">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span>Asistió (8)</span>
+</button>
+<button class="flex-shrink-0 px-3.5 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1.5 active:bg-surface-variant" type="button">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span>Pendientes (0)</span>
+</button>
+</div>
+<!-- Lista de Tarjetas Táctiles Ergonomicas Móviles (8 Invitados) -->
+<div class="flex flex-col gap-2.5" id="guestCardsContainer">
+<!-- Tarjeta 1 (Ramirez - Foco Principal) -->
+<div class="guest-card p-3 rounded-xl bg-surface-container flex flex-col gap-2.5 shadow-md active:bg-surface-container-high transition-colors">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2.5 min-w-0">
+<!-- Initials Avatar -->
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-primary font-title-sm text-title-sm flex-shrink-0">
+              RA
+            </div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-md bg-secondary-container/70 text-primary font-label-sm text-[11px] font-bold tracking-wider">EX008</span>
+<span class="font-title-sm text-title-sm text-on-surface truncate">Ramirez</span>
+</div>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-body-sm text-body-sm text-on-surface-variant">S/ 0.00</span>
+<span class="text-outline-variant">•</span>
+<span class="font-body-sm text-body-sm text-outline flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">schedule</span> 15:14
+                </span>
+</div>
+</div>
+</div>
+<!-- Badge Asistió -->
+<div class="flex-shrink-0 flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-container/20 text-primary">
+<span class="material-symbols-outlined text-[14px] font-bold">check_circle</span>
+<span class="font-label-sm text-[11px] font-bold uppercase tracking-wider">ASISTIÓ</span>
+</div>
+</div>
+<!-- Botones de Acción Táctiles (mínimo 44px de altura) -->
+<div class="flex items-center justify-between pt-2 border-t border-outline-variant/30 gap-2">
+<div class="flex items-center gap-2">
+<!-- QR Bottom Sheet Trigger -->
+<button class="min-h-[44px] px-3.5 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center gap-1.5 active:bg-surface-variant" onclick="openQrSheet('EX008', 'Ramirez', '15:14', 'Mesa VIP 04')" type="button">
+<span class="material-symbols-outlined text-primary text-[19px]">qr_code_2</span>
+<span>QR</span>
+</button>
+<!-- Copiar Enlace -->
+<button class="min-h-[44px] px-3.5 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center gap-1.5 active:bg-surface-variant" onclick="triggerToast('Enlace copiado al portapapeles')" type="button">
+<span class="material-symbols-outlined text-outline text-[18px]">content_copy</span>
+<span>Copiar</span>
+</button>
+</div>
+<!-- Menu Opciones -->
+<button class="min-h-[44px] min-w-[44px] rounded-lg bg-surface-container-high text-on-surface-variant flex items-center justify-center active:text-on-surface" onclick="triggerActionMenu('EX008', 'Ramirez')" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Tarjeta 2 -->
+<div class="guest-card p-3 rounded-xl bg-surface-container flex flex-col gap-2.5 shadow-md">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-tertiary font-title-sm text-title-sm flex-shrink-0">
+              VA
+            </div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-md bg-secondary-container/70 text-primary font-label-sm text-[11px] font-bold tracking-wider">EX007</span>
+<span class="font-title-sm text-title-sm text-on-surface truncate">Valenzuela, Sofia</span>
+</div>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-body-sm text-body-sm text-tertiary">S/ 120.00</span>
+<span class="text-outline-variant">•</span>
+<span class="font-body-sm text-body-sm text-outline flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">schedule</span> 15:02
+                </span>
+</div>
+</div>
+</div>
+<div class="flex-shrink-0 flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-container/20 text-primary">
+<span class="material-symbols-outlined text-[14px] font-bold">check_circle</span>
+<span class="font-label-sm text-[11px] font-bold uppercase tracking-wider">ASISTIÓ</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-outline-variant/30 gap-2">
+<div class="flex items-center gap-2">
+<button class="min-h-[44px] px-3.5 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center gap-1.5" onclick="openQrSheet('EX007', 'Valenzuela, Sofia', '15:02', 'Mesa VIP 02')" type="button">
+<span class="material-symbols-outlined text-primary text-[19px]">qr_code_2</span>
+<span>QR</span>
+</button>
+<button class="min-h-[44px] px-3.5 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center gap-1.5" onclick="triggerToast('Enlace copiado al portapapeles')" type="button">
+<span class="material-symbols-outlined text-outline text-[18px]">content_copy</span>
+<span>Copiar</span>
+</button>
+</div>
+<button class="min-h-[44px] min-w-[44px] rounded-lg bg-surface-container-high text-on-surface-variant flex items-center justify-center" onclick="triggerActionMenu('EX007', 'Valenzuela, Sofia')" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Tarjeta 3 -->
+<div class="guest-card p-3 rounded-xl bg-surface-container flex flex-col gap-2.5 shadow-md">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-title-sm text-title-sm flex-shrink-0">
+              CA
+            </div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-md bg-secondary-container/70 text-primary font-label-sm text-[11px] font-bold tracking-wider">EX006</span>
+<span class="font-title-sm text-title-sm text-on-surface truncate">Castillo, Mateo</span>
+</div>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-body-sm text-body-sm text-tertiary">S/ 150.00</span>
+<span class="text-outline-variant">•</span>
+<span class="font-body-sm text-body-sm text-outline flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">schedule</span> 14:48
+                </span>
+</div>
+</div>
+</div>
+<div class="flex-shrink-0 flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-container/20 text-primary">
+<span class="material-symbols-outlined text-[14px] font-bold">check_circle</span>
+<span class="font-label-sm text-[11px] font-bold uppercase tracking-wider">ASISTIÓ</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-outline-variant/30 gap-2">
+<div class="flex items-center gap-2">
+<button class="min-h-[44px] px-3.5 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center gap-1.5" onclick="openQrSheet('EX006', 'Castillo, Mateo', '14:48', 'Palco Central')" type="button">
+<span class="material-symbols-outlined text-primary text-[19px]">qr_code_2</span>
+<span>QR</span>
+</button>
+<button class="min-h-[44px] px-3.5 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center gap-1.5" onclick="triggerToast('Enlace copiado al portapapeles')" type="button">
+<span class="material-symbols-outlined text-outline text-[18px]">content_copy</span>
+<span>Copiar</span>
+</button>
+</div>
+<button class="min-h-[44px] min-w-[44px] rounded-lg bg-surface-container-high text-on-surface-variant flex items-center justify-center" onclick="triggerActionMenu('EX006', 'Castillo, Mateo')" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Tarjeta 4 -->
+<div class="guest-card p-3 rounded-xl bg-surface-container flex flex-col gap-2.5 shadow-md">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-title-sm text-title-sm flex-shrink-0">
+              MO
+            </div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-md bg-secondary-container/70 text-primary font-label-sm text-[11px] font-bold tracking-wider">EX005</span>
+<span class="font-title-sm text-title-sm text-on-surface truncate">Morales, Andrea</span>
+</div>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-body-sm text-body-sm text-tertiary">S/ 90.00</span>
+<span class="text-outline-variant">•</span>
+<span class="font-body-sm text-body-sm text-outline flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">schedule</span> 14:35
+                </span>
+</div>
+</div>
+</div>
+<div class="flex-shrink-0 flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-container/20 text-primary">
+<span class="material-symbols-outlined text-[14px] font-bold">check_circle</span>
+<span class="font-label-sm text-[11px] font-bold uppercase tracking-wider">ASISTIÓ</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-outline-variant/30 gap-2">
+<div class="flex items-center gap-2">
+<button class="min-h-[44px] px-3.5 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center gap-1.5" onclick="openQrSheet('EX005', 'Morales, Andrea', '14:35', 'Mesa VIP 01')" type="button">
+<span class="material-symbols-outlined text-primary text-[19px]">qr_code_2</span>
+<span>QR</span>
+</button>
+<button class="min-h-[44px] px-3.5 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center gap-1.5" onclick="triggerToast('Enlace copiado al portapapeles')" type="button">
+<span class="material-symbols-outlined text-outline text-[18px]">content_copy</span>
+<span>Copiar</span>
+</button>
+</div>
+<button class="min-h-[44px] min-w-[44px] rounded-lg bg-surface-container-high text-on-surface-variant flex items-center justify-center" onclick="triggerActionMenu('EX005', 'Morales, Andrea')" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Bottom Sheet Drawer: Tarjeta de Entrada QR -->
+<div class="fixed inset-0 z-50 pointer-events-none transition-all duration-300" id="qrDrawer">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-surface-container-lowest/80 backdrop-blur-md opacity-0 transition-opacity duration-300" id="qrBackdrop" onclick="closeQrSheet()"></div>
+<!-- Sheet Card Container -->
+<div class="absolute bottom-0 inset-x-0 bg-surface-container-low rounded-t-3xl p-5 shadow-[0_-12px_40px_rgba(0,0,0,0.85)] transform translate-y-full transition-transform duration-300 flex flex-col items-center max-w-md mx-auto" id="qrSheetPanel">
+<!-- Drawer Handle Drag Pill -->
+<div class="w-12 h-1.5 rounded-full bg-outline-variant mb-4 cursor-pointer" onclick="closeQrSheet()"></div>
+<!-- Header Pass -->
+<div class="w-full flex items-center justify-between pb-3">
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] uppercase tracking-widest text-primary font-bold">DIGITAL PASS • ACCESO EXCLUSIVO</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">THE EXOTIC SHOW</h4>
+</div>
+<button class="w-9 h-9 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center" onclick="closeQrSheet()" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Ticket Visual Body with Perforated Accent -->
+<div class="w-full relative rounded-2xl bg-surface-container-highest p-4 my-2 flex flex-col items-center shadow-2xl">
+<!-- Ticket notches left & right -->
+<div class="absolute -left-3 top-2/3 -translate-y-1/2 w-6 h-6 rounded-full bg-surface-container-low"></div>
+<div class="absolute -right-3 top-2/3 -translate-y-1/2 w-6 h-6 rounded-full bg-surface-container-low"></div>
+<!-- High-Contrast Clean White QR Surface for Instant Dark Scanning -->
+<div class="w-52 h-52 bg-white rounded-xl p-3 flex flex-col items-center justify-center shadow-inner">
+<div class="relative w-full h-full flex items-center justify-center">
+<!-- Precise Vector QR Representation with Theatrical Center Seal -->
+<svg class="w-full h-full text-black" fill="currentColor" viewbox="0 0 100 100">
+<!-- Corner Finder 1 -->
+<rect fill="black" height="26" rx="3" width="26" x="5" y="5"></rect>
+<rect fill="white" height="18" rx="2" width="18" x="9" y="9"></rect>
+<rect fill="black" height="10" width="10" x="13" y="13"></rect>
+<!-- Corner Finder 2 -->
+<rect fill="black" height="26" rx="3" width="26" x="69" y="5"></rect>
+<rect fill="white" height="18" rx="2" width="18" x="73" y="9"></rect>
+<rect fill="black" height="10" width="10" x="77" y="13"></rect>
+<!-- Corner Finder 3 -->
+<rect fill="black" height="26" rx="3" width="26" x="5" y="69"></rect>
+<rect fill="white" height="18" rx="2" width="18" x="9" y="73"></rect>
+<rect fill="black" height="10" width="10" x="13" y="77"></rect>
+<!-- Data Patterns & Sync Bars -->
+<rect height="4" width="4" x="36" y="8"></rect>
+<rect height="4" width="4" x="44" y="8"></rect>
+<rect height="4" width="4" x="52" y="8"></rect>
+<rect height="4" width="4" x="60" y="8"></rect>
+<rect height="4" width="4" x="8" y="36"></rect>
+<rect height="4" width="4" x="8" y="44"></rect>
+<rect height="4" width="4" x="8" y="52"></rect>
+<rect height="4" width="4" x="8" y="60"></rect>
+<!-- Matrix Blocks -->
+<rect height="8" width="8" x="35" y="35"></rect>
+<rect height="6" width="6" x="48" y="35"></rect>
+<rect height="8" width="8" x="58" y="35"></rect>
+<rect height="8" width="6" x="35" y="48"></rect>
+<rect height="10" width="10" x="45" y="46"></rect>
+<rect height="6" width="6" x="60" y="48"></rect>
+<rect height="8" width="8" x="36" y="60"></rect>
+<rect height="8" width="8" x="48" y="60"></rect>
+<rect height="6" width="6" x="60" y="60"></rect>
+<rect height="6" width="6" x="36" y="72"></rect>
+<rect height="8" width="8" x="46" y="74"></rect>
+<rect height="8" width="8" x="58" y="72"></rect>
+<rect height="8" width="8" x="72" y="36"></rect>
+<rect height="6" width="6" x="84" y="38"></rect>
+<rect height="6" width="6" x="74" y="48"></rect>
+<rect height="8" width="8" x="84" y="50"></rect>
+<rect height="6" width="8" x="72" y="62"></rect>
+<rect height="6" width="6" x="84" y="64"></rect>
+<rect height="8" width="6" x="72" y="74"></rect>
+<rect height="8" width="8" x="82" y="76"></rect>
+</svg>
+<!-- Center Exotic Logo Overlay -->
+<div class="absolute w-10 h-10 rounded-full bg-surface-container-lowest border-2 border-primary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-primary text-[20px]">diamond</span>
+</div>
+</div>
+</div>
+<!-- Guest Details on Ticket -->
+<div class="w-full flex items-center justify-between mt-4 pt-3 border-t border-dashed border-outline-variant/50">
+<div>
+<span class="font-label-sm text-[10px] text-outline uppercase tracking-wider">Participante</span>
+<h5 class="font-title-sm text-title-sm text-on-surface" id="sheetGuestName">Ramirez</h5>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-[10px] text-outline uppercase tracking-wider">Código</span>
+<p class="font-headline-sm text-headline-sm text-primary leading-tight font-bold" id="sheetGuestCode">EX008</p>
+</div>
+</div>
+<div class="w-full flex items-center justify-between mt-2">
+<span class="font-body-sm text-body-sm text-on-surface-variant" id="sheetGuestMeta">Check-in: 15:14 • Mesa VIP 04</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-primary font-label-sm text-[10px] font-bold">ACTIVO</span>
+</div>
+</div>
+<!-- Action Buttons inside QR Drawer -->
+<div class="w-full grid grid-cols-2 gap-3 mt-3 pb-safe">
+<button class="h-12 rounded-xl bg-surface-container-high text-on-surface font-title-sm text-title-sm flex items-center justify-center gap-2 active:bg-surface-variant" onclick="triggerToast('Descargando imagen QR HD...')" type="button">
+<span class="material-symbols-outlined text-primary text-[20px]">download</span>
+<span>Descargar QR</span>
+</button>
+<button class="h-12 rounded-xl bg-primary text-on-primary font-title-sm text-title-sm flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(3,210,154,0.3)] active:scale-95 transition-transform" onclick="triggerToast('Enlace de ticket copiado')" type="button">
+<span class="material-symbols-outlined text-[20px]">link</span>
+<span>Copiar enlace</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Interactive Bottom Sheet: Registrar Participante -->
+<div class="fixed inset-0 z-50 pointer-events-none transition-all duration-300" id="registerDrawer">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-surface-container-lowest/80 backdrop-blur-md opacity-0 transition-opacity duration-300" id="registerBackdrop" onclick="closeRegisterDrawer()"></div>
+<!-- Panel Form -->
+<div class="absolute bottom-0 inset-x-0 bg-surface-container-low rounded-t-3xl p-5 shadow-[0_-12px_40px_rgba(0,0,0,0.85)] transform translate-y-full transition-transform duration-300 flex flex-col max-w-md mx-auto" id="registerPanel">
+<div class="w-12 h-1.5 rounded-full bg-outline-variant self-center mb-4 cursor-pointer" onclick="closeRegisterDrawer()"></div>
+<div class="flex items-center justify-between pb-3">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-widest font-semibold">Puerta / Taquilla</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Registrar Participante</h4>
+</div>
+<button class="w-9 h-9 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center" onclick="closeRegisterDrawer()" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<form class="flex flex-col gap-3 my-2" onsubmit="handleRegister(event)">
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Nombre Completo</label>
+<input class="w-full h-11 px-3.5 rounded-xl bg-surface-container text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-bright focus:text-primary" id="regName" placeholder="Ej. Camila Morales" required="" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">DNI / Pasaporte</label>
+<input class="w-full h-11 px-3.5 rounded-xl bg-surface-container text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-bright focus:text-primary" id="regDni" placeholder="72849102" required="" type="tel"/>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Monto Pagado (S/)</label>
+<input class="w-full h-11 px-3.5 rounded-xl bg-surface-container text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-bright focus:text-primary" id="regAmount" placeholder="100.00" type="number"/>
+</div>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Zona Asignada</label>
+<div class="grid grid-cols-3 gap-2">
+<button class="tier-btn h-10 rounded-lg bg-surface-container-high text-on-surface font-label-sm text-label-sm flex items-center justify-center active:bg-primary active:text-on-primary" onclick="selectTier(this)" type="button">VIP Gold</button>
+<button class="tier-btn h-10 rounded-lg bg-surface-container-high text-on-surface font-label-sm text-label-sm flex items-center justify-center active:bg-primary active:text-on-primary" onclick="selectTier(this)" type="button">Rooftop Bar</button>
+<button class="tier-btn h-10 rounded-lg bg-surface-container-high text-on-surface font-label-sm text-label-sm flex items-center justify-center active:bg-primary active:text-on-primary" onclick="selectTier(this)" type="button">General</button>
+</div>
+</div>
+<div class="pt-2 pb-safe">
+<button class="w-full h-12 rounded-xl bg-gradient-to-r from-primary-container to-primary text-on-primary font-title-sm text-title-sm flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(3,210,154,0.3)]" type="submit">
+<span class="material-symbols-outlined text-[20px]">badge</span>
+<span>Generar y Validar Entrada</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+<!-- Notification Toast Container -->
+<div class="fixed top-20 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 transition-opacity duration-300" id="toast">
+<div class="px-4 py-2.5 rounded-full bg-surface-container-highest text-on-surface text-label-md font-label-md shadow-2xl flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+<span id="toastMessage">Operación exitosa</span>
+</div>
+</div>
+<!-- Quick Options Action Sheet (Editar / Eliminar) -->
+<div class="fixed inset-0 z-50 pointer-events-none transition-all duration-300" id="actionDrawer">
+<div class="absolute inset-0 bg-surface-container-lowest/80 backdrop-blur-sm opacity-0 transition-opacity duration-300" id="actionBackdrop" onclick="closeActionMenu()"></div>
+<div class="absolute bottom-0 inset-x-0 bg-surface-container-low rounded-t-2xl p-5 shadow-2xl transform translate-y-full transition-transform duration-300 flex flex-col gap-2 max-w-md mx-auto pb-safe" id="actionPanel">
+<div class="w-12 h-1.5 rounded-full bg-outline-variant self-center mb-2 cursor-pointer" onclick="closeActionMenu()"></div>
+<div class="flex items-center justify-between pb-2">
+<span class="font-title-sm text-title-sm text-on-surface" id="actionParticipantTitle">Opciones de Participante</span>
+<button class="text-outline hover:text-on-surface" onclick="closeActionMenu()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<button class="h-12 px-4 rounded-xl bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center gap-3" onclick="triggerToast('Abriendo editor de datos...'); closeActionMenu();" type="button">
+<span class="material-symbols-outlined text-primary text-[20px]">edit</span>
+<span>Editar participante</span>
+</button>
+<button class="h-12 px-4 rounded-xl bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center gap-3" onclick="triggerToast('Asistencia reenviada por SMS'); closeActionMenu();" type="button">
+<span class="material-symbols-outlined text-tertiary text-[20px]">forward_to_inbox</span>
+<span>Reenviar ticket digital</span>
+</button>
+<button class="h-12 px-4 rounded-xl bg-surface-container-high text-error font-label-md text-label-md flex items-center gap-3" onclick="triggerToast('Registro eliminado'); closeActionMenu();" type="button">
+<span class="material-symbols-outlined text-error text-[20px]">delete</span>
+<span>Eliminar del aforo</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+  // QR Bottom Sheet Controller
+  function openQrSheet(code, name, time, meta) {
+    document.getElementById('sheetGuestCode').innerText = code;
+    document.getElementById('sheetGuestName').innerText = name;
+    document.getElementById('sheetGuestMeta').innerText = 'Check-in: ' + time + ' • ' + meta;
+
+    const drawer = document.getElementById('qrDrawer');
+    const backdrop = document.getElementById('qrBackdrop');
+    const panel = document.getElementById('qrSheetPanel');
+
+    drawer.classList.remove('pointer-events-none');
+    backdrop.classList.remove('opacity-0');
+    backdrop.classList.add('opacity-100');
+    panel.classList.remove('translate-y-full');
+  }
+
+  function closeQrSheet() {
+    const drawer = document.getElementById('qrDrawer');
+    const backdrop = document.getElementById('qrBackdrop');
+    const panel = document.getElementById('qrSheetPanel');
+
+    backdrop.classList.remove('opacity-100');
+    backdrop.classList.add('opacity-0');
+    panel.classList.add('translate-y-full');
+    setTimeout(() => {
+      drawer.classList.add('pointer-events-none');
+    }, 300);
+  }
+
+  // Register Participant Bottom Sheet Controller
+  function openRegisterDrawer() {
+    const drawer = document.getElementById('registerDrawer');
+    const backdrop = document.getElementById('registerBackdrop');
+    const panel = document.getElementById('registerPanel');
+
+    drawer.classList.remove('pointer-events-none');
+    backdrop.classList.remove('opacity-0');
+    backdrop.classList.add('opacity-100');
+    panel.classList.remove('translate-y-full');
+  }
+
+  function closeRegisterDrawer() {
+    const drawer = document.getElementById('registerDrawer');
+    const backdrop = document.getElementById('registerBackdrop');
+    const panel = document.getElementById('registerPanel');
+
+    backdrop.classList.remove('opacity-100');
+    backdrop.classList.add('opacity-0');
+    panel.classList.add('translate-y-full');
+    setTimeout(() => {
+      drawer.classList.add('pointer-events-none');
+    }, 300);
+  }
+
+  function selectTier(btn) {
+    document.querySelectorAll('.tier-btn').forEach(b => {
+      b.classList.remove('bg-primary', 'text-on-primary');
+      b.classList.add('bg-surface-container-high', 'text-on-surface');
+    });
+    btn.classList.add('bg-primary', 'text-on-primary');
+    btn.classList.remove('bg-surface-container-high', 'text-on-surface');
+  }
+
+  function handleRegister(e) {
+    e.preventDefault();
+    const name = document.getElementById('regName').value;
+    closeRegisterDrawer();
+    triggerToast('¡' + name + ' registrado exitosamente!');
+    setTimeout(() => {
+      openQrSheet('EX009', name, 'Ahora', 'Mesa Rooftop');
+    }, 400);
+  }
+
+  // Context Action Menu Sheet
+  function triggerActionMenu(code, name) {
+    document.getElementById('actionParticipantTitle').innerText = code + ' • ' + name;
+    const drawer = document.getElementById('actionDrawer');
+    const backdrop = document.getElementById('actionBackdrop');
+    const panel = document.getElementById('actionPanel');
+
+    drawer.classList.remove('pointer-events-none');
+    backdrop.classList.remove('opacity-0');
+    backdrop.classList.add('opacity-100');
+    panel.classList.remove('translate-y-full');
+  }
+
+  function closeActionMenu() {
+    const drawer = document.getElementById('actionDrawer');
+    const backdrop = document.getElementById('actionBackdrop');
+    const panel = document.getElementById('actionPanel');
+
+    backdrop.classList.remove('opacity-100');
+    backdrop.classList.add('opacity-0');
+    panel.classList.add('translate-y-full');
+    setTimeout(() => {
+      drawer.classList.add('pointer-events-none');
+    }, 300);
+  }
+
+  // Quick Client Search Filter
+  function filterList(query) {
+    const q = query.toLowerCase().trim();
+    const cards = document.querySelectorAll('.guest-card');
+    cards.forEach(card => {
+      const text = card.innerText.toLowerCase();
+      if (text.includes(q)) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  // Global Toast Dispatcher
+  let toastTimer = null;
+  function triggerToast(msg) {
+    const toast = document.getElementById('toast');
+    const text = document.getElementById('toastMessage');
+    text.innerText = msg;
+
+    clearTimeout(toastTimer);
+    toast.classList.remove('opacity-0');
+    toast.classList.add('opacity-100');
+
+    toastTimer = setTimeout(() => {
+      toast.classList.remove('opacity-100');
+      toast.classList.add('opacity-0');
+    }, 2400);
+  }
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-8px_24px_rgba(0,0,0,0.5)]" data-active-classes="text-primary"><div class="h-16 px-gutter flex items-center justify-around"><a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] transition-colors text-primary" data-path="resumen-operativo" href="#"><span class="material-symbols-outlined text-[22px]">analytics</span><span class="font-label-sm text-label-sm tracking-wider uppercase">Resumen</span></a><a class="relative -top-3 flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-tr from-secondary-container via-primary-container to-primary text-on-primary shadow-[0_0_20px_rgba(3,210,154,0.4)] transition-transform active:scale-95" data-path="control-accesos" href="#"><span class="material-symbols-outlined text-[26px]">qr_code_scanner</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] text-on-surface-variant transition-colors" data-path="participantes-vip" href="#"><span class="material-symbols-outlined text-[22px]">badge</span><span class="font-label-sm text-label-sm tracking-wider uppercase">Participantes</span></a></div></nav></body></html>
