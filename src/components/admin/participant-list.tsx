@@ -5,7 +5,8 @@ import { PAGE_SIZE, participantHref, type ParticipantQuery } from "@/lib/partici
 import type { ParticipantListRow } from "@/types/database";
 import { Table, TableCell, TableHead } from "@/components/ui/table";
 import { buttonVariants } from "@/components/ui/button";
-import { DeleteParticipantForm, ParticipantForm } from "@/components/admin/participant-form";
+import { DeleteParticipantForm } from "@/components/admin/participant-form";
+import { ParticipantEditDialog } from "@/components/admin/participant-edit-dialog";
 import { ParticipantQr } from "@/components/admin/participant-qr";
 import { ParticipantAttendanceLink } from "@/components/admin/participant-attendance-link";
 
@@ -33,7 +34,7 @@ export function ParticipantList({ rows, total, query }: { rows: ParticipantListR
           <TableCell className="participant-actions">
             <ParticipantQr participant={{ id: row.id, code: row.code, full_name: row.full_name }} />
             <details className="participant-actions-details"><summary>Acciones<span className="sr-only"> {row.code}: {row.full_name}</span></summary>
-              <details><summary>Editar<span className="sr-only"> {row.code}: {row.full_name}</span></summary><ParticipantForm participant={row} /></details>
+              <ParticipantEditDialog participant={row} />
               <DeleteParticipantForm participant={row} />
             </details>
           </TableCell>

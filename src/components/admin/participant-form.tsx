@@ -13,7 +13,7 @@ function ActionMessage({ state, id }: { state: ParticipantActionState; id: strin
   return <p id={id} role={state.status === "error" ? "alert" : "status"} className={state.status === "error" ? "text-sm text-destructive" : "text-sm text-primary"}>{state.message}</p>;
 }
 
-export function ParticipantForm({ participant }: { participant?: ParticipantListRow }) {
+export function ParticipantForm({ participant, onSuccess }: { participant?: ParticipantListRow; onSuccess?: () => void }) {
   const prefix = useId();
   const [name, setName] = useState(participant?.full_name ?? "");
   const [amount, setAmount] = useState(participant?.paid_amount.toFixed(2) ?? "0");
@@ -21,7 +21,10 @@ export function ParticipantForm({ participant }: { participant?: ParticipantList
   const [state, action, pending] = useActionState(async (previous: ParticipantActionState, form: FormData) => {
     const result = await (participant ? updateParticipantAction : createParticipantAction)(previous, form);
     setClientErrors(null);
-    if (result.status === "success" && !participant) { setName(""); setAmount("0"); }
+    if (result.status === "success") {
+      if (!participant) { setName(""); setAmount("0"); }
+      onSuccess?.();
+    }
     return result;
   }, initial);
   const errors = clientErrors ?? state.errors ?? {};
