@@ -198,3 +198,35 @@ body:has(.login-screen) > main#contenido { max-width: none; padding: 0; }
   .login-footer { text-align: left; padding: 2rem; }
 }
 
+/* Persistent administrative shell, including route loading and error states. */
+body:has([data-route-theme="admin"]), body:has([data-route-theme="login"]), body:has(.admin-shell) { --dash-canvas: #0e1511; --dash-surface: #161d19; --dash-raised: #242c27; --dash-text: #dde5dd; --dash-muted: #bacac0; --dash-green: #45efb4; --dash-amber: #ffcc91; --background: #0e1511; --foreground: #dde5dd; --card: #1a211d; --card-foreground: #dde5dd; --primary: #45efb4; --primary-foreground: #003827; --muted: #242c27; --muted-foreground: #bacac0; --border: #3b4a42; --input: #3b4a42; --ring: #45efb4; --destructive: #ffb4ab; background: var(--dash-canvas); color: var(--dash-text); }
+body:has([data-route-theme="admin"]) > header, body:has([data-route-theme="admin"]) > footer,
+body:has([data-route-theme="login"]) > header, body:has([data-route-theme="login"]) > footer,
+body:has(.admin-shell) > header, body:has(.admin-shell) > footer { display: none; }
+body:has([data-route-theme="admin"]) > main#contenido, body:has([data-route-theme="login"]) > main#contenido,
+body:has(.admin-shell) > main#contenido { max-width: none; padding: 0; }
+
+/* Static placeholders respect reduced-motion preferences without animation. */
+.admin-skeleton { padding: 2rem clamp(1rem, 4vw, 3.5rem); }
+.admin-skeleton-shape { height: .8rem; border-radius: .35rem; background: var(--dash-raised); }
+.admin-skeleton-heading { width: min(18rem, 70%); height: 2rem; margin-bottom: 2rem; }
+.admin-skeleton-metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin-bottom: 1.5rem; }
+.admin-skeleton-metric, .admin-skeleton-card { display: grid; gap: 1rem; padding: 1rem; border-radius: .8rem; background: var(--dash-surface); }
+.admin-skeleton-metric .admin-skeleton-shape:last-child { width: 55%; height: 1.5rem; }
+.admin-skeleton-table { display: none; }
+.admin-skeleton-cards { display: grid; gap: .75rem; }
+.admin-skeleton-card .admin-skeleton-shape:last-child { width: 60%; }
+@media (min-width: 768px) {
+  .admin-skeleton-metrics { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .admin-skeleton-cards { display: none; }
+  .admin-skeleton-table { display: grid; gap: 1px; overflow: hidden; border-radius: .8rem; background: var(--dash-raised); }
+  .admin-skeleton-row { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2rem; padding: 1.25rem; background: var(--dash-surface); }
+}
+.admin-shell { display: flex; flex-direction: column; gap: 0; min-height: 100dvh; }
+.admin-shell > .admin-shell-nav { display: flex; align-items: center; gap: .5rem; margin: 0; padding: .75rem clamp(1rem, 4vw, 3.5rem); border-color: #3b4a42; background: #09100c; }
+.admin-shell > .admin-shell-nav a, .admin-shell > .admin-shell-nav button { min-height: 2.75rem; color: var(--dash-muted); background: transparent; border-color: #3b4a42; }
+.admin-shell > .admin-shell-nav form { margin-left: auto; }
+.admin-shell > .admin-shell-nav a:hover, .admin-shell > .admin-shell-nav button:hover { color: var(--dash-green); background: var(--dash-raised); }
+.admin-shell > .admin-shell-nav :is(a, button):focus-visible { outline: 2px solid var(--dash-green); outline-offset: 2px; }
+.admin-shell > .admin-state { margin: 1.5rem clamp(1rem, 4vw, 3.5rem); }
+.admin-shell:has(.admin-dashboard) > .admin-shell-nav a[href="/admin"] { color: var(--dash-green); border-color: var(--dash-green); }

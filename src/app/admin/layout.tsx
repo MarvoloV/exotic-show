@@ -14,8 +14,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     redirect("/login?status=unauthorized");
   }
   return (
-    <div className="space-y-8">
-      <nav aria-label="Administración" className="flex flex-wrap items-start gap-3 border-b border-border pb-6">
+    <div className="admin-shell space-y-8">
+      <nav aria-label="Administración" className="admin-shell-nav flex flex-wrap items-start gap-3 border-b border-border pb-6">
         <Link href="/admin" className={buttonVariants({ variant: "outline" })}>Resumen</Link>
         <Link href="/admin/participants" className={buttonVariants({ variant: "outline" })}>Participantes</Link>
         <SignOutForm />
