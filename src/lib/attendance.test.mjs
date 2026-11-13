@@ -204,6 +204,7 @@ function client(fetcher, value = token) {
   let si = 0, ri = 0;
   const { AttendanceRegistration } = load("../components/attendance/attendance-registration.tsx", {
     fetch: fetcher,
+    "@/components/ui/button": { Button: "button" },
     react: { ...React,
       useState(initial) { const i = si++; if (!(i in states)) states[i] = initial; return [states[i], (value) => { states[i] = value; }]; },
       useRef(initial) { const i = ri++; return refs[i] ??= { current: initial }; },
