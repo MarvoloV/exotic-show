@@ -43,6 +43,23 @@ export async function updateParticipant(id: unknown, input: unknown): Promise<vo
   }
 }
 
+// Preserve the original precision for PostgreSQL's timestamptz comparison.
+export function isAttendanceTimestamp(value: unknown): value is string {
+  return typeof value === "string" && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?(?:Z|[+-]\d{2}:\d{2})$/.test(value) && Number.isFinite(Date.parse(value));
+}
+
+export async function resetAttendance(id: unknown, expected: unknown): Promise<void> {
+  const { supabase } = await requireAdmin();
+  if (!isParticipantId(id)) throw new Error(INVALID_ID);
+  if (!isAttendanceTimestamp(expected)) throw new Error(MUTATION_ERROR);
+  try {
+    const { data, error } = await supabase.rpc("reset_participant_attendance", { participant_id: id, expected_attended_at: expected });
+    if (error || data !== true) throw new Error(MUTATION_ERROR);
+  } catch {
+    throw new Error(MUTATION_ERROR);
+  }
+}
+
 export async function deleteParticipant(id: unknown): Promise<void> {
   const { supabase } = await requireAdmin();
   if (!isParticipantId(id)) throw new Error(INVALID_ID);

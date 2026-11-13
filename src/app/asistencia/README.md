@@ -10,6 +10,8 @@
 
 Ver el QR en el panel o descargar su PNG no abre la URL de asistencia ni activa el registro. Eliminar al participante invalida su enlace; editar nombre o monto conserva token, código y asistencia.
 
+Un administrador aprobado puede abrir **Editar** en un participante que asistió y elegir **Volver a pendiente**. La fecha de ingreso anterior se borra sin historial; el próximo escaneo del mismo QR registra una nueva fecha. Una edición antigua no puede borrar una asistencia posterior: ante conflicto, vuelve a abrir el diálogo y comprueba el estado antes de intentarlo de nuevo.
+
 ## Resultados visibles
 
 | Estado | Pantalla y efecto |
@@ -32,7 +34,7 @@ Un fallo de respuesta no garantiza que la escritura haya fallado. Reintentar con
 
 ## Configuración y verificación pendiente
 
-Sigue el [README principal](../../../README.md) para aplicar **ambas migraciones**, configurar las tres variables públicas y agregar `SUPABASE_SECRET_KEY` con una clave moderna `sb_secret_...` **solo en servidor**. `SUPABASE_SERVICE_ROLE_KEY` ya no se lee: no hay fallback y renombrar un JWT heredado no lo convierte en una clave moderna. El DAL valida la configuración antes de crear el cliente; si falta o es inválida, no llama al RPC y responde con el error genérico del servicio. El DAL privilegiado solo ejecuta el RPC de asistencia; la administración usa sesión/RLS. Nunca expongas esa clave en `NEXT_PUBLIC_*`. Los QR usan el origen canónico `NEXT_PUBLIC_SITE_URL`; un escaneo desde móvil requiere un dominio desplegado accesible, no el localhost del equipo del organizador.
+Sigue el [README principal](../../../README.md) para aplicar las migraciones, incluida `202603130003_reset_attendance.sql`, configurar las tres variables públicas y agregar `SUPABASE_SECRET_KEY` con una clave moderna `sb_secret_...` **solo en servidor**. `SUPABASE_SERVICE_ROLE_KEY` ya no se lee: no hay fallback y renombrar un JWT heredado no lo convierte en una clave moderna. El DAL valida la configuración antes de crear el cliente; si falta o es inválida, no llama al RPC y responde con el error genérico del servicio. El DAL privilegiado solo ejecuta el RPC de asistencia; la administración usa sesión/RLS. Nunca expongas esa clave en `NEXT_PUBLIC_*`. Los QR usan el origen canónico `NEXT_PUBLIC_SITE_URL`; un escaneo desde móvil requiere un dominio desplegado accesible, no el localhost del equipo del organizador.
 
 La prueba local `node --test src/lib/attendance.test.mjs` usa página/cliente/route con un DAL simulado. `node --test src/lib/attendance-origin.integration.test.mjs` requiere un build existente y arranca un servidor de producción para probar origen `127.0.0.1` con un token malformado: no acredita una escritura en Supabase. La suite local cubre las tres políticas `strict-origin` y conserva los rechazos de orígenes opacos o ajenos; no demuestra el comportamiento de Safari/iPhone.
 

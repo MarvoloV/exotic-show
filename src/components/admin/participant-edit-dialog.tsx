@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Pencil } from "lucide-react";
 import { ParticipantForm } from "@/components/admin/participant-form";
+import { ParticipantResetForm } from "@/components/admin/participant-reset-form";
 import { Button } from "@/components/ui/button";
 import type { ParticipantListRow } from "@/types/database";
 
@@ -16,6 +17,10 @@ export function ParticipantEditDialog({ participant }: { participant: Participan
   useEffect(() => {
     if (session) dialog.current?.querySelector<HTMLInputElement>('input[name="full_name"]')?.focus();
   }, [session]);
+
+  const closeSession = () => {
+    if (generation.current === session) dialog.current?.close();
+  };
 
   return <>
     <Button ref={trigger} type="button" variant="outline" className="min-h-11 min-w-11 p-0" title={`Editar ${participant.code}: ${participant.full_name}`} aria-haspopup="dialog" onClick={() => {
@@ -31,9 +36,10 @@ export function ParticipantEditDialog({ participant }: { participant: Participan
         <h2 id={`${prefix}-title`}>Editar participante</h2>
         <Button type="button" variant="outline" onClick={() => dialog.current?.close()}>Cerrar edición</Button>
       </div>
-      {session !== 0 && <ParticipantForm key={session} participant={participant} onSuccess={() => {
-        if (generation.current === session) dialog.current?.close();
-      }} />}
+      {session !== 0 && <>
+        <ParticipantForm key={session} participant={participant} onSuccess={closeSession} />
+        {participant.attendance_state === "ASISTIÓ" && participant.attended_at && <ParticipantResetForm key={`reset-${session}`} participant={participant} onSuccess={closeSession} />}
+      </>}
     </dialog>
   </>;
 }

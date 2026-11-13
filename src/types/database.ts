@@ -46,6 +46,7 @@ export type Database = {
     Views: { [_ in never]: never };
     Functions: {
       admin_dashboard_metrics: { Args: Record<string, never>; Returns: DashboardMetrics[] };
+      reset_participant_attendance: { Args: { participant_id: string; expected_attended_at: string }; Returns: boolean };
       record_attendance: {
         Args: { attendance_token: string };
         Returns: { outcome: string; full_name: string | null; attended_at: string | null }[];

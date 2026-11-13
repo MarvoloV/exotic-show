@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html class="h-full scroll-smooth" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>THE EXOTIC SHOW | Control de Asistencia y Acceso VIP</title>
+<!-- Google Fonts: Playfair Display + Plus Jakarta Sans + Italianno for signature -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Italianno&amp;family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration for Nocturne Glamour Palette -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            noir: {
+              950: '#0a0d0c',
+              900: '#101412',
+              850: '#131916',
+              800: '#161d19',
+              750: '#1c2420',
+              700: '#26332c',
+              600: '#34453b',
+            },
+            emeraldAccent: {
+              DEFAULT: '#03d29a',
+              glow: '#05f0b0',
+              soft: '#85d6b8',
+              muted: '#1b4a3a',
+            },
+            champagne: '#ffb4a8',
+            sandText: '#e0e3e0',
+            dimText: '#98a29c',
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            signature: ['"Italianno"', 'cursive'],
+          },
+          boxShadow: {
+            'glow-emerald': '0 0 50px -10px rgba(3, 210, 154, 0.25)',
+            'card-glass': '0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06)',
+            'btn-emerald': '0 4px 24px 0 rgba(3, 210, 154, 0.35)',
+          },
+        }
+      }
+    }
+  </script>
+<!-- BEGIN: Custom Atmospheric Styles -->
+<style data-purpose="ambient-lighting">
+    body {
+      background-color: #101412;
+      color: #e0e3e0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+    
+    /* Radial spotlight effect behind the main stage layout */
+    .spotlight-radial {
+      background: radial-gradient(ellipse 75% 55% at 50% -10%, rgba(3, 210, 154, 0.16) 0%, rgba(16, 20, 18, 0.8) 60%, #101412 100%);
+    }
+
+    .spotlight-accent-right {
+      background: radial-gradient(circle 380px at 85% 35%, rgba(255, 180, 168, 0.07), transparent 70%);
+    }
+
+    /* Subtle fine noise overlay texture */
+    .fine-grain {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+
+    /* Glow borders and typography accents */
+    .border-glow-subtle {
+      border: 1px solid rgba(133, 214, 184, 0.18);
+    }
+    
+    .text-glow-subtle {
+      text-shadow: 0 0 20px rgba(3, 210, 154, 0.4);
+    }
+  </style>
+<!-- END: Custom Atmospheric Styles -->
+</head>
+<body class="min-h-full flex flex-col justify-between selection:bg-emeraldAccent selection:text-black fine-grain relative">
+<!-- Background decorative light aura -->
+<div aria-hidden="true" class="absolute inset-0 pointer-events-none spotlight-radial z-0"></div>
+<div aria-hidden="true" class="absolute inset-0 pointer-events-none spotlight-accent-right z-0"></div>
+<!-- BEGIN: MainHeader -->
+<header class="relative z-20 border-b border-noir-700/60 bg-noir-900/80 backdrop-blur-md" data-purpose="site-navigation">
+<div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 h-24 flex items-center justify-between">
+<!-- Brand & Event Identity -->
+<div class="flex items-center space-x-4">
+<!-- Monogram Badge -->
+<div class="w-11 h-11 rounded-lg bg-noir-800 border border-emeraldAccent/30 flex items-center justify-center text-emeraldAccent font-black text-sm tracking-wider shadow-inner group hover:border-emeraldAccent transition-colors">
+<span class="tracking-tight">QR</span>
+</div>
+<!-- Typography Branding -->
+<div>
+<span class="font-serif font-bold text-lg lg:text-xl text-white tracking-widest uppercase block leading-none">
+            The Exotic Show
+          </span>
+<span class="text-[10px] sm:text-xs tracking-[0.24em] text-emeraldAccent/90 uppercase font-semibold mt-1 block">
+            Cabaret &amp; Pole Art • Pucará Rooftop
+          </span>
+</div>
+</div>
+<!-- Administrative Access Link -->
+<div>
+<a class="group inline-flex items-center gap-2 text-xs sm:text-sm font-medium tracking-wide text-sandText hover:text-emeraldAccent transition-all duration-200 py-2 px-3 sm:px-4 rounded-full hover:bg-noir-800/80 border border-transparent hover:border-noir-700" href="#admin-portal">
+<span>Acceso administrativo</span>
+<svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform text-emeraldAccent" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</a>
+</div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<!-- BEGIN: MainHeroContent -->
+<main class="relative z-10 flex-grow flex items-center py-12 lg:py-16">
+<div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 w-full">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+<!-- BEGIN: LeftHeroColumn (Adapted from the Left Copy Section of image 2) -->
+<section class="lg:col-span-7 flex flex-col justify-center" data-purpose="hero-overview">
+<!-- Category / Eyebrow Header -->
+<div class="inline-flex items-center gap-2.5 mb-6">
+<span class="w-2 h-2 rounded-full bg-emeraldAccent animate-pulse"></span>
+<span class="text-xs uppercase tracking-[0.3em] font-bold text-emeraldAccent/90">
+              Un Ingreso Más Simple • Gala Nocturna VIP
+            </span>
+</div>
+<!-- Colossal Editorial Headline -->
+<h1 class="font-serif text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.08] mb-6">
+            Menos filas.<br/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-emeraldAccent via-white to-sandText">
+              Más espectáculo.
+            </span>
+</h1>
+<!-- Refined Subtitle Description -->
+<p class="text-base sm:text-lg lg:text-xl text-dimText max-w-xl font-normal leading-relaxed mb-10">
+            Una base para organizar participantes y controlar su asistencia mediante código QR digital, desde cualquier dispositivo en Pucará Rooftop.
+          </p>
+<!-- Primary CTA and Security Notice -->
+<div class="space-y-4" data-purpose="authentication-action">
+<div class="flex flex-wrap items-center gap-4">
+<a class="group inline-flex items-center justify-between gap-6 bg-gradient-to-r from-emeraldAccent to-[#02b382] text-noir-950 font-bold px-8 py-4 rounded-full shadow-btn-emerald hover:brightness-110 active:scale-[0.98] transition-all duration-200" href="#login">
+<span class="tracking-wide text-sm sm:text-base font-semibold">Acceder con mi correo</span>
+<div class="w-7 h-7 rounded-full bg-noir-950/15 flex items-center justify-center group-hover:translate-x-1 transition-transform">
+<svg class="w-4 h-4 text-noir-950" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+</div>
+</a>
+<!-- Quick Info Badge regarding date/venue -->
+<div class="hidden sm:flex items-center gap-3 px-4 py-3 rounded-2xl bg-noir-800/60 border border-noir-700/70 text-xs text-sandText">
+<span class="w-1.5 h-1.5 rounded-full bg-champagne"></span>
+<span>Jueves 21 Noviembre • 6:30 pm</span>
+</div>
+</div>
+<!-- Microcopy Disclaimer -->
+<p class="text-xs sm:text-sm text-dimText/80 font-normal pt-1 flex items-center gap-2">
+<svg class="w-3.5 h-3.5 text-emeraldAccent/70 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Solo para administradores y coordinadores habilitados. Sin contraseñas públicas.</span>
+</p>
+</div>
+<!-- Feature Presenter Signature Mention -->
+<div class="mt-12 pt-8 border-t border-noir-800/80 flex items-center justify-between max-w-lg">
+<div>
+<p class="text-[11px] uppercase tracking-widest text-dimText">Presentación especial</p>
+<p class="font-signature text-3xl sm:text-4xl text-champagne tracking-wide leading-none mt-1">Vía Botello</p>
+</div>
+<div class="text-right">
+<p class="text-[11px] uppercase tracking-widest text-dimText">Producción escénica</p>
+<p class="text-xs font-semibold tracking-wider text-sandText uppercase mt-1">Pole Studio • Live Show</p>
+</div>
+</div>
+</section>
+<!-- END: LeftHeroColumn -->
+<!-- BEGIN: RightExperienceCard (Transformed directly from Right Container of image 2) -->
+<section class="lg:col-span-5" data-purpose="experience-workflow-module">
+<div class="relative">
+<!-- Soft glowing blur under the card -->
+<div class="absolute -inset-1.5 bg-gradient-to-tr from-emeraldAccent/20 via-transparent to-champagne/15 rounded-3xl blur-xl opacity-60"></div>
+<!-- Main Glass Card Container -->
+<div class="relative bg-noir-850/95 backdrop-blur-xl border border-noir-700/80 rounded-3xl p-7 sm:p-9 shadow-card-glass">
+<!-- Card Header -->
+<div class="border-b border-noir-700/70 pb-6 mb-7 flex items-start justify-between">
+<div>
+<h2 class="font-serif text-2xl sm:text-3xl text-white font-bold tracking-tight">
+                    Una experiencia, de principio a fin
+                  </h2>
+<p class="text-xs text-emeraldAccent/90 tracking-wider uppercase mt-1.5 font-medium">
+                    Protocolo VIP • The Exotic Show
+                  </p>
+</div>
+<div class="p-2 rounded-xl bg-noir-800 border border-noir-700/80 text-emeraldAccent">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+</div>
+</div>
+<!-- Steps List (01, 02, 03) corresponding exactly to reference structure -->
+<div class="space-y-6">
+<!-- Step 01 -->
+<div class="flex items-start gap-4 sm:gap-5 group" data-purpose="process-step-1">
+<!-- Numeric Badge -->
+<div class="flex-shrink-0 w-12 h-12 rounded-2xl bg-noir-800 border border-noir-700 flex items-center justify-center font-bold text-sm text-sandText group-hover:border-emeraldAccent/50 group-hover:text-emeraldAccent transition-colors">
+                    01
+                  </div>
+<!-- Content Details -->
+<div class="pt-0.5">
+<h3 class="text-base font-semibold text-white tracking-wide">
+                      Organiza
+                    </h3>
+<p class="text-xs sm:text-sm text-dimText mt-1 leading-relaxed">
+                      Registro y consulta de participantes y mesas VIP.
+                    </p>
+</div>
+</div>
+<!-- Step 02 -->
+<div class="flex items-start gap-4 sm:gap-5 group" data-purpose="process-step-2">
+<!-- Numeric Badge -->
+<div class="flex-shrink-0 w-12 h-12 rounded-2xl bg-noir-800 border border-noir-700 flex items-center justify-center font-bold text-sm text-sandText group-hover:border-emeraldAccent/50 group-hover:text-emeraldAccent transition-colors">
+                    02
+                  </div>
+<!-- Content Details -->
+<div class="pt-0.5">
+<h3 class="text-base font-semibold text-white tracking-wide">
+                      Comparte
+                    </h3>
+<p class="text-xs sm:text-sm text-dimText mt-1 leading-relaxed">
+                      Un enlace y un código QR exclusivo por participante.
+                    </p>
+</div>
+</div>
+<!-- Step 03 -->
+<div class="flex items-start gap-4 sm:gap-5 group" data-purpose="process-step-3">
+<!-- Numeric Badge -->
+<div class="flex-shrink-0 w-12 h-12 rounded-2xl bg-noir-800 border border-noir-700 flex items-center justify-center font-bold text-sm text-sandText group-hover:border-emeraldAccent/50 group-hover:text-emeraldAccent transition-colors">
+                    03
+                  </div>
+<!-- Content Details -->
+<div class="pt-0.5">
+<h3 class="text-base font-semibold text-white tracking-wide">
+                      Recibe
+                    </h3>
+<p class="text-xs sm:text-sm text-dimText mt-1 leading-relaxed">
+                      Confirmación clara del ingreso desde el celular en puerta con validación instantánea.
+                    </p>
+</div>
+</div>
+</div>
+<!-- Poster & Backstage Teaser Badge -->
+<div class="mt-8 pt-6 border-t border-noir-700/70">
+<div class="flex items-center gap-4 bg-noir-800/80 p-3.5 rounded-2xl border border-noir-700">
+<div class="w-14 h-16 rounded-lg overflow-hidden flex-shrink-0 relative border border-noir-600 bg-noir-950">
+<img alt="Afiche Oficial The Exotic Show" class="w-full h-full object-cover object-top opacity-85 hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwfbwY1Jq6x1p2z0eNk6r7pecUqsZggVAOaq1Xm91xtBb7OvROrBpYyu6UYueaxT4KQEN2uzOB6IxNR6kJ_A_8-9vysJzJfWKJHI1176Oh0ZCoHM5Bed2owf8b33W-fHD_3MoxylVJoku2eOD43OvAnzqREuVJUCeVcvyLeoQDaefhMNJsVgFkPvWXTJG1nxBPd9xP88vR6t1czQNdPgffoQuVDQbmY9MaKlsU_4nuoSzwuW5i2obHTw"/>
+</div>
+<div class="flex-grow">
+<div class="flex items-center justify-between">
+<span class="text-[11px] font-bold text-champagne uppercase tracking-wider">Cartelera Oficial</span>
+<span class="text-[10px] text-dimText">Pucará Rooftop</span>
+</div>
+<p class="text-xs text-sandText font-medium mt-0.5">Presentación: Vía Botello</p>
+<p class="text-[11px] text-emeraldAccent/90 mt-0.5">21 Noviembre • 6:30 PM</p>
+</div>
+</div>
+</div>
+<!-- Live Production Status Note (as adapted from footer of image 2 card) -->
+<div class="mt-5 pt-4 text-xs text-dimText leading-relaxed border-t border-noir-700/50 flex items-start gap-2">
+<svg class="w-4 h-4 text-emeraldAccent flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>
+<strong class="text-sandText font-semibold">Producción en vivo:</strong> el panel de participantes y el registro de asistencia en puerta se encuentran activos para la función de 21 Noviembre.
+                </span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: RightExperienceCard -->
+</div>
+</div>
+</main>
+<!-- END: MainHeroContent -->
+<!-- BEGIN: MainFooter -->
+<footer class="relative z-10 border-t border-noir-800 bg-noir-950/80 py-6" data-purpose="site-footer">
+<div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-dimText">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-emeraldAccent"></span>
+<span>THE EXOTIC SHOW © 2024 • Todos los derechos reservados</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="hover:text-sandText transition-colors">Pole Studio Oficial</span>
+<span class="hover:text-sandText transition-colors">Pucará Rooftop Lounge</span>
+<span class="hover:text-sandText transition-colors">Soporte QR Asistencia</span>
+</div>
+</div>
+</footer>
+<!-- END: MainFooter -->
+</body></html>

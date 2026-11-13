@@ -10,7 +10,7 @@ Requiere Node.js 22 o superior (recomendado: 24 LTS) y npm.
 
 1. Instala las versiones del lockfile con `npm ci`.
 2. Crea `.env.local` con las cuatro variables siguientes; no lo subas a Git. El usuario informó haber creado `.env.example`, pero su contenido no se ha inspeccionado ni validado en esta entrega.
-3. Aplica las dos migraciones y configura Auth y la aprobación administrativa como se indica abajo.
+3. Aplica las tres migraciones y configura Auth y la aprobación administrativa como se indica abajo.
 4. Ejecuta `npm run dev` y abre `http://localhost:3000/login`.
 5. Inicia sesión con el correo y la contraseña de una cuenta creada y aprobada por el organizador. El acceso correcto abre **`/admin`**; luego entra a **Participantes**.
 
@@ -35,6 +35,7 @@ Usa primero un proyecto Supabase aislado para pruebas. Desde su **SQL Editor**, 
 
 1. [`supabase/migrations/202603130001_attendance_foundation.sql`](supabase/migrations/202603130001_attendance_foundation.sql): tablas, secuencia de códigos `EX001`, tokens aleatorios únicos, restricciones, índices, RLS, permisos y RPC atómico `record_attendance`.
 2. [`supabase/migrations/202603130002_admin_dashboard.sql`](supabase/migrations/202603130002_admin_dashboard.sql): RPC `admin_dashboard_metrics` con permisos del usuario (`SECURITY INVOKER`).
+3. [`supabase/migrations/202603130003_reset_attendance.sql`](supabase/migrations/202603130003_reset_attendance.sql): RPC de administrador aprobado para volver una asistencia a pendiente, comprobando la fecha original antes de borrarla.
 
 Las migraciones no se aplican al iniciar Next.js ni al desplegar en Vercel. No basta con crear tablas manualmente: las políticas, los permisos por columna y las funciones son parte del límite de seguridad. No desactives RLS ni amplíes permisos para solucionar errores de acceso.
 
@@ -79,7 +80,7 @@ Proxy renueva cookies y protege `/admin/:path*`; layout, acciones (incluido cerr
 | `/admin/participants/[id]/qr` | Descarga PNG privada; **Ver QR** muestra imagen y enlace personal previa autorización |
 | `/asistencia/[token]` | Página para administradores aprobados que envía un POST automático tras hidratar: confirma ingreso, muestra ingreso previo o error |
 
-Código y token se asignan en la base de datos al crear al participante; el PNG se genera localmente bajo demanda, no se almacena ni usa un proveedor externo. Editar conserva código, token y asistencia. Eliminar invalida el QR. Las mutaciones actualizan listado/resumen sin recarga manual; **Actualizar datos** permite consultar cambios externos, sin suscripción en tiempo real. Los montos no tienen moneda asignada; el total de pagos es la suma de montos, no un historial de transacciones.
+Código y token se asignan en la base de datos al crear al participante; el PNG se genera localmente bajo demanda, no se almacena ni usa un proveedor externo. Guardar nombre y monto conserva código, token y asistencia. En el diálogo de un participante que asistió, **Volver a pendiente** borra explícitamente su fecha anterior; un nuevo escaneo registra otra fecha. Eliminar invalida el QR. Las mutaciones actualizan listado/resumen sin recarga manual; **Actualizar datos** permite consultar cambios externos, sin suscripción en tiempo real. Los montos no tienen moneda asignada; el total de pagos es la suma de montos, no un historial de transacciones.
 
 La tabla general omite deliberadamente token y enlace: se accede al enlace mediante **Ver QR**. La exportación es CSV, no XLSX. Detalles: [administración](src/app/admin/README.md) y [asistencia](src/app/asistencia/README.md).
 

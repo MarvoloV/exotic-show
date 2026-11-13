@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/dal/admin";
-import { createParticipant, deleteParticipant, updateParticipant } from "@/lib/dal/participants";
+import { createParticipant, deleteParticipant, isAttendanceTimestamp, resetAttendance, updateParticipant } from "@/lib/dal/participants";
 import { INVALID_ID, isParticipantId, MUTATION_ERROR, participantFormInput, singleFormField, validateParticipant, type ParticipantActionState } from "@/lib/participants/validation";
 
 type Operation = "create" | "update" | "delete";
@@ -30,6 +30,22 @@ async function mutate(operation: Operation, form: FormData): Promise<Participant
   revalidatePath("/admin");
   revalidatePath("/admin/participants");
   return { status: "success", message: operation === "create" ? "Participante registrado." : operation === "update" ? "Participante actualizado." : "Participante eliminado. Su QR ya no es válido." };
+}
+
+export async function resetAttendanceAction(_previous: ParticipantActionState, form: FormData): Promise<ParticipantActionState> {
+  try {
+    await requireAdmin();
+    const id = singleFormField(form, "id");
+    const expected = singleFormField(form, "attended_at");
+    if (!isParticipantId(id)) return { status: "error", message: INVALID_ID };
+    if (!isAttendanceTimestamp(expected)) return { status: "error", message: MUTATION_ERROR };
+    await resetAttendance(id, expected);
+  } catch {
+    return { status: "error", message: MUTATION_ERROR };
+  }
+  revalidatePath("/admin");
+  revalidatePath("/admin/participants");
+  return { status: "success", message: "Asistencia restablecida a pendiente." };
 }
 
 export async function createParticipantAction(_previous: ParticipantActionState, form: FormData): Promise<ParticipantActionState> {
