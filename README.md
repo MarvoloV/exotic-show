@@ -74,7 +74,7 @@ Proxy renueva cookies y protege `/admin/:path*`; layout, acciones (incluido cerr
 | Ruta | Funcionalidad |
 | --- | --- |
 | `/admin` | Totales globales de registrados, asistentes, pendientes, pagos y porcentaje de asistencia |
-| `/admin/participants` | Alta en diálogo, edición de nombre/monto, eliminación confirmada, búsqueda por nombre/código, pestañas por estado y páginas de 20 filas; sin selectores de orden |
+| `/admin/participants` | DataTable de shadcn, alta/edición en diálogo, eliminación confirmada, búsqueda por nombre/código, pestañas por estado y páginas de 20 filas. Por defecto ordena por **Código** ascendente; **Código** alterna ascendente/descendente para todo el listado filtrado y vuelve a la primera página; también disponible en móvil. |
 | `/admin/participants/export` | CSV de todas las coincidencias, no solo la página; excluye tokens, enlaces y QR |
 | `/admin/participants/[id]/qr` | Descarga PNG privada; **Ver QR** muestra imagen y enlace personal previa autorización |
 | `/asistencia/[token]` | Página para administradores aprobados que envía un POST automático tras hidratar: confirma ingreso, muestra ingreso previo o error |

@@ -42,6 +42,26 @@ async function page(result) {
   const pageModule = load("../app/admin/participants/page.tsx", { ...mocks, "@/components/admin/participant-list": { ParticipantList }, "@/lib/dal/participants": { getParticipants: async () => result } });
   return renderToStaticMarkup(await pageModule.default({ searchParams: Promise.resolve({}) }));
 }
+test("participants page defaults to code ascending while preserving explicit sorts and filters", async () => {
+  const calls = [];
+  const pageModule = load("../app/admin/participants/page.tsx", { ...mocks, "@/components/admin/participant-list": { ParticipantList }, "@/lib/dal/participants": { getParticipants: async (params) => {
+    calls.push(params);
+    return { rows: [row], total: 1, query: queryModule.parseParticipantQuery(params) };
+  } } });
+  for (const [params, expected] of [
+    [{}, { sort: "code", direction: "asc" }],
+    [{ sort: "code", direction: "desc" }, { sort: "code", direction: "desc" }],
+    [{ sort: "created_at" }, { sort: "created_at" }],
+    [{ q: "Ana", state: "pending", page: "2" }, { q: "Ana", state: "pending", page: "2", sort: "code", direction: "asc" }],
+    [{ sort: ["code"], direction: ["asc"] }, { sort: ["code"], direction: ["asc"] }],
+    [{ sort: "invalid", direction: "invalid" }, { sort: "invalid", direction: "invalid" }],
+  ]) {
+    const html = renderToStaticMarkup(await pageModule.default({ searchParams: Promise.resolve(params) }));
+    assert.deepEqual(JSON.parse(JSON.stringify(calls.at(-1))), expected);
+    if (!params.sort) assert.match(html, /aria-sort="ascending"/);
+    if (params.sort === "created_at") assert.match(html, /name="direction" value="desc"/);
+  }
+});
 test("filtered count, query-preserving quick links and form render even at zero", async () => {
   for (const total of [0, 41]) {
     const html = await page({ rows: total ? [row] : [], total, query: q });
@@ -53,7 +73,7 @@ test("filtered count, query-preserving quick links and form render even at zero"
       assert.ok(html.includes(`href="${url}"`), state);
     }
     for (const name of ["q", "state", "sort", "direction"]) assert.match(html, new RegExp(`name="${name}"`));
-    assert.doesNotMatch(html, /Filtros y orden|Ordenar por|Dirección|Aplicar filtros|<select/);
+    assert.doesNotMatch(html, /Filtros y orden|Dirección|Aplicar filtros|<select/);
     assert.match(html, /type="search"/);
     assert.match(html, />Buscar<\/button>/);
     for (const [name, value] of [["state", q.state], ["sort", q.sort], ["direction", q.direction]]) {

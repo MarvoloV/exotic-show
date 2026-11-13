@@ -442,6 +442,7 @@ body:has(.admin-shell) > main#contenido { max-width: none; padding: 0; }
 .participants-screen .participant-actions { min-width: 9.5rem; }
 .participant-actions-group { display: flex; align-items: center; gap: .25rem; }
 .participant-mobile-label { display: none; }
+.participants-mobile-sort { display: none; }
 .participants-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem; padding: 1rem 1.5rem; color: #bacac0; background: #09100c; border-radius: 0 0 .85rem .85rem; font-size: .8rem; }
 .participants-footer nav { display: flex; gap: .5rem; }
 .participants-empty { padding: 2rem; text-align: center; }
@@ -449,7 +450,8 @@ body:has(.admin-shell) > main#contenido { max-width: none; padding: 0; }
 .participants-empty p { margin: .75rem 0; color: #bacac0; }
 @media (max-width: 767px) {
   .participants-screen .participants-table, .participants-screen .participants-table tbody { display: block; }
-  .participants-screen .participants-table thead { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+  .participants-screen .participants-table thead { display: none; }
+  .participants-mobile-sort { display: block; padding: .5rem 1.5rem; }
   .participants-screen .participants-table tbody { padding: .75rem; }
   .participants-screen .participants-table tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .3rem .75rem; margin-bottom: .75rem; padding: .85rem; border-radius: .75rem; background: #1a211d; }
   .participants-screen .participants-table td { display: block; min-width: 0; padding: 0; border: 0; }

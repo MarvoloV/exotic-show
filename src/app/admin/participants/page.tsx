@@ -10,7 +10,12 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 export default async function ParticipantsPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
-  const result = await getParticipants(await searchParams);
+  const params = await searchParams;
+  const result = await getParticipants({
+    ...params,
+    sort: params.sort === undefined ? "code" : params.sort,
+    direction: params.direction === undefined && (params.sort === undefined || params.sort === "code") ? "asc" : params.direction,
+  });
   const { query } = result;
   const states: { state: ParticipantQuery["state"]; label: string }[] = [
     { state: "all", label: "Todos" }, { state: "attended", label: "Asistió" }, { state: "pending", label: "Pendiente" },
