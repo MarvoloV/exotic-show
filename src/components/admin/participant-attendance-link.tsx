@@ -4,7 +4,7 @@ import { useId, useState } from "react";
 import { buttonVariants } from "@/components/ui/button";
 import type { ParticipantListRow } from "@/types/database";
 
-export function ParticipantAttendanceLink({ participant }: { participant: Pick<ParticipantListRow, "code" | "attendance_url"> }) {
+export function ParticipantAttendanceLink({ participant, compact = false }: { participant: Pick<ParticipantListRow, "code" | "attendance_url">; compact?: boolean }) {
   const prefix = useId();
   const [state, setState] = useState<"idle" | "copying" | "success" | "error">("idle");
   const feedback = state === "copying" ? "Copiando…" : state === "success" ? "Enlace copiado." : state === "error"
@@ -20,6 +20,20 @@ export function ParticipantAttendanceLink({ participant }: { participant: Pick<P
       setState("error");
     }
   }
+
+  if (compact) return <div className="participant-copy-compact w-64 min-w-0">
+    <button type="button" className={buttonVariants({ variant: "outline" })} onClick={copy} disabled={state === "copying"}
+      aria-describedby={`${prefix}-feedback`}>
+      Copiar enlace<span className="sr-only"> de {participant.code}</span>
+    </button>
+    <details open={state === "error" ? true : undefined}>
+      <summary>Ver enlace<span className="sr-only"> de {participant.code}</span></summary>
+      <label htmlFor={`${prefix}-link`} className="sr-only">Enlace de asistencia de {participant.code}</label>
+      <input id={`${prefix}-link`} readOnly value={participant.attendance_url} aria-describedby={`${prefix}-feedback`}
+        className="min-h-11 w-full min-w-0 rounded-lg border border-border bg-card px-3 text-sm focus-visible:outline-2 focus-visible:outline-ring" />
+    </details>
+    <p id={`${prefix}-feedback`} role="status" aria-live="polite" aria-atomic="true" className="text-sm break-words text-muted-foreground">{feedback}</p>
+  </div>;
 
   return <div className="w-64 min-w-0 space-y-2 md:w-80">
     <label htmlFor={`${prefix}-link`} className="sr-only">Enlace de asistencia de {participant.code}</label>

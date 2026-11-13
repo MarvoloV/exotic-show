@@ -186,6 +186,6 @@ test("participant page exposes export alongside the existing search and registra
     "@/lib/dal/participants": { getParticipants: async () => ({ rows: [], total: 0, query }) },
   });
   const html = require("react-dom/server").renderToStaticMarkup(await Page({ searchParams: Promise.resolve({ q: "Ana" }) }));
-  for (const text of ["Exportar CSV", "Registrar participante", "Aplicar filtros", "Nombre o código"]) assert.ok(html.includes(text), text);
+  for (const text of ["Exportar CSV", "Registrar participante", "Buscar", "Nombre o código"]) assert.ok(html.includes(text), text);
   assert.match(html, /name="q" value="Ana"/);
 });

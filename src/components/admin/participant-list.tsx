@@ -12,44 +12,38 @@ import { ParticipantAttendanceLink } from "@/components/admin/participant-attend
 export function ParticipantList({ rows, total, query }: { rows: ParticipantListRow[]; total: number; query: ParticipantQuery }) {
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const filtered = Boolean(query.q) || query.state !== "all";
-  if (total === 0) return <div role="status" className="space-y-3 rounded-2xl border border-border bg-card p-8 text-center">
-    <h2 className="text-xl font-semibold">{filtered ? "No se encontraron coincidencias" : "Aún no hay participantes"}</h2>
-    <p className="text-muted-foreground">{filtered ? "Prueba con otro nombre, código o estado." : "Los participantes registrados aparecerán aquí."}</p>
+  if (total === 0) return <div role="status" className="participants-empty">
+    <h2>{filtered ? "No se encontraron coincidencias" : "Aún no hay participantes"}</h2>
+    <p>{filtered ? "Prueba con otro nombre, código o estado." : "Los participantes registrados aparecerán aquí."}</p>
     {filtered && <Link href="/admin/participants" className={buttonVariants({ variant: "outline" })}>Limpiar filtros</Link>}
   </div>;
-  return <div className="space-y-4">
-    <p id="table-hint" className="text-sm text-muted-foreground">Fechas en America/Lima. En pantallas pequeñas, desplaza la tabla horizontalmente. Copiar el enlace no registra asistencia; abrirlo sí. Es personal y quien lo tenga puede registrar la asistencia: compártelo solo con el participante.</p>
-    <div role="region" aria-label="Listado de participantes" aria-describedby="table-hint" tabIndex={0}
-      className="overflow-x-auto rounded-xl border border-border bg-card focus-visible:outline-2 focus-visible:outline-ring">
-      <Table className="min-w-[700px]">
+  return <div className="participants-list">
+    <p id="table-hint" className="participants-help">Fechas en America/Lima. Copiar el enlace no registra asistencia; abrirlo con una cuenta administradora aprobada sí. Mantén el enlace privado.</p>
+    <div role="region" aria-label="Listado de participantes" aria-describedby="table-hint" className="participants-table-region">
+      <Table className="participants-table">
         <caption className="sr-only">Participantes: código, nombre, estado, ingreso, enlace QR para copiar, monto pagado, QR y acciones de edición o eliminación.</caption>
-        <thead className="bg-muted"><tr>
-          {["Código", "Nombres y apellidos", "Estado", "Fecha de ingreso", "Enlace QR", "Pagó", "Acciones"].map((heading) => <TableHead key={heading}>{heading}</TableHead>)}
-        </tr></thead>
-        <tbody className="divide-y divide-border">{rows.map((row) => <tr key={row.id} className="hover:bg-muted/50">
-          <TableCell className="font-medium whitespace-nowrap">{row.code}</TableCell>
-          <TableCell className="max-w-xs break-words">{row.full_name}</TableCell>
-          <TableCell><span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold whitespace-nowrap ${row.attendance_state === "ASISTIÓ" ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"}`}>{row.attendance_state}</span></TableCell>
-          <TableCell className="whitespace-nowrap">{row.attended_at ? <time dateTime={row.attended_at}>{formatAttendance(row.attended_at)}</time> : "—"}</TableCell>
-          <TableCell className="align-top"><ParticipantAttendanceLink participant={{ code: row.code, attendance_url: row.attendance_url }} /></TableCell>
-          <TableCell className="text-right tabular-nums">{formatAmount(row.paid_amount.toFixed(2))}</TableCell>
-          <TableCell className="min-w-72 align-top">
-            <div className="space-y-2">
-              <ParticipantQr participant={{ id: row.id, code: row.code, full_name: row.full_name }} />
-              <details className="rounded-lg border border-border">
-                <summary className="cursor-pointer rounded-lg p-3 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-ring">Editar<span className="sr-only"> {row.code}: {row.full_name}</span></summary>
-                <ParticipantForm participant={row} />
-              </details>
+        <thead><tr>{["Código", "Nombres y apellidos", "Estado", "Fecha de ingreso", "Enlace QR", "Pagó", "Acciones"].map((heading) => <TableHead scope="col" key={heading}>{heading}</TableHead>)}</tr></thead>
+        <tbody>{rows.map((row) => <tr key={row.id}>
+          <TableCell className="participant-code">{row.code}</TableCell>
+          <TableCell className="participant-name"><span className="participant-avatar" aria-hidden="true">{row.full_name.trim().split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase()}</span><strong>{row.full_name}</strong></TableCell>
+          <TableCell className="participant-state"><span className={row.attendance_state === "ASISTIÓ" ? "participant-badge attended" : "participant-badge"}>{row.attendance_state}</span></TableCell>
+          <TableCell className="participant-date"><span className="participant-mobile-label">Ingreso: </span>{row.attended_at ? <time dateTime={row.attended_at}>{formatAttendance(row.attended_at)}</time> : "—"}</TableCell>
+          <TableCell className="participant-link"><ParticipantAttendanceLink compact participant={{ code: row.code, attendance_url: row.attendance_url }} /></TableCell>
+          <TableCell className="participant-amount"><span className="participant-mobile-label">Pagó: </span>{formatAmount(row.paid_amount.toFixed(2))}</TableCell>
+          <TableCell className="participant-actions">
+            <ParticipantQr participant={{ id: row.id, code: row.code, full_name: row.full_name }} />
+            <details className="participant-actions-details"><summary>Acciones<span className="sr-only"> {row.code}: {row.full_name}</span></summary>
+              <details><summary>Editar<span className="sr-only"> {row.code}: {row.full_name}</span></summary><ParticipantForm participant={row} /></details>
               <DeleteParticipantForm participant={row} />
-            </div>
+            </details>
           </TableCell>
         </tr>)}</tbody>
       </Table>
     </div>
-    {rows.length === 0 && <p role="status">El listado cambió durante la consulta. Actualiza los datos para ver la página actual.</p>}
-    <div className="flex flex-wrap items-center justify-between gap-4">
-      <p role="status" className="text-sm text-muted-foreground">{total} participantes · Página {query.page} de {pages}</p>
-      <nav aria-label="Paginación" className="flex gap-3">
+    {rows.length === 0 && <p role="status" className="participants-help">El listado cambió durante la consulta. Actualiza los datos para ver la página actual.</p>}
+    <div className="participants-footer">
+      <p role="status">{total} participantes · Página {query.page} de {pages}</p>
+      <nav aria-label="Paginación">
         {query.page > 1 ? <Link href={participantHref(query, query.page - 1)} className={buttonVariants({ variant: "outline" })}>Anterior</Link> : <span aria-disabled="true" className={buttonVariants({ variant: "outline", className: "opacity-50" })}>Anterior</span>}
         {query.page < pages ? <Link href={participantHref(query, query.page + 1)} className={buttonVariants({ variant: "outline" })}>Siguiente</Link> : <span aria-disabled="true" className={buttonVariants({ variant: "outline", className: "opacity-50" })}>Siguiente</span>}
       </nav>

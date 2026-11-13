@@ -1,57 +1,47 @@
 import Form from "next/form";
 import Link from "next/link";
 import { getParticipants } from "@/lib/dal/participants";
-import { SORT_OPTIONS, type SearchParams } from "@/lib/participants/query";
+import { participantHref, type ParticipantQuery, type SearchParams } from "@/lib/participants/query";
 import { ParticipantList } from "@/components/admin/participant-list";
-import { ParticipantForm } from "@/components/admin/participant-form";
+import { ParticipantRegistrationDialog } from "@/components/admin/participant-registration-dialog";
 import { ParticipantExport } from "@/components/admin/participant-export";
 import { RefreshButton } from "@/components/admin/refresh-button";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const selectClass = "mt-2 min-h-11 w-full rounded-lg border border-border bg-card px-3 text-sm focus-visible:outline-2 focus-visible:outline-ring";
-
 export default async function ParticipantsPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const result = await getParticipants(await searchParams);
   const { query } = result;
-  return <section className="space-y-6" aria-labelledby="participants-title">
-    <div className="flex flex-wrap items-start justify-between gap-4">
-      <div><h1 id="participants-title" className="text-3xl font-bold tracking-tight">Participantes</h1>
-        <p className="mt-2 text-muted-foreground">Consulta nombres, pagos y asistencia en un solo lugar.</p></div>
+  const states: { state: ParticipantQuery["state"]; label: string }[] = [
+    { state: "all", label: "Todos" }, { state: "attended", label: "Asistió" }, { state: "pending", label: "Pendiente" },
+  ];
+  return <section className="participants-screen" aria-labelledby="participants-title">
+    <div className="participants-top">
+      <div><p className="participants-eyebrow">Administración</p><h1 id="participants-title">Control de Participantes</h1>
+        <p>Consulta nombres, pagos y asistencia en un solo lugar.</p></div>
       <RefreshButton />
     </div>
-    <details className="rounded-2xl border border-border bg-card">
-      <summary className="cursor-pointer rounded-2xl p-5 font-semibold focus-visible:outline-2 focus-visible:outline-ring">Registrar participante</summary>
-      <div className="max-w-2xl"><ParticipantForm /></div>
-    </details>
-    <p className="text-sm text-muted-foreground">Registra participantes o usa Editar / Eliminar en cada fila. Al guardar, se actualizan el listado y el resumen sin recargar la página; tus filtros y orden se conservan.</p>
-    <Form action="/admin/participants" key={JSON.stringify(query)} className="grid items-end gap-4 rounded-2xl border border-border bg-card p-5 sm:grid-cols-2 lg:grid-cols-4" aria-label="Buscar y filtrar participantes">
-      <div className="sm:col-span-2 lg:col-span-1">
-        <label htmlFor="participant-search" className="text-sm font-medium">Nombre o código</label>
-        <Input id="participant-search" name="q" type="search" defaultValue={query.q} maxLength={200} placeholder="Ej. Ana Pérez o EX001" className="mt-2" />
+    <ParticipantRegistrationDialog />
+    <p className="participants-help">Registra participantes o usa Editar / Eliminar en cada fila. Al guardar, se actualizan el listado y el resumen sin recargar la página; tus filtros y orden se conservan.</p>
+    <div className="participants-panel">
+      <div className="participants-panel-header">
+        <div><h2>Listado de participantes</h2><p>{result.total} participantes con los filtros aplicados</p></div>
+        <nav aria-label="Filtro rápido por estado" className="participants-pills">
+          {states.map(({ state, label }) => <Link key={state} href={participantHref({ ...query, state }, 1)} aria-current={query.state === state ? "page" : undefined}>{label}</Link>)}
+        </nav>
       </div>
-      <div><label htmlFor="participant-state" className="text-sm font-medium">Estado</label>
-        <select id="participant-state" name="state" defaultValue={query.state} className={selectClass}>
-          <option value="all">Todos los estados</option><option value="pending">PENDIENTE</option><option value="attended">ASISTIÓ</option>
-        </select>
-      </div>
-      <div><label htmlFor="participant-sort" className="text-sm font-medium">Ordenar por</label>
-        <select id="participant-sort" name="sort" defaultValue={query.sort} className={selectClass}>
-          {Object.entries(SORT_OPTIONS).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
-        </select>
-      </div>
-      <div><label htmlFor="participant-direction" className="text-sm font-medium">Dirección</label>
-        <select id="participant-direction" name="direction" defaultValue={query.direction} className={selectClass}>
-          <option value="desc">Descendente</option><option value="asc">Ascendente</option>
-        </select>
-      </div>
-      <p className="text-xs text-muted-foreground sm:col-span-2">Busca texto literal, sin comodines. Se muestran 20 participantes por página.</p>
-      <div className="flex flex-wrap gap-3 sm:col-span-2 lg:justify-end">
-        <Button type="submit">Aplicar filtros</Button>
-        <Link href="/admin/participants" className={buttonVariants({ variant: "outline" })}>Limpiar</Link>
-      </div>
-    </Form>
-    <ParticipantExport query={query} />
-    <ParticipantList {...result} />
+      <Form action="/admin/participants" key={JSON.stringify(query)} className="participants-filter" aria-label="Buscar participantes">
+        <div className="participants-search"><label htmlFor="participant-search">Nombre o código</label>
+          <Input id="participant-search" name="q" type="search" defaultValue={query.q} maxLength={200} placeholder="Ej. Ana Pérez o EX001" /></div>
+        <input type="hidden" name="state" value={query.state} />
+        <input type="hidden" name="sort" value={query.sort} />
+        <input type="hidden" name="direction" value={query.direction} />
+        <div className="participants-filter-actions"><Button type="submit">Buscar</Button>
+          <Link href="/admin/participants" className={buttonVariants({ variant: "outline" })}>Limpiar</Link></div>
+        <p className="participants-help">Busca texto literal, sin comodines. Se muestran 20 participantes por página.</p>
+      </Form>
+      <details className="participants-export"><summary>Exportar CSV</summary><ParticipantExport query={query} /></details>
+      <ParticipantList {...result} />
+    </div>
   </section>;
 }
